@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 Widget ButtonOutLine(){
   return OutlinedButton.icon(
+    onPressed: null,
     icon: Icon(Icons.star_outline),
     label: Text("OutlinedButton"),
     style: ElevatedButton.styleFrom(
