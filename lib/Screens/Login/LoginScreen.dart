@@ -103,7 +103,7 @@ class LoginScreenState extends State<LoginScreen>{
               // Press Sign In
               InkWell(
                 onTap: onSignInClick,
-                child: ButtonCircleMax(context, "Sign In"),
+                child: buttonCircleMax(context, "Sign In"),
               ),
             ],
           ),

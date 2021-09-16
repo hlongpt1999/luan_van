@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-Widget ButtonCircleMax (BuildContext context, String _text){
+Widget buttonCircleMax (BuildContext context, String _text){
   return Container(
     width: 320.0,
     height: 60.0,

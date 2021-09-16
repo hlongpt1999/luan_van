@@ -11,6 +11,8 @@ class BMIScreen extends StatefulWidget{
 }
 
 class BMIScreenState extends State<BMIScreen>{
+  TextEditingController _weightController = new TextEditingController();
+  TextEditingController _heightController = new TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -18,34 +20,35 @@ class BMIScreenState extends State<BMIScreen>{
       body: Container(
         decoration: new BoxDecoration(color: Colors.blue,),
         child: Stack(
-        children: <Widget>[
-          Container(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                Row (
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    new SizedBox(width: 20,),
+          children: <Widget>[
+            Container(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Row (
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      new SizedBox(width: 20,),
 
-                    new Flexible(
+                      new Flexible(
                         child: TextFormField(
+                          controller: _weightController,
                           decoration: InputDecoration(
                             labelText: "Enter your weight",
                             labelStyle: TextStyle(color: Colors.white,fontSize: 20),
                             enabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: Colors.white,
-                                ),
+                              borderSide: BorderSide(
+                                color: Colors.white,
+                              ),
                               borderRadius: const BorderRadius.only(topLeft: Radius.circular(20), bottomLeft: Radius.circular(20),),
                             ),
                             focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: Colors.white,
-                                ),
-                                borderRadius: const BorderRadius.only(topLeft: Radius.circular(20), bottomLeft: Radius.circular(20),),
+                              borderSide: BorderSide(
+                                color: Colors.white,
+                              ),
+                              borderRadius: const BorderRadius.only(topLeft: Radius.circular(20), bottomLeft: Radius.circular(20),),
                             ),
                             prefixIcon: Icon(
                               Icons.line_weight_rounded,
@@ -54,63 +57,110 @@ class BMIScreenState extends State<BMIScreen>{
                           style: TextStyle(fontSize: 40),
                           keyboardType: TextInputType.number,
                         ),
-                    ),
-
-                    measureText("KG"),
-
-                  ],
-                ),
-
-                SizedBox(height: 30,),
-
-                Row (
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    new SizedBox(width: 20,),
-
-                    new Flexible(
-                      child: TextFormField(
-                        decoration: InputDecoration(
-                          labelText: "Enter your height",
-                          labelStyle: TextStyle(color: Colors.white,fontSize: 20),
-                          enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                              color: Colors.white,
-                            ),
-                            borderRadius: const BorderRadius.only(topLeft: Radius.circular(20), bottomLeft: Radius.circular(20),),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                              color: Colors.white,
-                            ),
-                            borderRadius: const BorderRadius.only(topLeft: Radius.circular(20), bottomLeft: Radius.circular(20),),
-                          ),
-                          prefixIcon: Icon(
-                            Icons.height,
-                            color: Colors.white,),
-                        ),
-                        style: TextStyle(fontSize: 40),
-                        keyboardType: TextInputType.number,
                       ),
-                    ),
 
-                    measureText("CM"),
+                      measureText("KG"),
 
-                  ],
-                ),
-              ],
+                    ],
+                  ),
+
+                  SizedBox(height: 30,),
+
+                  Row (
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      new SizedBox(width: 20,),
+
+                      new Flexible(
+                        child: TextFormField(
+                          controller: _heightController,
+                          decoration: InputDecoration(
+                            labelText: "Enter your height",
+                            labelStyle: TextStyle(color: Colors.white,fontSize: 20),
+                            enabledBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                color: Colors.white,
+                              ),
+                              borderRadius: const BorderRadius.only(topLeft: Radius.circular(20), bottomLeft: Radius.circular(20),),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                color: Colors.white,
+                              ),
+                              borderRadius: const BorderRadius.only(topLeft: Radius.circular(20), bottomLeft: Radius.circular(20),),
+                            ),
+                            prefixIcon: Icon(
+                              Icons.height,
+                              color: Colors.white,),
+                          ),
+                          style: TextStyle(fontSize: 40),
+                          keyboardType: TextInputType.number,
+                        ),
+                      ),
+
+                      measureText("CM"),
+
+                    ],
+                  ),
+                ],
+              ),
             ),
-          ),
 
-          buttonQuaterCircleNext("Next"),
-          buttonQuaterCircleBack("Back"),
-        ],
+            GestureDetector(
+                onTap: onNextClick,
+                child: buttonQuaterCircleNext("Next")
+            ),
+            buttonQuaterCircleBack("Back"),
+          ],
         ),
       ),
     );
   }
+
+  void onNextClick() {
+    setState(() {
+      if (checkInputType()){
+        double BMI = getBMI(double.parse(_weightController.text),double.parse(_heightController.text));
+        showDialog(context: context,
+            child: new AlertDialog(
+              title: Text("BMI"),
+              content: Text( isValidData() ? "BMI: "+BMI.toString() : "Abnormal height/height index "),
+            ));
+      }else
+        showDialog(context: context,
+          child: new AlertDialog(
+            title: Text("Input wrong"),
+            content: Text( isInputData() ? "Please enter the number." : "Please enter full"),
+          ));
+    });
+  }
+
+  bool isValidData(){
+    //TODO: Xem lại giá trị để chiều cao và cân nặng hợp lệ
+    var height = double.parse(_heightController.text);
+    var weight = double.parse(_weightController.text);
+    if(height>29 && height<250 && weight>19 && weight<250) {return true;}
+    else {return false;}
+  }
+
+  bool isInputData() => (_weightController.text.isNotEmpty || _heightController.text.isNotEmpty);
+
+  bool checkInputType(){
+      try{
+        var weight = double.parse(_weightController.text);
+        var height = double.parse(_heightController.text);
+      } on FormatException {
+        return false;
+      } finally{return true;}
+  }
+
+  double getBMI(var weight, var height_CM){
+    var height_M = height_CM/100;
+    return weight/(height_M * height_M);
+  }
 }
+
 
 Widget measureText(String _text){
   return Container(
