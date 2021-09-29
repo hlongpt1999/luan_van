@@ -4,6 +4,9 @@ import 'package:luan_van/resources/button_next.dart';
 import 'package:luan_van/resources/button_quater_circle_back.dart';
 import 'package:luan_van/resources/button_quater_circle_next.dart';
 import 'package:luan_van/resources/styles.dart';
+import 'package:luan_van/screens/bmi/EvaluateBMIScreen.dart';
+
+import '../../main.dart';
 
 class BMIScreen extends StatefulWidget{
   @override
@@ -111,7 +114,10 @@ class BMIScreenState extends State<BMIScreen>{
                 onTap: onNextClick,
                 child: buttonQuaterCircleNext("Next")
             ),
-            buttonQuaterCircleBack("Back"),
+
+            GestureDetector(
+                onTap: onBackClick,
+                child: buttonQuaterCircleBack("Back")),
           ],
         ),
       ),
@@ -122,10 +128,11 @@ class BMIScreenState extends State<BMIScreen>{
     setState(() {
       if (checkInputType()){
         double BMI = getBMI(double.parse(_weightController.text),double.parse(_heightController.text));
-        showDialog(context: context,
+        if(isValidData()) Navigator.of(context).push(MaterialPageRoute(builder: (context) => EvaluateBMIScreen()));
+        else showDialog(context: context,
             child: new AlertDialog(
               title: Text("BMI"),
-              content: Text( isValidData() ? "BMI: "+BMI.toString() : "Abnormal height/height index "),
+              content: Text(isValidData()? BMI.toString() : "Abnormal height/height index "),
             ));
       }else
         showDialog(context: context,
@@ -136,6 +143,8 @@ class BMIScreenState extends State<BMIScreen>{
     });
   }
 
+  void onBackClick() => Navigator.pop(context);
+
   bool isValidData(){
     //TODO: Xem lại giá trị để chiều cao và cân nặng hợp lệ
     var height = double.parse(_heightController.text);
@@ -144,15 +153,16 @@ class BMIScreenState extends State<BMIScreen>{
     else {return false;}
   }
 
-  bool isInputData() => (_weightController.text.isNotEmpty || _heightController.text.isNotEmpty);
+  bool isInputData() => (_weightController.text.isNotEmpty && _heightController.text.isNotEmpty);
 
   bool checkInputType(){
       try{
         var weight = double.parse(_weightController.text);
         var height = double.parse(_heightController.text);
-      } on FormatException {
+      }catch(e){
         return false;
-      } finally{return true;}
+      }
+      return true;
   }
 
   double getBMI(var weight, var height_CM){
