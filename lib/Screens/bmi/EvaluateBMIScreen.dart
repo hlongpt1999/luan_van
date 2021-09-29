@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:luan_van/resources/background_painter_circle.dart';
 import 'package:luan_van/resources/button_outline.dart';
 import 'package:luan_van/screens/bmi/box_bmi_select.dart';
+import 'package:luan_van/screens/schedule/CreateScheduleScreen.dart';
 
 class EvaluateBMIScreen extends StatefulWidget{
   @override
@@ -92,6 +93,16 @@ class EvaluateBMIScreenState extends State<EvaluateBMIScreen> {
                   SizedBox(height: 10,),
                   GestureDetector(
                     onTap: refreshadd,
+                    child: ButtonOutLine(),
+                  ),
+
+                  SizedBox(height: 10,),
+                  GestureDetector(
+                    onTap: ((){
+                      setState(() {
+                        Navigator.of(context).push(MaterialPageRoute(builder: (context) => CreateScheduleScreen()));
+                      });
+                    }),
                     child: ButtonOutLine(),
                   ),
                 ],
