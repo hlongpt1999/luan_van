@@ -10,12 +10,12 @@ Widget buttonBack(String _text){
         ButtonTheme(
           height: MySize.heightNextBack,
           child: RaisedButton(
-              disabledColor: Colors.button,
+              disabledColor: Colors.grey,
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.horizontal(right: Radius.circular(MySize.radiusNextBack))),
               onPressed: (){},
               textColor: Colors.white,
-              color: Colors.background,
+              color: Colors.deepOrange,
               padding: EdgeInsets.fromLTRB(5, 0, 5, 0),
               child: Padding(
                   padding: EdgeInsets.fromLTRB(0,0,0,0),

@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:luan_van/components/Constants.dart';
 
 Widget buttonQuaterCircleBack(String _text){
   return Align(
@@ -12,7 +13,7 @@ Widget buttonQuaterCircleBack(String _text){
         begin: Alignment.topLeft,
         end: Alignment.bottomRight,
         colors: [
-          Colors.background,
+          Colors.deepOrange,
           Colors.purple,
         ],
       ),

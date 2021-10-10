@@ -12,7 +12,7 @@ class SignUpScreenState extends State<SignUpScreen>{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomPadding: false, // Not move screen when show keyboard
+      resizeToAvoidBottomInset: false, // Not move screen when show keyboard
       body: Container(
         child: Center(
           child: Column(

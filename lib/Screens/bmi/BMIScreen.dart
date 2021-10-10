@@ -19,7 +19,7 @@ class BMIScreenState extends State<BMIScreen>{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomPadding: false, // Not move screen when show keyboard
+      resizeToAvoidBottomInset: false, // Not move screen when show keyboard
       body: Container(
         decoration: new BoxDecoration(color: Colors.blue,),
         child: Stack(

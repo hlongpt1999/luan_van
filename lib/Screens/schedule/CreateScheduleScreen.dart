@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:luan_van/components/Constants.dart';
 import 'package:luan_van/resources/button_back.dart';
 import 'package:luan_van/resources/button_next.dart';
+import 'package:luan_van/screens/home/HomeScreen.dart';
 import 'package:luan_van/screens/schedule/ScheduleDetailScreen.dart';
 
 class CreateScheduleScreen extends StatefulWidget {
@@ -161,7 +162,7 @@ class CreateScheduleScreenState extends State<CreateScheduleScreen> {
 
   void onNextClick(){
     setState(() {
-      Navigator.of(context).push(MaterialPageRoute(builder: (context) => ScheduleDetailScreen()));
+      Navigator.of(context).push(MaterialPageRoute(builder: (context) => HomeScreen()));
     });
   }
 

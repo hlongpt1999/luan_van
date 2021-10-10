@@ -12,7 +12,7 @@ Widget buttonQuaterCircleNext(String _text){
             begin: Alignment.topRight,
             end: Alignment.bottomLeft,
             colors: [
-              Colors.background,
+              Colors.deepOrange,
               Colors.purple,
             ],
           ),

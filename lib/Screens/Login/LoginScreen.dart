@@ -24,7 +24,7 @@ class LoginScreenState extends State<LoginScreen>{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomPadding: false, // Not move screen when show keyboard
+      resizeToAvoidBottomInset: false, // Not move screen when show keyboard
       body: Container(
         decoration: new BoxDecoration(image: backgroundImage,),
         child: Center(

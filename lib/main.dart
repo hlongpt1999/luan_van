@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:luan_van/screens/home/HomeScreen.dart';
 import 'screens/login/LoginScreen.dart';
 
 void main (){
@@ -11,7 +12,7 @@ void main (){
   ]).then((_){
     runApp(
       new MaterialApp(
-        home: LoginScreen(),
+        home: HomeScreen(),
       )
     );
   });

@@ -7,7 +7,7 @@ Widget buttonCircleMax (BuildContext context, String _text){
     height: 60.0,
     alignment: FractionalOffset.center,
     decoration: new BoxDecoration(
-      color: Colors.background,
+      color: Colors.deepOrange,
       borderRadius: new BorderRadius.all(const Radius.circular(20.0)),
     ),
     child: new Text(
