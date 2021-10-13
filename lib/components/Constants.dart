@@ -10,6 +10,7 @@ class Const{
 class MySize{
   static double heightNextBack = 70.0;
   static double radiusNextBack = 30.0;
+  static double paddingHor = 24.0;
 }
 
 class MyList{
@@ -33,4 +34,16 @@ class MyList{
     Colors.pink
   ];
 
+}
+
+class HexColor extends Color {
+  HexColor(final String hexColor) : super(_getColorFromHex(hexColor));
+
+  static int _getColorFromHex(String hexColor) {
+    hexColor = hexColor.toUpperCase().replaceAll('#', '');
+    if (hexColor.length == 6) {
+      hexColor = 'FF' + hexColor;
+    }
+    return int.parse(hexColor, radix: 16);
+  }
 }

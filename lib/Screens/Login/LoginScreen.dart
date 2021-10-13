@@ -128,9 +128,7 @@ class LoginScreenState extends State<LoginScreen>{
       }  else{
         _isUserError = true;
         _isPassError = true;
-        showDialog(
-          context: context,
-          child: new AlertDialog(
+        new AlertDialog(
             title: const Text("Error"),
             content: const Text("Wrong pass & user"),
             actions: [
@@ -143,7 +141,6 @@ class LoginScreenState extends State<LoginScreen>{
                 onPressed: () => Navigator.pop(context),
               ),
             ],
-          ),
         );
       }
     });

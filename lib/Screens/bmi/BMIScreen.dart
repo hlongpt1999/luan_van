@@ -129,17 +129,15 @@ class BMIScreenState extends State<BMIScreen>{
       if (checkInputType()){
         double BMI = getBMI(double.parse(_weightController.text),double.parse(_heightController.text));
         if(isValidData()) Navigator.of(context).push(MaterialPageRoute(builder: (context) => EvaluateBMIScreen()));
-        else showDialog(context: context,
-            child: new AlertDialog(
+        else new AlertDialog(
               title: Text("BMI"),
               content: Text(isValidData()? BMI.toString() : "Abnormal height/height index "),
-            ));
+            );
       }else
-        showDialog(context: context,
-          child: new AlertDialog(
+        new AlertDialog(
             title: Text("Input wrong"),
             content: Text( isInputData() ? "Please enter the number." : "Please enter full"),
-          ));
+        );
     });
   }
 
