@@ -2,8 +2,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
+import 'package:luan_van/components/Constants.dart';
 import 'package:luan_van/screens/home/components/TabHomeScreen.dart';
 import 'package:flutter_slider_drawer/flutter_slider_drawer.dart';
+
+import 'components/MyDrawer.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key key, this.animationController}) : super(key: key);
@@ -32,9 +35,10 @@ class HomeScreenState extends State<HomeScreen> {
   GlobalKey<SliderMenuContainerState> _key =
       new GlobalKey<SliderMenuContainerState>();
 
+
   @override
   void initState() {
-    title = "Home";
+    title = _bottomBarTitle[0];
     super.initState();
   }
 
@@ -62,36 +66,27 @@ class HomeScreenState extends State<HomeScreen> {
     ),
   ];
 
-  // child: _widgetOptions.elementAt(_selectedIndex),
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: MyColor.colorBackgroundTab,
       body: SliderMenuContainer(
-        appBarColor: Colors.red,
-        hasAppBar: false,
+        appBarHeight: MySize.heightAppBar,
+        appBarColor: Colors.white,
         key: _key,
-        sliderMenuOpenSize: 400,
+        sliderMenuOpenSize: MediaQuery.of(context).size.width * 3/4,
         title: Text(
           title,
           style: TextStyle(fontSize: 22, fontWeight: FontWeight.w700),
         ),
-        sliderMenu: Container(
-          color: Colors.green,
-
-          // onItemClick: (title) {
-          //   _key.currentState!.closeDrawer();
-          //   setState(() {
-          //     this.title = title;
-          //   });
-          // },
-        ),
+        sliderMenu: MyDrawer(),
         sliderMain: PageView(
           controller: _pageController,
           children: _widgetOptions,
           onPageChanged: (page) {
             setState(() {
               _selectedIndex = page;
+              title = _bottomBarTitle[page];
             });
           },
         ),
@@ -142,6 +137,7 @@ class HomeScreenState extends State<HomeScreen> {
                   setState(() {
                     _selectedIndex = index;
                     _pageController.jumpToPage(index);
+                    title = _bottomBarTitle[index];
                   });
                 }),
           ),
@@ -149,4 +145,8 @@ class HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
+
+
 }
+
+

@@ -16,7 +16,7 @@ class TabHomeScreenState extends State<TabHomeScreen>{
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Container(
-        color: Colors.grey,
+        color: MyColor.colorBackgroundTab,
         child: Column(
           children: [
             new MediterranesnDietView(),

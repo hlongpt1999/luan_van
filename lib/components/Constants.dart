@@ -4,6 +4,12 @@ class Const{
   static int colorMainPaint = 0xffff9900;
   static int colorMiddlePaint = 0x12345678;
   static int colorLowPaint = 0x87654321;
+
+}
+
+class MyColor{
+  static int colorBackground2 = 0xFF42A5F5;
+  static Color colorBackgroundTab = Color(0xFF9E9E9E);
 }
 
 //Đồng bộ các size với nhau để có trường hợp thay đổi.
@@ -11,6 +17,7 @@ class MySize{
   static double heightNextBack = 70.0;
   static double radiusNextBack = 30.0;
   static double paddingHor = 24.0;
+  static double heightAppBar = 90;
 }
 
 class MyList{
