@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "814301399481",
+    "project_id": "luanvan-8b253",
+    "storage_bucket": "luanvan-8b253.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:814301399481:android:f6af6c25c28b212625ce68",
+        "android_client_info": {
+          "package_name": "com.example.luan_van"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "814301399481-es1emb6giuautlp3v67u8khf64d9qs89.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC1UBT9O6j20zB_U-rtrnm4gA2KETpF1io"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "814301399481-es1emb6giuautlp3v67u8khf64d9qs89.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
