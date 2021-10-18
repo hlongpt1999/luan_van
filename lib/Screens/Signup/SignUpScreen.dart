@@ -1,8 +1,18 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:luan_van/components/response_widget.dart';
+import 'package:luan_van/firebase/auth_firebase.dart';
+import 'package:luan_van/model/User.dart';
+import 'package:luan_van/resources/button_radius_big.dart';
+import 'package:luan_van/resources/button_radius_medium.dart';
 import 'package:luan_van/resources/shape_clipper_custom.dart';
 import 'package:luan_van/resources/text_field_custom.dart';
+import 'package:luan_van/screens/login/LoginScreen.dart';
+import 'package:toast/toast.dart';
 
 class SignUpScreen extends StatefulWidget{
   @override
@@ -16,10 +26,58 @@ class SignUpScreenState extends State<SignUpScreen>{
   double _pixelRatio;
   bool _large;
   bool _medium;
+  // bool _isShowLoading = false;
+
+  TextEditingController _nameController = TextEditingController();
+  TextEditingController _emailController = TextEditingController();
+  TextEditingController _passController = TextEditingController();
+  TextEditingController _passConfirmController = TextEditingController();
+
+  final firebase = FirebaseDatabase.instance;
+  final firebaseAuth = FirebaseAuth.instance;
+
+
+  Future createUser() async{
+    try {
+      // if(_isShowLoading)  hideLoading();
+      await firebaseAuth.createUserWithEmailAndPassword(
+        email: _emailController.text,
+        password: _passController.text,
+      ).then(
+              (value) async {
+            await postDataFireStore();
+          }
+      );
+      } on FirebaseAuthException catch (e) {
+      if (e.code == 'weak-password') {
+        hideLoading();
+        Toast.show("Mật khẩu ít nhất 6 ký tự", context);
+      } else if (e.code == 'email-already-in-use') {
+        hideLoading();
+        Toast.show("Tài khoản đã tồn tại", context);
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  Future postDataFireStore() async{
+    FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+    User user = firebaseAuth.currentUser;
+    UserModel userModel = UserModel();
+    userModel.id = user.uid;
+    userModel.name = _nameController.text;
+    userModel.email = _emailController.text;
+
+    await firebaseFirestore.collection('users').doc(userModel.id).set(userModel.toMap());
+    Toast.show('Đã thêm thành công tài khoản: ' + _nameController.text, context);
+    // if(_isShowLoading)
+    hideLoading();
+    Navigator.push(context, MaterialPageRoute(builder: (context)=>LoginScreen()));
+  }
 
   @override
   Widget build(BuildContext context) {
-
     _height = MediaQuery.of(context).size.height;
     _width = MediaQuery.of(context).size.width;
     _pixelRatio = MediaQuery.of(context).devicePixelRatio;
@@ -40,9 +98,7 @@ class SignUpScreenState extends State<SignUpScreen>{
                 acceptTermsTextRow(),
                 SizedBox(height: _height/35,),
                 button(),
-                infoTextRow(),
-                socialIconsRow(),
-                //signInTextRow(),
+                // signInTextRow(),
               ],
             ),
           ),
@@ -99,6 +155,7 @@ class SignUpScreenState extends State<SignUpScreen>{
           child: GestureDetector(
               onTap: (){
                 print('Adding photo');
+
               },
 
               child: Icon(Icons.add_a_photo, size: _large? 40: (_medium? 33: 31),color: Colors.orange[200],)),
@@ -117,8 +174,6 @@ class SignUpScreenState extends State<SignUpScreen>{
         child: Column(
           children: <Widget>[
             firstNameTextFormField(),
-            SizedBox(height: _height / 60.0),
-            lastNameTextFormField(),
             SizedBox(height: _height/ 60.0),
             emailTextFormField(),
             SizedBox(height: _height / 60.0),
@@ -133,42 +188,37 @@ class SignUpScreenState extends State<SignUpScreen>{
 
   Widget firstNameTextFormField() {
     return CustomTextField(
+      textEditingController: _nameController,
       keyboardType: TextInputType.text,
       icon: Icons.person,
-      hint: "First Name",
-    );
-  }
-
-  Widget lastNameTextFormField() {
-    return CustomTextField(
-      keyboardType: TextInputType.text,
-      icon: Icons.person,
-      hint: "Last Name",
+      hint: "Enter your name",
     );
   }
 
   Widget emailTextFormField() {
     return CustomTextField(
+      textEditingController: _emailController,
       keyboardType: TextInputType.emailAddress,
       icon: Icons.email,
-      hint: "Email ID",
+      hint: "Email",
     );
   }
 
   Widget phoneTextFormField() {
     return CustomTextField(
-      keyboardType: TextInputType.number,
-      icon: Icons.phone,
-      hint: "Mobile Number",
+      textEditingController: _passController,
+      obscureText: true,
+      icon: Icons.lock,
+      hint: "Password",
     );
   }
 
   Widget passwordTextFormField() {
     return CustomTextField(
-      keyboardType: TextInputType.text,
+      textEditingController: _passConfirmController,
       obscureText: true,
       icon: Icons.lock,
-      hint: "Password",
+      hint: "Confirm password",
     );
   }
 
@@ -199,67 +249,27 @@ class SignUpScreenState extends State<SignUpScreen>{
     return RaisedButton(
       elevation: 0,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
-      onPressed: () {
-        print("Routing to your account");
-      },
+      onPressed:
+        checkBoxValue ?
+        () => onSignUpClick() :
+        null,
       textColor: Colors.white,
       padding: EdgeInsets.all(0.0),
       child: Container(
         alignment: Alignment.center,
-//        height: _height / 20,
-        width:_large? _width/4 : (_medium? _width/3.75: _width/3.5),
+       height: _height / 16,
+        width: MediaQuery.of(context).size.width - 60,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(20.0)),
           gradient: LinearGradient(
-            colors: <Color>[Colors.orange[200], Colors.pinkAccent],
+            colors:
+            checkBoxValue
+                ? <Color>[Colors.orange[200], Colors.pinkAccent]
+                  : <Color>[Colors.orange[100], Colors.pinkAccent[100]],
           ),
         ),
         padding: const EdgeInsets.all(12.0),
-        child: Text('SIGN UP', style: TextStyle(fontSize: _large? 14: (_medium? 12: 10)),),
-      ),
-    );
-  }
-
-  Widget infoTextRow() {
-    return Container(
-      margin: EdgeInsets.only(top: _height / 40.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          Text(
-            "Or create using social media",
-            style: TextStyle(fontWeight: FontWeight.w400, fontSize: _large? 12: (_medium? 11: 10)),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget socialIconsRow() {
-    return Container(
-      margin: EdgeInsets.only(top: _height / 80.0),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
-          CircleAvatar(
-            radius: 15,
-            backgroundImage: AssetImage("assets/images/googlelogo.png"),
-          ),
-          SizedBox(
-            width: 20,
-          ),
-          CircleAvatar(
-            radius: 15,
-            backgroundImage: AssetImage("assets/images/fblogo.jpg"),
-          ),
-          SizedBox(
-            width: 20,
-          ),
-          CircleAvatar(
-            radius: 15,
-            backgroundImage: AssetImage("assets/images/twitterlogo.jpg"),
-          ),
-        ],
+        child: Text('SIGN UP', style: TextStyle(fontSize: _large? 18: (_medium? 16: 13), fontWeight: FontWeight.bold),),
       ),
     );
   }
@@ -286,4 +296,55 @@ class SignUpScreenState extends State<SignUpScreen>{
       ),
     );
   }
+
+
+  void onSignUpClick() {
+    setState(() {
+      String name = _nameController.text;
+      String email = _nameController.text;
+      String pass = _passController.text;
+      String passConfirm = _passConfirmController.text;
+
+
+      if (name=="" || email=="" || pass==null || passConfirm==null){
+        Toast.show("Vui lòng nhập đầy đủ thông tin", context, duration: 3, gravity: Toast.BOTTOM);
+      }else if(pass != passConfirm){
+        Toast.show("Nhập lại mật khẩu không khớp", context, duration: 3, gravity: Toast.BOTTOM);
+      }else {
+        showLoading();
+        createUser();
+      }
+    });
+  }
+
+
+  void showLoading(){
+    // _isShowLoading = true;
+    FocusScope.of(context).unfocus();
+    showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (context) => Center(
+        child: Container(
+          width: 60.0,
+          height: 60.0,
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(4.0),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(12.0),
+            child: CupertinoActivityIndicator(),
+          ),
+        ),
+      ),
+    );
+  }
+
+  void hideLoading(){
+    // _isShowLoading = false;
+    FocusScope.of(context).unfocus();
+    Navigator.pop(context);
+  }
+
 }

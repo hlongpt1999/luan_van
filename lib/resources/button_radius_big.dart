@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-Widget ButtonRadiusBig(){
+Widget buttonRadiusBig(){
   return Container(
     width: 300,
     height: 100,
