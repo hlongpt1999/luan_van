@@ -1,17 +1,18 @@
 class UserModel{
-  String id;
-  String name;
-  String sex;
-  double birthday;
-  int bornYear;
-  double height;
-  double weight;
-  String address;
-  String role;
-  String avatar;
-  String email;
-  String phone;
-  String password;
+  String id = "";
+  String name = "";
+  String sex = "";
+  double birthday = 0;
+  int bornYear = 0;
+  double height = 0;
+  double weight = 0;
+  String address = "";
+  String role = "";
+  String avatar = "";
+  String email = "";
+  String phone = "";
+  String password = "";
+  String bmi = "";
 
   UserModel({
       this.id,
@@ -26,7 +27,8 @@ class UserModel{
       this.avatar,
       this.email,
       this.phone,
-      this.password});
+      this.password,
+      this.bmi});
 
   Map<String, dynamic> toMap() {
     return {
@@ -41,7 +43,8 @@ class UserModel{
       "adress" : address ,
       "role" : role ?? "user",
       "avatar" : avatar ,
-      "phone" : phone
+      "phone" : phone,
+      "bmi" : bmi,
     };
   }
 

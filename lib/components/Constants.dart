@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:luan_van/model/User.dart';
 
 class Const{
   static int colorMainPaint = 0xffff9900;
@@ -53,4 +54,8 @@ class HexColor extends Color {
     }
     return int.parse(hexColor, radix: 16);
   }
+}
+
+class CurrentUser {
+  static UserModel currentUser = UserModel();
 }

@@ -1,6 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:luan_van/components/Constants.dart';
+import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
+import 'package:luan_van/components/progressLoading.dart';
+import 'package:luan_van/model/User.dart';
+import 'package:luan_van/screens/login/LoginScreen.dart';
 
 class MyDrawer extends StatefulWidget{
   @override
@@ -10,6 +14,21 @@ class MyDrawer extends StatefulWidget{
 
 class MyDrawerState extends State<MyDrawer>{
   double _sizeAvatar = 50;
+  String avatarURL = "";
+  Future<void> loadAvatar() async {
+    var ref = firebase_storage.FirebaseStorage.instance
+        .ref(CurrentUser.currentUser.avatar);
+    String avatar = await ref.getDownloadURL();
+    setState(() {
+      avatarURL = avatar;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    loadAvatar();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +61,9 @@ class MyDrawerState extends State<MyDrawer>{
                       backgroundColor: Colors.white,
                       radius: _sizeAvatar,
                       child: CircleAvatar(
-                        backgroundImage: AssetImage('assets/home.jpeg'),
+                        backgroundImage: avatarURL != ""
+                          ? NetworkImage(avatarURL)
+                              : AssetImage('assets/home.jpeg'),
                         radius: _sizeAvatar - 3,
                       ),
                     ),
@@ -51,7 +72,8 @@ class MyDrawerState extends State<MyDrawer>{
                   SizedBox(height: 5,),
 
                   Text(
-                    "Name nguowif", //TODO: Nhap ten nguoi dung o day.
+                    CurrentUser.currentUser.name ?? "",
+                    //TODO: Nhap ten nguoi dung o day.
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontStyle: FontStyle.italic,
@@ -78,7 +100,8 @@ class MyDrawerState extends State<MyDrawer>{
                         ),
 
                         Text(
-                          "100", //TODO: BMI index
+                          CurrentUser.currentUser.bmi ?? "",
+                          //TODO: BMI index
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             color: Colors.white,
@@ -162,14 +185,21 @@ class MyDrawerState extends State<MyDrawer>{
       showDialog(
           context: context,
           builder: (_context)=> AlertDialog(
-            title: Text("Alert Dialog Box"),
-            content: Text("You have raised a Alert Dialog Box"),
+            title: Text("Đăng xuất"),
+            content: Text("Bạn có muốn đăng xuất khỏi ứng dụng?"),
             actions: <Widget>[
               FlatButton(
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
-                child: Text("okay"),
+                child: Text("Không"),
+              ),
+              FlatButton(
+                onPressed: () {
+                  CurrentUser.currentUser = UserModel();
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => LoginScreen()));
+                },
+                child: Text("Có"),
               ),
             ],
           ),

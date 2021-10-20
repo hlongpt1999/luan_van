@@ -1,18 +1,24 @@
+import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_icons/flutter_icons.dart';
 import 'package:luan_van/components/response_widget.dart';
 import 'package:luan_van/firebase/auth_firebase.dart';
 import 'package:luan_van/model/User.dart';
 import 'package:luan_van/resources/button_radius_big.dart';
 import 'package:luan_van/resources/button_radius_medium.dart';
 import 'package:luan_van/resources/shape_clipper_custom.dart';
+import 'package:luan_van/resources/styles.dart';
 import 'package:luan_van/resources/text_field_custom.dart';
 import 'package:luan_van/screens/login/LoginScreen.dart';
 import 'package:toast/toast.dart';
+import 'package:luan_van/components/progressLoading.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 
 class SignUpScreen extends StatefulWidget{
   @override
@@ -26,7 +32,6 @@ class SignUpScreenState extends State<SignUpScreen>{
   double _pixelRatio;
   bool _large;
   bool _medium;
-  // bool _isShowLoading = false;
 
   TextEditingController _nameController = TextEditingController();
   TextEditingController _emailController = TextEditingController();
@@ -36,10 +41,10 @@ class SignUpScreenState extends State<SignUpScreen>{
   final firebase = FirebaseDatabase.instance;
   final firebaseAuth = FirebaseAuth.instance;
 
+  PickedFile _image = PickedFile("");
 
   Future createUser() async{
     try {
-      // if(_isShowLoading)  hideLoading();
       await firebaseAuth.createUserWithEmailAndPassword(
         email: _emailController.text,
         password: _passController.text,
@@ -50,10 +55,10 @@ class SignUpScreenState extends State<SignUpScreen>{
       );
       } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
-        hideLoading();
+        ProgressLoading().hideLoading(context);
         Toast.show("Mật khẩu ít nhất 6 ký tự", context);
       } else if (e.code == 'email-already-in-use') {
-        hideLoading();
+        ProgressLoading().hideLoading(context);
         Toast.show("Tài khoản đã tồn tại", context);
       }
     } catch (e) {
@@ -69,11 +74,31 @@ class SignUpScreenState extends State<SignUpScreen>{
     userModel.name = _nameController.text;
     userModel.email = _emailController.text;
 
+    if(_image.path != "") {
+      String avatar = 'avatars/' + user.uid + '.png';
+      userModel.avatar = avatar;
+      uploadFile(avatar);
+    }
     await firebaseFirestore.collection('users').doc(userModel.id).set(userModel.toMap());
     Toast.show('Đã thêm thành công tài khoản: ' + _nameController.text, context);
-    // if(_isShowLoading)
-    hideLoading();
+    ProgressLoading().hideLoading(context);
     Navigator.push(context, MaterialPageRoute(builder: (context)=>LoginScreen()));
+  }
+
+  Future chooseFile() async {
+    final image = await ImagePicker.platform.pickImage(source: ImageSource.gallery);
+    setState(() {
+      _image = image;
+    });
+  }
+
+  Future uploadFile(String fileName) async {
+    try {
+      await firebase_storage.FirebaseStorage.instance
+          .ref(fileName)
+          .putFile(File(_image.path));
+    } on FirebaseException catch (e) {
+    }
   }
 
   @override
@@ -139,26 +164,40 @@ class SignUpScreenState extends State<SignUpScreen>{
           ),
         ),
         Container(
-          height: _height / 5.5,
-          alignment: Alignment.center,
-          decoration: BoxDecoration(
-            boxShadow: [
-              BoxShadow(
-                  spreadRadius: 0.0,
-                  color: Colors.black26,
-                  offset: Offset(1.0, 10.0),
-                  blurRadius: 20.0),
-            ],
-            color: Colors.white,
-            shape: BoxShape.circle,
-          ),
+          height: _height / 5,
+          alignment: Alignment.bottomCenter,
           child: GestureDetector(
-              onTap: (){
-                print('Adding photo');
-
-              },
-
-              child: Icon(Icons.add_a_photo, size: _large? 40: (_medium? 33: 31),color: Colors.orange[200],)),
+            onTap: chooseFile,
+            child: Container(
+              height: _height / 6,
+              alignment: Alignment.bottomCenter,
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                    image: FileImage(File(_image.path)) ,
+                  ) ,
+                boxShadow: [
+                  BoxShadow(
+                      spreadRadius: 0.0,
+                      color: Colors.black26,
+                      offset: Offset(1.0, 10.0),
+                      blurRadius: 20.0),
+                ],
+                color: Colors.white,
+                shape: BoxShape.circle,
+              ),
+              child: GestureDetector(
+                  onTap: (){
+                    print('Adding photo');
+                    chooseFile();
+                  },
+                  child: Center(
+                    child: _image.path == ""
+                      ? Icon(Icons.add_a_photo, size: _large? 40: (_medium? 33: 31),color: Colors.orange[200],)
+                      : SizedBox.shrink(),
+                  ),
+              ),
+            ),
+          ),
         ),
       ],
     );
@@ -311,40 +350,9 @@ class SignUpScreenState extends State<SignUpScreen>{
       }else if(pass != passConfirm){
         Toast.show("Nhập lại mật khẩu không khớp", context, duration: 3, gravity: Toast.BOTTOM);
       }else {
-        showLoading();
+        ProgressLoading().showLoading(context);
         createUser();
       }
     });
   }
-
-
-  void showLoading(){
-    // _isShowLoading = true;
-    FocusScope.of(context).unfocus();
-    showDialog(
-      barrierDismissible: false,
-      context: context,
-      builder: (context) => Center(
-        child: Container(
-          width: 60.0,
-          height: 60.0,
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(4.0),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.all(12.0),
-            child: CupertinoActivityIndicator(),
-          ),
-        ),
-      ),
-    );
-  }
-
-  void hideLoading(){
-    // _isShowLoading = false;
-    FocusScope.of(context).unfocus();
-    Navigator.pop(context);
-  }
-
 }

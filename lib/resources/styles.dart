@@ -9,3 +9,8 @@ DecorationImage tick = new DecorationImage(
   image: new ExactAssetImage('assets/tick.png'),
   fit: BoxFit.cover,
 );
+
+DecorationImage cameraImage = DecorationImage(
+  image: new ExactAssetImage('assets/avatars/camera.png'),
+  fit: BoxFit.cover,
+);

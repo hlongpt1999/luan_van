@@ -16,7 +16,7 @@ void main (){
     await Firebase.initializeApp();
     runApp(
       new MaterialApp(
-        home: SignUpScreen(),
+        home: LoginScreen(),
       )
     );
   });
