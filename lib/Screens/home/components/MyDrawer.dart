@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:luan_van/components/Constants.dart';
@@ -198,6 +199,7 @@ class MyDrawerState extends State<MyDrawer>{
                 onPressed: () {
                   CurrentUser.currentUser = UserModel();
                   Navigator.push(context, MaterialPageRoute(builder: (context) => LoginScreen()));
+                  logOut();
                 },
                 child: Text("Có"),
               ),
@@ -205,5 +207,9 @@ class MyDrawerState extends State<MyDrawer>{
           ),
       );
     });
+  }
+
+  Future logOut() async {
+    await FirebaseAuth.instance.signOut();
   }
 }
