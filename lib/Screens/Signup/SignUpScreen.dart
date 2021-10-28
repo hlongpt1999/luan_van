@@ -82,7 +82,7 @@ class SignUpScreenState extends State<SignUpScreen>{
     await firebaseFirestore.collection('users').doc(userModel.id).set(userModel.toMap());
     Toast.show('Đã thêm thành công tài khoản: ' + _nameController.text, context);
     ProgressLoading().hideLoading(context);
-    Navigator.push(context, MaterialPageRoute(builder: (context)=>LoginScreen()));
+    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>LoginScreen()));
   }
 
   Future chooseFile() async {

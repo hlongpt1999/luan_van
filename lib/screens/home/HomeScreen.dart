@@ -5,6 +5,7 @@ import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:luan_van/components/Constants.dart';
 import 'package:luan_van/screens/home/components/TabHomeScreen.dart';
 import 'package:flutter_slider_drawer/flutter_slider_drawer.dart';
+import 'package:luan_van/screens/home/components/TabStatisticalScreen.dart';
 
 import 'components/MyDrawer.dart';
 
@@ -58,12 +59,7 @@ class HomeScreenState extends State<HomeScreen> {
         style: optionStyle,
       ),
     ),
-    Expanded(
-      child: Text(
-        'Profile',
-        style: optionStyle,
-      ),
-    ),
+   TabStatisticalScreen(),
   ];
 
   @override

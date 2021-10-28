@@ -6,6 +6,7 @@ import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:luan_van/components/progressLoading.dart';
 import 'package:luan_van/model/User.dart';
 import 'package:luan_van/screens/login/LoginScreen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class MyDrawer extends StatefulWidget{
   @override
@@ -196,9 +197,11 @@ class MyDrawerState extends State<MyDrawer>{
                 child: Text("Không"),
               ),
               FlatButton(
-                onPressed: () {
+                onPressed: () async {
                   CurrentUser.currentUser = UserModel();
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => LoginScreen()));
+                  SharedPreferences pref = await SharedPreferences.getInstance();
+                  pref.remove(Const.LOGIN_PREF);
+                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => LoginScreen()));
                   logOut();
                 },
                 child: Text("Có"),

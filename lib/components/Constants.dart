@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:luan_van/model/User.dart';
 
 class Const{
+  static final String LOGIN_PREF = "LoginPref";
   static int colorMainPaint = 0xffff9900;
   static int colorMiddlePaint = 0x12345678;
   static int colorLowPaint = 0x87654321;
