@@ -12,7 +12,8 @@ class UserModel{
   String email = "";
   String phone = "";
   String password = "";
-  String bmi = "";
+  double bmi = 0;
+  String bmiText = "Ổn định";
 
   UserModel({
       this.id,
@@ -32,6 +33,7 @@ class UserModel{
 
   Map<String, dynamic> toMap() {
     return {
+      "id" : id,
       "name" : name ,
       "email" : email ,
       "password" : password ,
@@ -45,6 +47,7 @@ class UserModel{
       "avatar" : avatar ,
       "phone" : phone,
       "bmi" : bmi,
+      "bmiText" : bmiText,
     };
   }
 

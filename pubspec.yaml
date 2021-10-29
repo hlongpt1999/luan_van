@@ -64,6 +64,7 @@ flutter:
     - assets/
     - assets/fitness_app/
     - assets/avatars/
+    - assets/background/
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
 

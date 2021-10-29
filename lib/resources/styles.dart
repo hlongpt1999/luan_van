@@ -14,3 +14,8 @@ DecorationImage cameraImage = DecorationImage(
   image: new ExactAssetImage('assets/avatars/camera.png'),
   fit: BoxFit.cover,
 );
+
+DecorationImage bmiBackground = DecorationImage(
+  image: new ExactAssetImage('assets/background/sky.jpg'),
+  fit: BoxFit.cover,
+);
