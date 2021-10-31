@@ -5,6 +5,7 @@ import 'package:luan_van/components/Constants.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:luan_van/components/progressLoading.dart';
 import 'package:luan_van/model/User.dart';
+import 'package:luan_van/screens/bmi/BMIScreen.dart';
 import 'package:luan_van/screens/login/LoginScreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -93,7 +94,7 @@ class MyDrawerState extends State<MyDrawer>{
                         SizedBox(width: 25,),
 
                         Text(
-                          "BMI = ",
+                          "BMI = " + CurrentUser.currentUser.bmi.toString() + "\n" + CurrentUser.currentUser.bmiText ,
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             color: Colors.white,
@@ -102,7 +103,7 @@ class MyDrawerState extends State<MyDrawer>{
                         ),
 
                         Text(
-                          CurrentUser.currentUser.bmi ?? "",
+                          CurrentUser.currentUser.bmi ?? " ",
                           //TODO: BMI index
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
@@ -118,7 +119,11 @@ class MyDrawerState extends State<MyDrawer>{
             ),
 
             SizedBox(height: 10,),
-            DrawerItem("Thay đổi mật khẩu", Icons.password),
+            GestureDetector(
+                onTap: (){
+                  Navigator.of(context).push(MaterialPageRoute(builder: (context) => BMIScreen()));
+                },
+                child: DrawerItem("Thay đổi mật khẩu", Icons.password)),
 
             SizedBox(height: 10,),
             DrawerItem("FAQs", Icons.question_answer),

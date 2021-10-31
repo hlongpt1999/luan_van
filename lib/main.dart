@@ -7,14 +7,26 @@ import 'package:flutter/services.dart';
 import 'package:luan_van/ThemFood.dart';
 import 'package:luan_van/screens/bmi/BMIScreen.dart';
 import 'package:luan_van/screens/home/HomeScreen.dart';
+import 'package:luan_van/screens/schedule/CreateScheduleScreen.dart';
 import 'package:luan_van/screens/signup/SignUpScreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'components/Constants.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'screens/login/LoginScreen.dart';
 import 'dart:math' as math;
+import 'package:cron/cron.dart';
 
 void main() {
+
+  //TODO: Code mẫu cho hẹn giờ xử lý công việc.
+  var cron = new Cron();
+  cron.schedule(new Schedule.parse('36 20 * * *'), () async {
+    print('123 yeahYEAHHHHH');
+  });
+  cron.schedule(new Schedule.parse('34 8 * * *'), () async {
+    print('HELLLOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO');
+  });
+
   //Câu lệnh cố định màn hình không cho nó xoay ngang.
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations([
@@ -24,7 +36,7 @@ void main() {
     await Firebase.initializeApp();
     runApp(
         MaterialApp(
-          home: SplashScreen(),
+          home: CreateScheduleScreen(),
         )
     );
   });

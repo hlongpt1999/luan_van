@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:luan_van/components/Constants.dart';
 import 'package:luan_van/resources/background_painter_circle.dart';
 import 'package:luan_van/resources/button_outline.dart';
 import 'package:luan_van/screens/bmi/box_bmi_select.dart';
@@ -50,7 +51,7 @@ class EvaluateBMIScreenState extends State<EvaluateBMIScreen> {
                       ),
                       children: [
                         TextSpan (
-                          text: _BMI.toString(),
+                          text: CurrentUser.currentUser.bmi.toString(),
                           style: TextStyle(
                             color: _textColor,
                             fontWeight: FontWeight.bold,

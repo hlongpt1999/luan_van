@@ -1,16 +1,38 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:luan_van/components/Constants.dart';
+import 'package:luan_van/model/FoodModel.dart';
 import 'package:luan_van/model/MealsListData.dart';
 import 'package:luan_van/resources/AppTheme.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class DietListView extends StatefulWidget{
   @override
-  State<StatefulWidget> createState() => DietListViewState();
+  State<StatefulWidget> createState() {
+    getData();
+    return DietListViewState();
+  }
+}
+
+List<FoodModel> listData = [];
+Future getData() async{
+  SharedPreferences pref = await SharedPreferences.getInstance();
+  List<String> listPrefData = pref.getStringList("1");
+  for (var i=0;i<listPrefData.length;i++) {
+    var name = listPrefData[i];
+    List<String> listPrefData2 = pref.getStringList(name);
+    FoodModel foodModel = FoodModel(name: name, calo100g: double.parse(listPrefData2[0]), quantity: int.parse(listPrefData2[1]));
+    listData.add(foodModel);
+  }
 }
 
 class DietListViewState extends State<DietListView>{
-  List<MealsListData> mealsListData = MealsListData.tabIconsList;
+  // List<MealsListData> mealsListData = MealsListData.tabIconsList;
+  @override
+  void initState() {
+    getData();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -19,14 +41,14 @@ class DietListViewState extends State<DietListView>{
       child: ListView.builder(
         padding: const EdgeInsets.only(
             top: 0, bottom: 0, right: 16, left: 16),
-        itemCount: mealsListData.length,
+        itemCount: listData.length,
         scrollDirection: Axis.horizontal,
         itemBuilder: (BuildContext context, int index) {
           final int count =
-          mealsListData.length > 10 ? 10 : mealsListData.length;
+          listData.length > 10 ? 10 : listData.length;
 
           return MealsView(
-            mealsListData: mealsListData[index],
+            foodModel: listData[index],
           );
         },
       ),
@@ -35,9 +57,9 @@ class DietListViewState extends State<DietListView>{
 }
 
 class MealsView extends StatelessWidget {
-  const MealsView({Key key, this.mealsListData}) : super(key: key);
+  const MealsView({Key key, this.foodModel}) : super(key: key);
 
-  final MealsListData mealsListData;
+  final FoodModel foodModel;
 
   @override
   Widget build(BuildContext context) {
@@ -52,15 +74,15 @@ class MealsView extends StatelessWidget {
                   decoration: BoxDecoration(
                     boxShadow: <BoxShadow>[
                       BoxShadow(
-                          color: HexColor(mealsListData.endColor)
+                          color: Colors.orange
                               .withOpacity(0.6),
                           offset: const Offset(1.1, 4.0),
                           blurRadius: 8.0),
                     ],
                     gradient: LinearGradient(
-                      colors: <HexColor>[
-                        HexColor(mealsListData.startColor),
-                        HexColor(mealsListData.endColor),
+                      colors: [
+                        Colors.blue,
+                        Colors.green,
                       ],
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
@@ -80,7 +102,7 @@ class MealsView extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         Text(
-                          mealsListData.titleTxt,
+                          foodModel.name,
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontFamily: AppTheme.fontName,
@@ -99,11 +121,11 @@ class MealsView extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
                                 Text(
-                                  mealsListData.meals.join('\n'),
+                                  foodModel.quantity>=10 ? (foodModel.quantity/10).toString() + "kg" : (foodModel.quantity * 100).toString() + "g",
                                   style: TextStyle(
                                     fontFamily: AppTheme.fontName,
                                     fontWeight: FontWeight.w500,
-                                    fontSize: 10,
+                                    fontSize: 15,
                                     letterSpacing: 0.2,
                                     color: AppTheme.white,
                                   ),
@@ -112,13 +134,13 @@ class MealsView extends StatelessWidget {
                             ),
                           ),
                         ),
-                        mealsListData?.kacl != 0
-                            ? Row(
+                        // mealsListData?.kacl != 0 ?
+                        Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: <Widget>[
                             Text(
-                              mealsListData.kacl.toString(),
+                              (foodModel.quantity * foodModel.calo100g).round().toString(),
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                 fontFamily: AppTheme.fontName,
@@ -144,28 +166,28 @@ class MealsView extends StatelessWidget {
                               ),
                             ),
                           ],
-                        )
-                            : Container(
-                          decoration: BoxDecoration(
-                            color: AppTheme.nearlyWhite,
-                            shape: BoxShape.circle,
-                            boxShadow: <BoxShadow>[
-                              BoxShadow(
-                                  color: AppTheme.nearlyBlack
-                                      .withOpacity(0.4),
-                                  offset: Offset(8.0, 8.0),
-                                  blurRadius: 8.0),
-                            ],
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.all(6.0),
-                            child: Icon(
-                              Icons.add,
-                              color: HexColor(mealsListData.endColor),
-                              size: 24,
-                            ),
-                          ),
                         ),
+                          //   : Container(
+                          // decoration: BoxDecoration(
+                          //   color: AppTheme.nearlyWhite,
+                          //   shape: BoxShape.circle,
+                          //   boxShadow: <BoxShadow>[
+                          //     BoxShadow(
+                          //         color: AppTheme.nearlyBlack
+                          //             .withOpacity(0.4),
+                          //         offset: Offset(8.0, 8.0),
+                          //         blurRadius: 8.0),
+                          //   ],
+                          // ),
+                          // child: Padding(
+                          //   padding: const EdgeInsets.all(6.0),
+                          //   child: Icon(
+                          //     Icons.add,
+                          //     color: HexColor(mealsListData.endColor),
+                          //     size: 24,
+                          //   ),
+                          // ),
+                        // ),
                       ],
                     ),
                   ),
@@ -189,7 +211,7 @@ class MealsView extends StatelessWidget {
                 child: Container(
                   width: 80,
                   height: 80,
-                  child: Image.asset(mealsListData.imagePath, width: 80, height: 80,),
+                  child: Image.asset("assets/fitness_app/breakfast.png", width: 80, height: 80,),
                 ),
               )
             ],
