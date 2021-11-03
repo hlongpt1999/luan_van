@@ -37,7 +37,7 @@ class CreateScheduleScreenState extends State<CreateScheduleScreen> {
   @override
   void initState() {
     super.initState();
-    var initializationSettingsAndroid =  new AndroidInitializationSettings('app_icon');
+    var initializationSettingsAndroid =  new AndroidInitializationSettings('eaten');
     var initializationSettingsIOS = new IOSInitializationSettings();
     var initializationSettings = new InitializationSettings(
         android: initializationSettingsAndroid, iOS: initializationSettingsIOS);
@@ -49,9 +49,10 @@ class CreateScheduleScreenState extends State<CreateScheduleScreen> {
   Future testNotification() async {
     var androidPlatformChannelSpecifics = new AndroidNotificationDetails(
         'your channel id',
-        'your channel name',
+        'your channel name',//Cái này hiện tên trong cài đặt
         channelDescription: "your channel description",
-        sound: RawResourceAndroidNotificationSound("ring"),
+        sound: RawResourceAndroidNotificationSound("noti"),
+        playSound: true,
         importance: Importance.max,
         priority: Priority.high,
         icon: "eaten",

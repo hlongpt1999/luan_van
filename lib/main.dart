@@ -4,10 +4,13 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:luan_van/ThemFood.dart';
 import 'package:luan_van/screens/bmi/BMIScreen.dart';
 import 'package:luan_van/screens/home/HomeScreen.dart';
+import 'package:luan_van/screens/login/Login.dart';
 import 'package:luan_van/screens/schedule/CreateScheduleScreen.dart';
+import 'package:luan_van/screens/schedule/ScheduleDetailScreen.dart';
 import 'package:luan_van/screens/signup/SignUpScreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'components/Constants.dart';
@@ -20,9 +23,9 @@ void main() {
 
   //TODO: Code mẫu cho hẹn giờ xử lý công việc.
   var cron = new Cron();
-  cron.schedule(new Schedule.parse('36 20 * * *'), () async {
-    print('123 yeahYEAHHHHH');
-  });
+  // cron.schedule(new Schedule.parse('20-25-30-40 * * * *'), () async {
+  //
+  // });
   cron.schedule(new Schedule.parse('34 8 * * *'), () async {
     print('HELLLOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO');
   });
@@ -36,7 +39,7 @@ void main() {
     await Firebase.initializeApp();
     runApp(
         MaterialApp(
-          home: CreateScheduleScreen(),
+          home: MyApp(),
         )
     );
   });
@@ -92,11 +95,76 @@ class SplashScreenState extends State<SplashScreen>{
     }
   }
 
+  FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
   @override
   void initState() {
     Future.delayed(const Duration(milliseconds: 1000), () {
       handleSignIn();
     });
+
+    super.initState();
+    var initializationSettingsAndroid =  new AndroidInitializationSettings('eaten');
+    var initializationSettingsIOS = new IOSInitializationSettings();
+    var initializationSettings = new InitializationSettings(
+        android: initializationSettingsAndroid, iOS: initializationSettingsIOS);
+    flutterLocalNotificationsPlugin = new FlutterLocalNotificationsPlugin();
+    flutterLocalNotificationsPlugin.initialize(initializationSettings,
+        onSelectNotification: onSelectNotification);
+
+    var cron = new Cron();
+    cron.schedule(new Schedule.parse('30 12 * * *'), () async {
+      testNotification("Phút");
+    });
+
+
+    cron.schedule(new Schedule.parse('35 12 * * *'), () async {
+      testNotification("35");
+    });
+
+
+    cron.schedule(new Schedule.parse('40 12 * * *'), () async {
+      testNotification("40");
+    });
+
+
+    cron.schedule(new Schedule.parse('50 12 * * *'), () async {
+      testNotification("50");
+    });
+  }
+
+  Future testNotification(String detail) async {
+    var androidPlatformChannelSpecifics = new AndroidNotificationDetails(
+      'your channel id',
+      'your channel name',//Cái này hiện tên trong cài đặt
+      channelDescription: "your channel description",
+      sound: RawResourceAndroidNotificationSound("noti"),
+      playSound: true,
+      importance: Importance.max,
+      priority: Priority.high,
+      icon: "eaten",
+    );
+
+    var platformChannelSpecifics = new NotificationDetails(android: androidPlatformChannelSpecifics);
+
+    await flutterLocalNotificationsPlugin.show(
+      5,
+      'New Post',
+      'How to Show Notification in Flutter' + detail,
+      platformChannelSpecifics,
+      payload: 'Custom_Sound',
+    );
+  }
+
+  Future onSelectNotification(String payload) async {
+    showDialog(
+      context: context,
+      builder: (_) {
+        return new AlertDialog(
+          title: Text("Thông báo"),
+          content: Text("Push Notification : $payload"),
+        );
+      },
+    );
   }
 
   @override

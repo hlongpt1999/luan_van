@@ -19,3 +19,9 @@ DecorationImage bmiBackground = DecorationImage(
   image: new ExactAssetImage('assets/background/sky.jpg'),
   fit: BoxFit.cover,
 );
+
+DecorationImage universalBackground = DecorationImage(
+  image: new ExactAssetImage('assets/background/universal.png'),
+  fit: BoxFit.cover,
+);
+

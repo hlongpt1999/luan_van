@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:luan_van/model/FoodModel.dart';
 import 'package:luan_van/model/User.dart';
 
 class Const{
@@ -59,4 +60,6 @@ class HexColor extends Color {
 
 class CurrentUser {
   static UserModel currentUser = UserModel();
+  static List<FoodModel> listFood = [];
+  static List<String> listFoodString = [];
 }
