@@ -232,6 +232,9 @@ class LoginScreenState extends State<LoginScreen>{
                 child: buttonCircleMax(context, "Tạo tài khoản", color1: Colors.grey[400], color2: Colors.blueGrey, colorText: Colors.white),
                 ),
               ),
+
+            SizedBox(height: 20),
+            Text(Const.VERSION),
           ],
         ),
       ),
