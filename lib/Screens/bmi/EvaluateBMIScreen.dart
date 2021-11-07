@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:luan_van/components/Constants.dart';
 import 'package:luan_van/resources/background_painter_circle.dart';
 import 'package:luan_van/resources/button_outline.dart';
+import 'package:luan_van/resources/styles.dart';
 import 'package:luan_van/screens/bmi/box_bmi_select.dart';
 import 'package:luan_van/screens/schedule/CreateScheduleScreen.dart';
 
@@ -12,12 +13,13 @@ class EvaluateBMIScreen extends StatefulWidget{
 }
 
 class EvaluateBMIScreenState extends State<EvaluateBMIScreen> {
-  double _BMI = 20;
+  double _BMI = CurrentUser.currentUser.bmi;
   //TODO: Truyền vào giá trị giới tính.
-  var _gender = "male";
+  var _gender = CurrentUser.currentUser.sex;
   bool _isShowChoice = true;
   var _listIcon  = new List<IconData>(3);
   Color _textColor;
+  List goiCalo = [0,0,0];
 
   @override
   void initState() {
@@ -51,7 +53,7 @@ class EvaluateBMIScreenState extends State<EvaluateBMIScreen> {
                       ),
                       children: [
                         TextSpan (
-                          text: CurrentUser.currentUser.bmi.toString(),
+                          text: _BMI.toStringAsFixed(2).toString(),
                           style: TextStyle(
                             color: _textColor,
                             fontWeight: FontWeight.bold,
@@ -77,35 +79,52 @@ class EvaluateBMIScreenState extends State<EvaluateBMIScreen> {
                   ),
 
                   SizedBox(height: 20,),
-                  boxBMISelect(showTitleChoice(1), Colors.blue, _listIcon[0]),
+                  GestureDetector(
+                    onTap: (){
+                      Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => CreateScheduleScreen()));
+                      CurrentUser.totalCaloDate = goiCalo[0];
+                    },
+                    child: boxBMISelect(showTitleChoice(1), foodBackground, _listIcon[0])
+                  ),
 
                   SizedBox(height: 30,),
-                  boxBMISelect(showTitleChoice(2), Colors.green, _listIcon[1]),
+                  GestureDetector(
+                    onTap: (){
+                      Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => CreateScheduleScreen()));
+                      CurrentUser.totalCaloDate = goiCalo[1];
+                    },
+                    child: boxBMISelect(showTitleChoice(2), balanceBackground, _listIcon[1]),
+                  ),
 
                   if(_isShowChoice) SizedBox(height: 30,),
-                  if(_isShowChoice) boxBMISelect(showTitleChoice(3), Colors.yellow, _listIcon[2]),
+                  if(_isShowChoice) GestureDetector(
+                      onTap: (){
+                        Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => CreateScheduleScreen()));
+                        CurrentUser.totalCaloDate = goiCalo[2];
+                      },
+                      child: boxBMISelect(showTitleChoice(3), gymBackground, _listIcon[2]),),
 
-                  SizedBox(height: 30,),
-                  GestureDetector(
-                    onTap: refresh,
-                    child: ButtonOutLine(),
-                  ),
-
-                  SizedBox(height: 10,),
-                  GestureDetector(
-                    onTap: refreshadd,
-                    child: ButtonOutLine(),
-                  ),
-
-                  SizedBox(height: 10,),
-                  GestureDetector(
-                    onTap: ((){
-                      setState(() {
-                        Navigator.of(context).push(MaterialPageRoute(builder: (context) => CreateScheduleScreen()));
-                      });
-                    }),
-                    child: ButtonOutLine(),
-                  ),
+                  // SizedBox(height: 30,),
+                  // GestureDetector(
+                  //   onTap: refresh,
+                  //   child: ButtonOutLine(),
+                  // ),
+                  //
+                  // SizedBox(height: 10,),
+                  // GestureDetector(
+                  //   onTap: refreshadd,
+                  //   child: ButtonOutLine(),
+                  // ),
+                  //
+                  // SizedBox(height: 10,),
+                  // GestureDetector(
+                  //   onTap: ((){
+                  //     setState(() {
+                  //       Navigator.of(context).push(MaterialPageRoute(builder: (context) => CreateScheduleScreen()));
+                  //     });
+                  //   }),
+                  //   child: ButtonOutLine(),
+                  // ),
                 ],
               ),
 
@@ -131,6 +150,9 @@ class EvaluateBMIScreenState extends State<EvaluateBMIScreen> {
       else if(30 <= _BMI) return 5;
     }
   }
+
+  // Nam 2400
+  // Nu 2000
 
   String evaluateBmiText(double BMI){
     String _evaluateText = "";
@@ -172,6 +194,9 @@ class EvaluateBMIScreenState extends State<EvaluateBMIScreen> {
         });
       }break;
     }
+    setState(() {
+      CurrentUser.currentUser.bmiText = _evaluateText;
+    });
     return _evaluateText;
   }
 
@@ -184,6 +209,9 @@ class EvaluateBMIScreenState extends State<EvaluateBMIScreen> {
             _title = "Tăng cân từ từ";
             setState(() {
               _listIcon[0] = Icons.upgrade_sharp;
+              if (_gender == "Nam"){
+                goiCalo[0]=2500;
+              }else goiCalo[0]=2300;
             });
           }break;
 
@@ -191,6 +219,9 @@ class EvaluateBMIScreenState extends State<EvaluateBMIScreen> {
             _title = "Giữ vóc dáng";
             setState(() {
               _listIcon[0] = Icons.all_inclusive_sharp;
+              if (_gender == "Nam"){
+                goiCalo[0]=2500;
+              }else goiCalo[0]=2000;
             });
           }break;
 
@@ -198,6 +229,9 @@ class EvaluateBMIScreenState extends State<EvaluateBMIScreen> {
             _title = "Giảm cân";
             setState(() {
               _listIcon[0] = Icons.download_sharp;
+              if (_gender == "Nam"){
+                goiCalo[0]=2300;
+              }else goiCalo[0]=1800;
             });
           }break;
 
@@ -205,6 +239,9 @@ class EvaluateBMIScreenState extends State<EvaluateBMIScreen> {
             _title = "Giảm cân nhanh chóng";
             setState(() {
               _listIcon[0] = Icons.upload_sharp;
+              if (_gender == "Nam"){
+                goiCalo[0]=2000;
+              }else goiCalo[0]=1500;
             });
           }break;
 
@@ -212,6 +249,9 @@ class EvaluateBMIScreenState extends State<EvaluateBMIScreen> {
             _title = "Giảm cân nhanh chóng";
             setState(() {
               _listIcon[0] = Icons.upload_sharp;
+              if (_gender == "Nam"){
+                goiCalo[0]=2000;
+              }else goiCalo[0]=1500;
             });
           }break;
         }
@@ -223,6 +263,9 @@ class EvaluateBMIScreenState extends State<EvaluateBMIScreen> {
             _title = "Tăng cân nhanh chóng";
             setState(() {
               _listIcon[1] = Icons.warning_amber_sharp;
+              if (_gender == "Nam"){
+                goiCalo[1]=2800;
+              }else goiCalo[1]=2500;
             });
           }break;
 
@@ -230,6 +273,9 @@ class EvaluateBMIScreenState extends State<EvaluateBMIScreen> {
             _title = "Tăng cân hợp lý";
             setState(() {
               _listIcon[1] = Icons.upgrade_sharp;
+              if (_gender == "Nam"){
+                goiCalo[1]=2500;
+              }else goiCalo[1]=2300;
             });
           }break;
 
@@ -237,6 +283,9 @@ class EvaluateBMIScreenState extends State<EvaluateBMIScreen> {
             _title = "Giữ vóc dáng";
             setState(() {
               _listIcon[1] = Icons.all_inclusive_sharp;
+              if (_gender == "Nam"){
+                goiCalo[1]=2500;
+              }else goiCalo[1]=2000;
             });
           }break;
 
@@ -244,6 +293,9 @@ class EvaluateBMIScreenState extends State<EvaluateBMIScreen> {
             _title = "Giảm cân hợp lý";
             setState(() {
               _listIcon[1] = Icons.download_sharp;
+              if (_gender == "Nam"){
+                goiCalo[1]=2300;
+              }else goiCalo[1]=1800;
             });
           }break;
 
@@ -251,6 +303,9 @@ class EvaluateBMIScreenState extends State<EvaluateBMIScreen> {
             _title = "Giảm cân từ từ";
             setState(() {
               _listIcon[1] = Icons.download_sharp;
+              if (_gender == "Nam"){
+                goiCalo[1]=2000;
+              }else goiCalo[1]=1800;
             });
           }break;
         }
@@ -269,6 +324,9 @@ class EvaluateBMIScreenState extends State<EvaluateBMIScreen> {
             _title = "Tăng cân nhanh chóng";
             setState(() {
               _listIcon[2] = Icons.warning_amber_sharp;
+              if (_gender == "Nam"){
+                goiCalo[2]=2800;
+              }else goiCalo[2]=2500;
             });
           }break;
 
@@ -276,6 +334,9 @@ class EvaluateBMIScreenState extends State<EvaluateBMIScreen> {
             _title = "Tăng cân";
             setState(() {
               _listIcon[2] = Icons.upgrade_sharp;
+              if (_gender == "Nam"){
+                goiCalo[2]=2500;
+              }else goiCalo[2]=2300;
             });
           }break;
 
@@ -283,6 +344,9 @@ class EvaluateBMIScreenState extends State<EvaluateBMIScreen> {
             _title = "Giữ vóc dáng";
             setState(() {
               _listIcon[2] = Icons.warning_amber_sharp;
+              if (_gender == "Nam"){
+                goiCalo[2]=2500;
+              }else goiCalo[2]=2000;
             });
           }break;
 

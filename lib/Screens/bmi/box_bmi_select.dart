@@ -1,13 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-Widget boxBMISelect(String _textChoice, Color _backgroundColor, IconData _icon){
+Widget boxBMISelect(String _textChoice, DecorationImage _backgroundColor, IconData _icon){
   return Container(
     // margin: EdgeInsets.only(left: 30, top: 100, right: 30, bottom: 50),
-    height: 100,
+    height: 120,
     width: 300,
     decoration: BoxDecoration(
-      color: _backgroundColor,
+      image: _backgroundColor,
       borderRadius: BorderRadius.all(Radius.circular(25)),
       boxShadow: [
         BoxShadow(
@@ -34,7 +34,7 @@ Widget boxBMISelect(String _textChoice, Color _backgroundColor, IconData _icon){
             style: TextStyle(
               color: Colors.white,
               fontWeight: FontWeight.bold,
-              fontSize: 20,
+              fontSize: 25,
             ),
           ),
         ),

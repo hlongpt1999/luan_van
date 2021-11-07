@@ -90,27 +90,20 @@ class MyDrawerState extends State<MyDrawer>{
                   Container(
                     child: Row(
                       children: [
-
                         SizedBox(width: 25,),
-
-                        Text(
-                          "BMI = " + CurrentUser.currentUser.bmi.toString() + "\n" + CurrentUser.currentUser.bmiText ,
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
-                            fontSize: 20,
+                        Flexible(
+                          child: Text(
+                            "BMI = " + CurrentUser.currentUser.bmi.toStringAsFixed(2).toString() + "\n" + CurrentUser.currentUser.bmiText ,
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                              fontSize: 15,
+                            ),
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 3,
                           ),
                         ),
-
-                        Text(
-                          CurrentUser.currentUser.bmi ?? " ",
-                          //TODO: BMI index
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
-                            fontSize: 20,
-                          ),
-                        ),
+                        SizedBox(width: 25,),
                       ],
                     ),
                   ),
@@ -202,12 +195,8 @@ class MyDrawerState extends State<MyDrawer>{
                 child: Text("Không"),
               ),
               FlatButton(
-                onPressed: () async {
-                  CurrentUser.currentUser = UserModel();
-                  SharedPreferences pref = await SharedPreferences.getInstance();
-                  pref.remove(Const.LOGIN_PREF);
-                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => LoginScreen()));
-                  logOut();
+                onPressed: (){
+                  onLogOut(context);
                 },
                 child: Text("Có"),
               ),
@@ -215,9 +204,5 @@ class MyDrawerState extends State<MyDrawer>{
           ),
       );
     });
-  }
-
-  Future logOut() async {
-    await FirebaseAuth.instance.signOut();
   }
 }

@@ -42,22 +42,28 @@ class MyAppState extends State<MyApp> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    getFoods();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: GestureDetector(
-          onTap: (){
-            ProgressLoading().showLoading(context);
-            getFoods();
-          },
-          child: Container(
-            color: Colors.blue,
-            height: 300,
-            width: 300,
-            child: Text("Nút"),
-          ),
-        ),
-      ),
+      // body: Center(
+      //   child: GestureDetector(
+      //     onTap: (){
+      //       ProgressLoading().showLoading(context);
+      //       getFoods();
+      //     },
+      //     child: Container(
+      //       color: Colors.blue,
+      //       height: 300,
+      //       width: 300,
+      //       child: Text("Nút"),
+      //     ),
+      //   ),
+      // ),
     );
   }
 }

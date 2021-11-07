@@ -7,7 +7,7 @@ class UserModel{
   double height = 0;
   double weight = 0;
   String address = "";
-  String role = "";
+  String role = "";//user, docter, admin
   String avatar = "";
   String email = "";
   String phone = "";

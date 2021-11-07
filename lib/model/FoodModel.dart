@@ -8,7 +8,7 @@ class FoodModel{
   double calo100g = 0;
   int priority = 0; //1 = calo ít, 2 =... , 5=calo cực cao
   String foodImage = "";
-  int quantity = 1;
+  double quantity = 1;
 
   FoodModel({this.idFood, this.name, this.type, this.vitamin, this.calo100g,
       this.priority, this.foodImage, this.quantity});

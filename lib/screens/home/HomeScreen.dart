@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:luan_van/components/Constants.dart';
+import 'package:luan_van/screens/home/components/DietListView.dart';
 import 'package:luan_van/screens/home/components/TabHomeScreen.dart';
 import 'package:flutter_slider_drawer/flutter_slider_drawer.dart';
 import 'package:luan_van/screens/home/components/TabStatisticalScreen.dart';
@@ -134,6 +135,7 @@ class HomeScreenState extends State<HomeScreen> {
                     _selectedIndex = index;
                     _pageController.jumpToPage(index);
                     title = _bottomBarTitle[index];
+                    getData();
                   });
                 }),
           ),

@@ -15,6 +15,8 @@ import 'package:luan_van/screens/signup/SignUpScreen.dart';
 import 'package:toast/toast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'Login.dart';
+
 class LoginScreen extends StatefulWidget{
   @override
   State<StatefulWidget> createState() {
@@ -72,7 +74,10 @@ class LoginScreenState extends State<LoginScreen>{
         _isPassError = false;
         await getData(value.user.uid).whenComplete(() async{
           ProgressLoading().hideLoading(context);
-          Navigator.push(context, MaterialPageRoute(builder: (context) => HomeScreen()));
+          if(CurrentUser.currentUser.role == "doctor")
+            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => MyApp()));
+          else
+            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => BMIScreen()));
         });
       });
     }on FirebaseAuthException catch (error){

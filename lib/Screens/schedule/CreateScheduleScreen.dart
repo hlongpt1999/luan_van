@@ -244,12 +244,12 @@ class CreateScheduleScreenState extends State<CreateScheduleScreen> {
             Center(
               child: GestureDetector(
                 onTap: (){
-                  testNotification();
-                  // onNextClick(context);
+                  // testNotification();
+                  onNextClick(context);
                   // _showNotificationWithoutSound();
                   // _showNotificationWithDefaultSound();
 
-                  // Navigator.of(context).push(MaterialPageRoute(builder: (context) => MyApp()));
+                  // Navigator.of(context).push(MaterialPageRoute(builder: (context) => HomeScreen()));
                 },
                 child: Container(
                   padding: EdgeInsets.only(top: _sizeBox),

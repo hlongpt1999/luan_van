@@ -7,6 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:luan_van/ThemFood.dart';
 import 'package:luan_van/screens/bmi/BMIScreen.dart';
+import 'package:luan_van/screens/bmi/EvaluateBMIScreen.dart';
 import 'package:luan_van/screens/home/HomeScreen.dart';
 import 'package:luan_van/screens/login/Login.dart';
 import 'package:luan_van/screens/schedule/CreateScheduleScreen.dart';
@@ -39,7 +40,7 @@ void main() {
     await Firebase.initializeApp();
     runApp(
         MaterialApp(
-          home: MyApp(),
+          home: SplashScreen(),
         )
     );
   });
@@ -70,13 +71,17 @@ class SplashScreenState extends State<SplashScreen>{
           CurrentUser.currentUser.avatar = data['avatar'];
           CurrentUser.currentUser.id = data['id'];
           CurrentUser.currentUser.role = data['role'];
+          CurrentUser.currentUser.bmi = data['bmi'];
         });
         // runApp(
         //     new MaterialApp(
         //       home: HomeScreen(),
         //     )
         // );
-        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomeScreen()));
+        if(CurrentUser.currentUser.role == "doctor")
+          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => MyApp()));
+        else
+          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomeScreen()));
       }).onError((error, stackTrace){
         // runApp(
         //     new MaterialApp(

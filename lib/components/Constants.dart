@@ -1,6 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:luan_van/model/FoodModel.dart';
 import 'package:luan_van/model/User.dart';
+import 'package:luan_van/screens/login/LoginScreen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Const{
   static final String LOGIN_PREF = "LoginPref";
@@ -62,4 +65,16 @@ class CurrentUser {
   static UserModel currentUser = UserModel();
   static List<FoodModel> listFood = [];
   static List<String> listFoodString = [];
+  static int totalCaloDate = 0;
+}
+
+Future<void> onLogOut(BuildContext context) async {
+  CurrentUser.currentUser = new UserModel();
+  CurrentUser.listFood = [];
+  CurrentUser.listFoodString = [];
+  CurrentUser.totalCaloDate = 0;
+  SharedPreferences pref = await SharedPreferences.getInstance();
+  pref.remove(Const.LOGIN_PREF);
+  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => LoginScreen()));
+  await FirebaseAuth.instance.signOut();
 }
