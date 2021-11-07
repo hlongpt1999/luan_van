@@ -6,6 +6,9 @@ import 'package:luan_van/screens/login/LoginScreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Const{
+  static final String VERSION = "Beta version 1.0";
+  static final String VERSION_DATE = "07/11/2021";
+
   static final String LOGIN_PREF = "LoginPref";
   static int colorMainPaint = 0xffff9900;
   static int colorMiddlePaint = 0x12345678;
