@@ -6,10 +6,11 @@ import 'package:luan_van/screens/login/LoginScreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Const{
-  static final String VERSION = "Beta version 1.0";
+  static final String VERSION = "Beta version 1.0.2";
   static final String VERSION_DATE = "07/11/2021";
-
   static final String LOGIN_PREF = "LoginPref";
+
+  static String KEY_FROM = "";
   static int colorMainPaint = 0xffff9900;
   static int colorMiddlePaint = 0x12345678;
   static int colorLowPaint = 0x87654321;
@@ -78,6 +79,7 @@ Future<void> onLogOut(BuildContext context) async {
   CurrentUser.totalCaloDate = 0;
   SharedPreferences pref = await SharedPreferences.getInstance();
   pref.remove(Const.LOGIN_PREF);
+  pref.clear();
   Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => LoginScreen()));
   await FirebaseAuth.instance.signOut();
 }

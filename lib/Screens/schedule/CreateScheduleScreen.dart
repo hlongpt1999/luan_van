@@ -18,8 +18,7 @@ class CreateScheduleScreen extends StatefulWidget {
 
 List<String> _listDate = MyList().listDate;
 var _listColorTitle = MyList().listColorTitle;
-
-List<DateMealModel> _listMeal = MockData().listMeal;
+List<DateMealModel> _listMeal = MockData.listMeal2;
 
 class CreateScheduleScreenState extends State<CreateScheduleScreen> {
   double _sizeHeightSchedule = 250,
@@ -71,39 +70,6 @@ class CreateScheduleScreenState extends State<CreateScheduleScreen> {
     // DateTime schedule = DateTime.now().add(Duration(seconds: 1));
     // await flutterLocalNotificationsPlugin.zonedSchedule(0, "test" ,"testda", schedule, platformChannelSpecifics);
   }
-
-  // Future _showNotificationWithDefaultSound() async {
-  //   var androidPlatformChannelSpecifics = new AndroidNotificationDetails(
-  //       'your channel id', 'your channel name', channelDescription: 'your channel description',
-  //       importance: Importance.max, priority: Priority.high);
-  //   var iOSPlatformChannelSpecifics = new IOSNotificationDetails();
-  //   var platformChannelSpecifics = new NotificationDetails(
-  //       android: androidPlatformChannelSpecifics,iOS: iOSPlatformChannelSpecifics);
-  //   await flutterLocalNotificationsPlugin.show(
-  //     0,
-  //     'Default Notification',
-  //     'Đây là thông báo với default sound và default icon',
-  //     platformChannelSpecifics,
-  //     payload: 'Default_Sound',
-  //   );
-  // }
-  //
-  // Future _showNotificationWithoutSound() async {
-  //   var androidPlatformChannelSpecifics = new AndroidNotificationDetails(
-  //       'your channel id', 'your channel name', channelDescription: 'your channel description',
-  //       playSound: false, importance: Importance.max, priority: Priority.high);
-  //   var iOSPlatformChannelSpecifics =
-  //   new IOSNotificationDetails(presentSound: false);
-  //   var platformChannelSpecifics = new NotificationDetails(
-  //       android: androidPlatformChannelSpecifics, iOS: iOSPlatformChannelSpecifics);
-  //   await flutterLocalNotificationsPlugin.show(
-  //     0,
-  //     'Notification',
-  //     'Đây là thông báo không có sound và default icon',
-  //     platformChannelSpecifics,
-  //     payload: 'No_Sound',
-  //   );
-  // }
 
   Future onSelectNotification(String payload) async {
     showDialog(
@@ -245,7 +211,9 @@ class CreateScheduleScreenState extends State<CreateScheduleScreen> {
               child: GestureDetector(
                 onTap: (){
                   // testNotification();
+
                   onNextClick(context);
+
                   // _showNotificationWithoutSound();
                   // _showNotificationWithDefaultSound();
 
@@ -327,7 +295,9 @@ class CreateScheduleScreenState extends State<CreateScheduleScreen> {
         TableRow(children: [
           Column(children: [
             Text(
-              rowData.quantity>=10 ? (rowData.quantity/10).toString() + "kg" : (rowData.quantity * 100).toString() + "g",
+              rowData.quantity != null
+              ? (rowData.quantity>=1000 ? (rowData.quantity/1000).toString() + "kg" : rowData.quantity.toString() + "g")//TODO
+              : "giá trị null",
               style: TextStyle(
                 fontSize: _sizeTextDetail,
               ),
@@ -343,7 +313,9 @@ class CreateScheduleScreenState extends State<CreateScheduleScreen> {
           ]),
           Column(children: [
             Text(
-              (rowData.calo100g * rowData.quantity).round().toString(),
+              (rowData.calo100g!=null && rowData.quantity!=null)
+              ? ((rowData.calo100g * rowData.quantity/100).round().toString())//TODO
+              : "Giá trị null",
               style: TextStyle(
                 fontSize: _sizeTextDetail,
               ),
@@ -395,10 +367,10 @@ class CreateScheduleScreenState extends State<CreateScheduleScreen> {
                   1: FlexColumnWidth(5),
                   2: FlexColumnWidth(3),
                 },
-                border: TableBorder.all(
-                    color: Colors.black,
-                    style: BorderStyle.solid,
-                    width: 2),
+                // border: TableBorder.all(
+                //     color: Colors.black,
+                //     style: BorderStyle.solid,
+                //     width: 0),
                 children: rows,
               ),
             ),

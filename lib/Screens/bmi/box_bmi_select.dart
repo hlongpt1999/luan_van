@@ -20,14 +20,27 @@ Widget boxBMISelect(String _textChoice, DecorationImage _backgroundColor, IconDa
     ),
     child: Row(
       children: <Widget>[
-        Padding(
-          padding: const EdgeInsets.all(10.0),
+        SizedBox(width: 5,),
+        Container(
+          padding: const EdgeInsets.all(5.0),
           child: new Icon(
             _icon,
             size: 50,
           ),
+          decoration: BoxDecoration(
+            boxShadow: <BoxShadow>[
+              BoxShadow(
+                  color: Colors.black
+                      .withOpacity(0.6),
+                  offset: const Offset(1.1, 4.0),
+                  blurRadius: 8.0),
+            ],
+            borderRadius: BorderRadius.all(Radius.circular(180),),
+            color: Colors.white,
+          ),
         ),
 
+        SizedBox(width: 5,),
         Flexible(
           child: Text(
             _textChoice,
@@ -35,6 +48,18 @@ Widget boxBMISelect(String _textChoice, DecorationImage _backgroundColor, IconDa
               color: Colors.white,
               fontWeight: FontWeight.bold,
               fontSize: 25,
+              shadows: <Shadow>[
+                Shadow(
+                  offset: Offset(0,0),
+                  blurRadius: 15.0,
+                  color: Color.fromARGB(255, 0, 0, 0),
+                ),
+                Shadow(
+                  offset: Offset(0,0),
+                  blurRadius: 20.0,
+                  color: Color.fromARGB(125, 255, 0, 0),
+                ),
+              ],
             ),
           ),
         ),

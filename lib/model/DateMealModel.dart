@@ -2,11 +2,19 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:luan_van/model/FoodModel.dart';
 
 class DateMealModel {
-  double id = 0;
+  int id = 0;
   int caloDate = 0;
   List<FoodModel> foods = [];
 
   DateMealModel({this.id, this.caloDate, this.foods});
+
+  DateMealModel.fromJson(Map<String, dynamic> json){
+    id = json["id"];
+    caloDate = json["caloDate"];
+    var messages = List<Map<String, dynamic>>.from(json["foods"] as List<dynamic>);
+    foods = messages.map((m) => FoodModel.fromJson(m)).toList();
+    // foods = FoodModel.fromJson(json["foods"]).toList();
+  }
 
   Map<String, dynamic> toMap() {
     List foodMap = [];

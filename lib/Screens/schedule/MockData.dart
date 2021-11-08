@@ -2,7 +2,8 @@ import 'package:luan_van/model/DateMealModel.dart';
 import 'package:luan_van/model/FoodModel.dart';
 
 class MockData{
-  List<DateMealModel> listMeal = [date1, date2, date3, date4, date5, date6, date7];
+  // List<DateMealModel> listMeal = [date1, date2, date3, date4, date5, date6, date7];
+  static List<DateMealModel> listMeal2 = [];
 
   static DateMealModel date1 = new DateMealModel(id: 1, caloDate: 1245, foods: dateMeal1);
   static List<FoodModel> dateMeal1 =<FoodModel>[food1, food2,food3,food4];

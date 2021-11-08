@@ -5,6 +5,7 @@ import 'package:luan_van/resources/background_painter_circle.dart';
 import 'package:luan_van/resources/button_outline.dart';
 import 'package:luan_van/resources/styles.dart';
 import 'package:luan_van/screens/bmi/box_bmi_select.dart';
+import 'package:luan_van/screens/login/Login.dart';
 import 'package:luan_van/screens/schedule/CreateScheduleScreen.dart';
 
 class EvaluateBMIScreen extends StatefulWidget{
@@ -81,7 +82,9 @@ class EvaluateBMIScreenState extends State<EvaluateBMIScreen> {
                   SizedBox(height: 20,),
                   GestureDetector(
                     onTap: (){
-                      Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => CreateScheduleScreen()));
+
+                      Const.KEY_FROM = FROM_BMI;
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => MyApp()));
                       CurrentUser.totalCaloDate = goiCalo[0];
                     },
                     child: boxBMISelect(showTitleChoice(1), foodBackground, _listIcon[0])
@@ -90,7 +93,8 @@ class EvaluateBMIScreenState extends State<EvaluateBMIScreen> {
                   SizedBox(height: 30,),
                   GestureDetector(
                     onTap: (){
-                      Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => CreateScheduleScreen()));
+                      Const.KEY_FROM = FROM_BMI;
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => MyApp()));
                       CurrentUser.totalCaloDate = goiCalo[1];
                     },
                     child: boxBMISelect(showTitleChoice(2), balanceBackground, _listIcon[1]),
@@ -99,32 +103,12 @@ class EvaluateBMIScreenState extends State<EvaluateBMIScreen> {
                   if(_isShowChoice) SizedBox(height: 30,),
                   if(_isShowChoice) GestureDetector(
                       onTap: (){
-                        Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => CreateScheduleScreen()));
+                        Const.KEY_FROM = FROM_BMI;
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => MyApp()));
+                        // Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => CreateScheduleScreen()));
                         CurrentUser.totalCaloDate = goiCalo[2];
                       },
                       child: boxBMISelect(showTitleChoice(3), gymBackground, _listIcon[2]),),
-
-                  // SizedBox(height: 30,),
-                  // GestureDetector(
-                  //   onTap: refresh,
-                  //   child: ButtonOutLine(),
-                  // ),
-                  //
-                  // SizedBox(height: 10,),
-                  // GestureDetector(
-                  //   onTap: refreshadd,
-                  //   child: ButtonOutLine(),
-                  // ),
-                  //
-                  // SizedBox(height: 10,),
-                  // GestureDetector(
-                  //   onTap: ((){
-                  //     setState(() {
-                  //       Navigator.of(context).push(MaterialPageRoute(builder: (context) => CreateScheduleScreen()));
-                  //     });
-                  //   }),
-                  //   child: ButtonOutLine(),
-                  // ),
                 ],
               ),
 
@@ -360,19 +344,5 @@ class EvaluateBMIScreenState extends State<EvaluateBMIScreen> {
       }break;
     }
     return _title;
-  }
-
-  void refresh(){
-    setState(() {
-      _BMI --;
-      initState();
-    });
-  }
-
-  void refreshadd(){
-    setState(() {
-      _BMI ++;
-      initState();
-    });
   }
 }

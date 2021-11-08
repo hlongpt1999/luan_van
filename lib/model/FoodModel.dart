@@ -8,10 +8,21 @@ class FoodModel{
   double calo100g = 0;
   int priority = 0; //1 = calo ít, 2 =... , 5=calo cực cao
   String foodImage = "";
-  double quantity = 1;
+  int quantity = 1;
 
   FoodModel({this.idFood, this.name, this.type, this.vitamin, this.calo100g,
       this.priority, this.foodImage, this.quantity});
+
+  FoodModel.fromJson(Map<String, dynamic> json){
+    idFood = json["idFood"];
+    name = json["name"];
+    type = json["type"];
+    calo100g = double.parse(json["calo100g"].toString());
+    vitamin = json["vitamin"];
+    priority = json["priority"];
+    foodImage = json["foodImage"];
+    quantity = json["quantity"];
+  }
 
   Map<String, dynamic> toMap(){
     return {
