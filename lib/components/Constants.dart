@@ -70,6 +70,7 @@ class CurrentUser {
   static List<FoodModel> listFood = [];
   static List<String> listFoodString = [];
   static int totalCaloDate = 0;
+  static UserModel userConnect = UserModel();
 }
 
 Future<void> onLogOut(BuildContext context) async {

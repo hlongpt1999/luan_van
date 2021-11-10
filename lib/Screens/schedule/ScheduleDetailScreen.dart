@@ -95,7 +95,7 @@ List<List<int>> indexFood = [
   [0,0,0,0,0,0,0,0,0,0]
 ];
 
-List<List<double>> indexQuanlity = [
+List<List<int>> indexQuanlity = [
   [0,0,0,0,0,0,0,0,0,0],
   [0,0,0,0,0,0,0,0,0,0],
   [0,0,0,0,0,0,0,0,0,0],
@@ -107,6 +107,8 @@ List<List<double>> indexQuanlity = [
 
 List<int> itemLength = [1,1,1,1,1,1,1,1,1,1];
 
+
+//TODO: CHECK NULL CHO CÁC Ô. ĐỂ DỮ LIỆU K LỖI
 class ScheduleDetailScreenState extends State<ScheduleDetailScreen>{
   double _marginBottom = 30;
   double _marginHor = 10;
@@ -173,18 +175,25 @@ class ScheduleDetailScreenState extends State<ScheduleDetailScreen>{
     List<FoodModel> date7= [];
     for (int i=0; i< itemLength[0]; i++){
       date1.add(CurrentUser.listFood[indexFood[0][i]]);
+      date1[i].quantity=indexQuanlity[0][i];
     }for (int i=0; i< itemLength[1]; i++){
       date2.add(CurrentUser.listFood[indexFood[1][i]]);
+      date2[i].quantity=indexQuanlity[1][i];
     }for (int i=0; i< itemLength[2]; i++){
       date3.add(CurrentUser.listFood[indexFood[2][i]]);
+      date3[i].quantity=indexQuanlity[2][i];
     }for (int i=0; i< itemLength[3]; i++){
       date4.add(CurrentUser.listFood[indexFood[3][i]]);
+      date4[i].quantity=indexQuanlity[3][i];
     }for (int i=0; i< itemLength[4]; i++){
       date5.add(CurrentUser.listFood[indexFood[4][i]]);
+      date5[i].quantity=indexQuanlity[4][i];
     }for (int i=0; i< itemLength[5]; i++){
       date6.add(CurrentUser.listFood[indexFood[5][i]]);
+      date6[i].quantity=indexQuanlity[5][i];
     }for (int i=0; i< itemLength[6]; i++){
       date7.add(CurrentUser.listFood[indexFood[6][i]]);
+      date7[i].quantity=indexQuanlity[6][i];
     }
 
     FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
@@ -428,8 +437,8 @@ class ScheduleDetailScreenState extends State<ScheduleDetailScreen>{
 
     void updateCalo(String text, int index){
       setState(() {
-        indexQuanlity[i][index] = text.isEmpty ? 0 : double.parse(text)/100;
-        foodNumberCalo[i][index] = indexQuanlity[i][index] * CurrentUser.listFood[indexFood[i][index]].calo100g;
+        indexQuanlity[i][index] = text.isEmpty ? 0 : int.parse(text);
+        foodNumberCalo[i][index] = (indexQuanlity[i][index] * CurrentUser.listFood[indexFood[i][index]].calo100g)/100;
       });
     }
 
@@ -510,7 +519,7 @@ class ScheduleDetailScreenState extends State<ScheduleDetailScreen>{
                         setState(() {
                           foodValue[i][index] = data1;
                           indexFood[i][index] = CurrentUser.listFoodString.indexOf(data1);
-                          foodNumberCalo[i][index] = indexQuanlity[i][index] * CurrentUser.listFood[indexFood[i][index]].calo100g;
+                          foodNumberCalo[i][index] = (indexQuanlity[i][index] * CurrentUser.listFood[indexFood[i][index]].calo100g)/100;
                         });
                       },
                       items: CurrentUser.listFoodString.map<DropdownMenuItem<String>>((String value1) {

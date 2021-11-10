@@ -29,7 +29,26 @@ class UserModel{
       this.email,
       this.phone,
       this.password,
-      this.bmi});
+      this.bmi,
+      this.bmiText});
+
+  UserModel.fromJson(Map<String, dynamic> json){
+    id = json["id"] ?? "";
+    name = json["name"] ?? "";
+    sex = json["sex"] ?? "";
+    birthday = json["birthday"] ?? 0.0;
+    bornYear = json["bornYear"] ?? 0;
+    height = json["height"] ?? 0.0;
+    weight = json["weight"] ?? 0.0;
+    address = json["address"] ?? "";
+    role = json["role"] ?? "";
+    avatar = json["avatar"] ?? "";
+    email = json["email"] ?? "";
+    phone = json["phone"] ?? "";
+    password = json["password"] ?? "";
+    bmi = json["bmi"] ?? 0.0;
+    bmiText = json["bmiText"] ?? "";
+  }
 
   Map<String, dynamic> toMap() {
     return {

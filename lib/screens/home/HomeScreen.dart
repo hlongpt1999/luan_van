@@ -6,6 +6,7 @@ import 'package:luan_van/components/Constants.dart';
 import 'package:luan_van/screens/home/components/DietListView.dart';
 import 'package:luan_van/screens/home/components/TabHomeScreen.dart';
 import 'package:flutter_slider_drawer/flutter_slider_drawer.dart';
+import 'package:luan_van/screens/home/components/TabMessageScreen.dart';
 import 'package:luan_van/screens/home/components/TabStatisticalScreen.dart';
 
 import 'components/MyDrawer.dart';
@@ -54,12 +55,7 @@ class HomeScreenState extends State<HomeScreen> {
         style: optionStyle,
       ),
     ),
-    Expanded(
-      child: Text(
-        'Search',
-        style: optionStyle,
-      ),
-    ),
+    TabMessageScreen(),
    TabStatisticalScreen(),
   ];
 

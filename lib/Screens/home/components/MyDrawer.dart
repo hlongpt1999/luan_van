@@ -93,7 +93,7 @@ class MyDrawerState extends State<MyDrawer>{
                         SizedBox(width: 25,),
                         Flexible(
                           child: Text(
-                            "BMI = " + CurrentUser.currentUser.bmi.toStringAsFixed(2).toString() + "\n" + CurrentUser.currentUser.bmiText ,
+                            "BMI = " + CurrentUser.currentUser.bmi.toStringAsFixed(2).toString() ,
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
                               color: Colors.white,

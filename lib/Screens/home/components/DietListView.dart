@@ -21,7 +21,7 @@ Future getData() async{
   for (var i=0;i<listPrefData.length;i++) {
     var name = listPrefData[i];
     List<String> listPrefData2 = pref.getStringList(name);
-    FoodModel foodModel = FoodModel(name: name, calo100g: double.parse(listPrefData2[0]), quantity: double.parse(listPrefData2[1]));
+    FoodModel foodModel = FoodModel(name: name, calo100g: double.parse(listPrefData2[0]), quantity: int.parse(listPrefData2[1]));
     listData.add(foodModel);
   }
 }
@@ -140,7 +140,7 @@ class MealsView extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: <Widget>[
                             Text(
-                              (foodModel.quantity * foodModel.calo100g).round().toString(),
+                              (foodModel.quantity/100 * foodModel.calo100g).round().toString(),
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                 fontFamily: AppTheme.fontName,

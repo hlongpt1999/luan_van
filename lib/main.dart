@@ -13,14 +13,36 @@ import 'package:luan_van/screens/login/Login.dart';
 import 'package:luan_van/screens/schedule/CreateScheduleScreen.dart';
 import 'package:luan_van/screens/schedule/ScheduleDetailScreen.dart';
 import 'package:luan_van/screens/signup/SignUpScreen.dart';
+import 'package:luan_van/testChat.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'components/Constants.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'screens/login/LoginScreen.dart';
 import 'dart:math' as math;
 import 'package:cron/cron.dart';
+import 'dart:async';
+import 'package:firebase_messaging/firebase_messaging.dart';
 
-void main() {
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  await Firebase.initializeApp();
+  print('A bg message just showed up :  ${message.messageId}');
+}
+
+Future<void> main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+
+  await flutterLocalNotificationsPlugin
+      .resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>()
+      ?.createNotificationChannel(channel);
+
+  await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
+    alert: true,
+    badge: true,
+    sound: true,
+  );
+
 
   //TODO: Code mẫu cho hẹn giờ xử lý công việc.
   var cron = new Cron();
