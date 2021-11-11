@@ -8,6 +8,7 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:luan_van/ThemFood.dart';
 import 'package:luan_van/screens/bmi/BMIScreen.dart';
 import 'package:luan_van/screens/bmi/EvaluateBMIScreen.dart';
+import 'package:luan_van/screens/home/DoctorHomeScreen.dart';
 import 'package:luan_van/screens/home/HomeScreen.dart';
 import 'package:luan_van/screens/login/Login.dart';
 import 'package:luan_van/screens/schedule/CreateScheduleScreen.dart';
@@ -62,7 +63,7 @@ Future<void> main() async{
     await Firebase.initializeApp();
     runApp(
         MaterialApp(
-          home: SplashScreen(),
+          home: DoctorHomeScreen(),
         )
     );
   });
