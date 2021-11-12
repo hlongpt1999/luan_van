@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:luan_van/components/Constants.dart';
 import 'package:luan_van/model/ChatModel.dart';
+import 'package:luan_van/screens/home/components/TabMessageScreen.dart';
+import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 
 class ChatScreen extends StatefulWidget{
   @override
@@ -66,6 +68,13 @@ class ChatScreenState extends State<ChatScreen>{
 
     textEditingController.text = "";
 
+    LastMessage lastMessage = LastMessage(
+      name: CurrentUser.userConnect.name,
+      avatar: CurrentUser.userConnect.avatar,
+      content: content,
+      time: time,
+      isMe: true,
+    );
     ChatModel chatModel = ChatModel(
         idSender: idSender,
         content: content,
@@ -73,7 +82,20 @@ class ChatScreenState extends State<ChatScreen>{
         isMe: true,
     );
     await firebaseFirestore.collection('users').doc(idSender).collection(idReceiver).add(chatModel.toMap());
+    print("111111");
+    await firebaseFirestore.collection('users').doc(idSender).collection("lastMessage").doc(idReceiver).set(lastMessage.toMap());
+    print("222222");
 
+    var ref = firebase_storage.FirebaseStorage.instance.ref(CurrentUser.currentUser.avatar);
+    String avatar = await ref.getDownloadURL();
+
+    LastMessage lastMessageReceiver = LastMessage(
+      name: CurrentUser.currentUser.name,
+      avatar: avatar,
+      content: content,
+      time: time,
+      isMe: true,
+    );
     ChatModel chatForReceiver = ChatModel(
       idSender: idSender,
       content: content,
@@ -81,6 +103,9 @@ class ChatScreenState extends State<ChatScreen>{
       isMe: false,
     );
     await firebaseFirestore.collection('users').doc(idReceiver).collection(idSender).add(chatForReceiver.toMap());
+    print("33333");
+    await firebaseFirestore.collection('users').doc(idReceiver).collection("lastMessage").doc(idSender).set(lastMessageReceiver.toMap());
+    print("44444");
   }
 
   @override

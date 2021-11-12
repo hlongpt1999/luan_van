@@ -1,27 +1,25 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:luan_van/components/Constants.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:luan_van/model/ChatModel.dart';
-import 'package:luan_van/model/User.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
-import 'package:luan_van/resources/styles.dart';
+import 'package:luan_van/model/User.dart';
 
 import 'ChatScreen.dart';
+import 'TabMessageScreen.dart';
 
-List<UserModel> listUser = [];
-
-class TabMessageScreen extends StatefulWidget{
+class DoctorMessageScreen extends StatefulWidget{
   @override
-  State<StatefulWidget> createState() => TabMessageScreenState();
+  State<StatefulWidget> createState() => DoctorMessageScreenState();
 }
 
-class TabMessageScreenState extends State<TabMessageScreen>{
+List<UserModel> listUser = [];
+List<LastMessage> listChat = [];
+
+class DoctorMessageScreenState extends State<DoctorMessageScreen>{
   final fireStore = FirebaseFirestore.instance;
-  List<LastMessage> listChat = [];
   Future<List<UserModel>> _dataFuture;
   Future<List<UserModel>> getUser() async {
     //TODO: Lọc đối tượng chat là bác sĩ.
@@ -37,14 +35,13 @@ class TabMessageScreenState extends State<TabMessageScreen>{
             for (int i=0; i< listUser.length ;i++){
               if(user.id == listUser[i].id) hasData = true;
             }
-            if(!hasData && user.id != CurrentUser.currentUser.id && user.role == "doctor")
-            setState(() {
-              listUser.add(user);
-            });
+            if(!hasData && user.id != CurrentUser.currentUser.id && user.role == "admin")
+              setState(() {
+                listUser.add(user);
+              });
           });
         }
     );
-    return listUser;
   }
 
   Future<void> getUserInfo(String id, String avatarUrl) async{
@@ -84,112 +81,123 @@ class TabMessageScreenState extends State<TabMessageScreen>{
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Colors.blue,
-      alignment: Alignment.bottomLeft,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          Container(
-            padding: EdgeInsets.only(left: 15),
-            child: Text("Nhắn tin tư vấn\nvới chuyên gia",
-              style: GoogleFonts.aBeeZee(
-                // textStyle: Theme.of(context).textTheme.headline4,
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-                fontSize: MediaQuery.of(context).size.height/30,
+    return Scaffold(
+      appBar: AppBar(
+        leading: IconButton(
+            onPressed: (){
+              Navigator.of(context).pop();
+            },
+            icon: Icon(Icons.arrow_back_rounded)),
+        title: Center(child: Text("NHẮN TIN")),
+        actions: [
+          SizedBox(width: 40),
+        ],
+        backgroundColor: HexColor("392950"),
+      ),
+      body: Container(
+        color: Colors.blue,
+        alignment: Alignment.bottomLeft,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            Container(
+              padding: EdgeInsets.only(left: 15),
+              child: Text("Admin: ",
+                style: GoogleFonts.aBeeZee(
+                  // textStyle: Theme.of(context).textTheme.headline4,
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                  fontSize: MediaQuery.of(context).size.height/30,
+                ),
               ),
             ),
-          ),
 
-          SizedBox(height: 10,),
+            SizedBox(height: 10,),
 
-          FutureBuilder(
-            future: _dataFuture,
-            builder: (BuildContext context, AsyncSnapshot snapshot){
-              return Container(
-                // padding: EdgeInsets.only(left: 20),
-                height: MediaQuery.of(context).size.height/15,
-                width: double.infinity,
-                child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: listUser.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    return GestureDetector(
-                      onTap: (){
-                        setState(() {
-                          CurrentUser.userConnect = listUser[index];
-                        });
-                        Navigator.of(context).push(MaterialPageRoute(builder: (context) => ChatScreen()));
-                      },
-                      child: Row(
-                        children: [
-                          SizedBox(width: 20,),
-                          Container(
-                            width: MediaQuery.of(context).size.height/15,
-                            height: MediaQuery.of(context).size.height/15,
-                            decoration: BoxDecoration(
-                                color: Colors.red,
-                                borderRadius: BorderRadius.all(Radius.circular(180))
+            FutureBuilder(
+              future: _dataFuture,
+              builder: (BuildContext context, AsyncSnapshot snapshot){
+                return Container(
+                  // padding: EdgeInsets.only(left: 20),
+                  height: MediaQuery.of(context).size.height/15,
+                  width: double.infinity,
+                  child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: listUser.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return GestureDetector(
+                        onTap: (){
+                          setState(() {
+                            CurrentUser.userConnect = listUser[index];
+                          });
+                          Navigator.of(context).push(MaterialPageRoute(builder: (context) => ChatScreen()));
+                        },
+                        child: Row(
+                          children: [
+                            SizedBox(width: 20,),
+                            Container(
+                                width: MediaQuery.of(context).size.height/15,
+                                height: MediaQuery.of(context).size.height/15,
+                                decoration: BoxDecoration(
+                                    color: Colors.red,
+                                    borderRadius: BorderRadius.all(Radius.circular(180))
+                                ),
+                                // child: Text("AAA"),
+                                child:  CircleAvatar(
+                                  backgroundImage: NetworkImage(listUser[index].avatar),
+                                )
                             ),
-                            // child: Text("AAA"),
-                            child:  CircleAvatar(
-                              backgroundImage: NetworkImage(listUser[index].avatar),
-                            )
-                          ),
-                        ],
-                      ),
-                    );
-                  },
-                ),
-              );
-            },
-          ),
-
-          SizedBox(height: 20,),
-
-          Container(
-            padding: EdgeInsets.only(top:15, right: 15, left: 15),
-            height: MediaQuery.of(context).size.height * 8/15,
-            decoration: BoxDecoration(
-                color: MyColor.colorBackgroundTab,
-                borderRadius: BorderRadius.vertical(top: Radius.circular(30))
-            ),
-            child: StreamBuilder(
-              stream: fireStore.collection('users').doc(CurrentUser.currentUser.id).collection("lastMessage").orderBy('time', descending: true).snapshots(),
-              builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-                if(snapshot.hasData){
-                  listChat.clear();
-                  var chat = snapshot.data.docs;
-                  chat.forEach((element) {
-                    var data = element.data();
-                    LastMessage lastMessage = new LastMessage.fromJson(data);
-                    lastMessage.id = element.id.toString();//TODO
-                    listChat.add(lastMessage);
-                  });
-
-                  if(listChat.length ==0)
-                    return Center(
-                      child: Text(
-                        "- Không có hội thoại nào -",
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontStyle: FontStyle.italic,
-                          fontSize: 20,
+                          ],
                         ),
-                      ),
-                    );
-                  else
-                    return ListView.builder(
-                        itemCount: listChat.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          return GestureDetector(
-                            onTap: (){
-                              getUserInfo(listChat[index].id, listChat[index].avatar);
-                            },
-                            child: Padding(
-                              padding: EdgeInsets.only(bottom: 10),
+                      );
+                    },
+                  ),
+                );
+              },
+            ),
+
+            SizedBox(height: 20,),
+
+            Container(
+              padding: EdgeInsets.only(top:15, right: 15, left: 15),
+              height: MediaQuery.of(context).size.height * 2/3,
+              decoration: BoxDecoration(
+                  color: MyColor.colorBackgroundTab,
+                  borderRadius: BorderRadius.vertical(top: Radius.circular(30))
+              ),
+              child: StreamBuilder(
+                stream: fireStore.collection('users').doc(CurrentUser.currentUser.id).collection("lastMessage").orderBy('time', descending: true).snapshots(),
+                builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                  if(snapshot.hasData){
+                    listChat.clear();
+                    var chat = snapshot.data.docs;
+                    chat.forEach((element) {
+                      var data = element.data();
+                      LastMessage lastMessage = new LastMessage.fromJson(data);
+                      lastMessage.id = element.id.toString();//TODO
+                      listChat.add(lastMessage);
+                    });
+
+                    if(listChat.length ==0)
+                      return Center(
+                        child: Text(
+                          "- Không có hội thoại nào -",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontStyle: FontStyle.italic,
+                            fontSize: 20,
+                          ),
+                        ),
+                      );
+                    else
+                      return ListView.builder(
+                          itemCount: listChat.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            return GestureDetector(
+                              onTap: (){
+                                getUserInfo(listChat[index].id, listChat[index].avatar);
+                              },
                               child: Container(
                                 padding: EdgeInsets.all(10),
                                 height: MediaQuery.of(context).size.height/7,
@@ -262,56 +270,27 @@ class TabMessageScreenState extends State<TabMessageScreen>{
                                   ],
                                 ),
                               ),
-                            ),
-                          );
-                        }
-                    );
-                }
-                return Center(
-                  child: Text(
-                    "Đang tải ...",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontStyle: FontStyle.italic,
-                      fontSize: 20,
+                            );
+                          }
+                      );
+                  }
+                  return Center(
+                    child: Text(
+                      "Đang tải ...",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontStyle: FontStyle.italic,
+                        fontSize: 20,
+                      ),
                     ),
-                  ),
-                );
+                  );
 
-              },
+                },
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
-  }
-}
-
-class LastMessage{
-  String id;
-  String name;
-  String avatar;
-  String content;
-  bool isMe;
-  Timestamp time;
-
-  LastMessage({this.name, this.avatar, this.content, this.isMe, this.time});
-
-  LastMessage.fromJson(Map<String, dynamic> json){
-    name = json["name"] ?? "";
-    avatar = json["avatar"] ?? "";
-    content= json["content"] ?? "";
-    time= json["time"];
-    isMe= json["isMe"] ?? false;
-  }
-
-  Map<String, dynamic> toMap(){
-    return {
-      "name" : name,
-      "avatar" : avatar,
-      "content" : content,
-      "time" : time,
-      "isMe" : isMe,
-    };
   }
 }

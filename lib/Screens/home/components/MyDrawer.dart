@@ -61,7 +61,7 @@ class MyDrawerState extends State<MyDrawer>{
                   GestureDetector(
                     onTap: (){},
                     child: CircleAvatar(
-                      backgroundColor: Colors.white,
+                      backgroundColor: Colors.blue,
                       radius: _sizeAvatar,
                       child: CircleAvatar(
                         backgroundImage: avatarURL != ""

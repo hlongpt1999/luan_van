@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:luan_van/components/Constants.dart';
 import 'package:luan_van/main.dart';
 import 'package:luan_van/resources/styles.dart';
+import 'package:luan_van/screens/home/components/DoctorMessageScreen.dart';
 import 'package:luan_van/screens/login/LoginScreen.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 
@@ -27,16 +28,21 @@ class DoctorHomeScreenState extends State<DoctorHomeScreen>{
     ItemGrid(tenItem: "bài tập", mota: "Thêm các bài tập luyện", linkImage: "assets/fitness_app/runner.png"),
     ItemGrid(tenItem: "Chế độ ăn uống", mota: "Thêm lịch ăn uống tuần", linkImage: "assets/fitness_app/bento.png"),
     ItemGrid(tenItem: "Chế độ luyện tập", mota: "Thêm các chế độ tập luyện theo tuần", linkImage: "assets/fitness_app/luyentap.png"),
-    ItemGrid(tenItem: "Nhắn tin", mota: "Nhắn tin tư vấn cho người dùng", linkImage: "assets/fitness_app/message.png", to: MaterialPageRoute(builder: (context) => SplashScreen())),
+    ItemGrid(tenItem: "Nhắn tin", mota: "Nhắn tin tư vấn cho người dùng", linkImage: "assets/fitness_app/message.png"),
   ];
 
   String url = "";
-
   Future<void> getAvatar() async{
     var ref = firebase_storage.FirebaseStorage.instance.ref(CurrentUser.currentUser.avatar);
-    setState(() async {
-      url = await ref.getDownloadURL();
+    String string = await ref.getDownloadURL();
+    setState(() {
+      url = string;
     });
+  }
+
+  @override
+  void initState() {
+    getAvatar();
   }
 
   @override
@@ -47,7 +53,38 @@ class DoctorHomeScreenState extends State<DoctorHomeScreen>{
         child: SingleChildScrollView(
           child: Column(
             children: [
-              SizedBox(height: MediaQuery.of(context).size.height * 1/10,),
+              Container(
+                padding: EdgeInsets.only(right: 20),
+                alignment: Alignment.bottomRight,
+                height: MediaQuery.of(context).size.height * 1/10,
+                child: GestureDetector(
+                    onTap: (){
+                      setState(() {
+                        showDialog(
+                          context: context,
+                          builder: (_context)=> AlertDialog(
+                            title: Text("Đăng xuất"),
+                            content: Text("Bạn có muốn đăng xuất khỏi ứng dụng?"),
+                            actions: <Widget>[
+                              FlatButton(
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                                child: Text("Không"),
+                              ),
+                              FlatButton(
+                                onPressed: (){
+                                  onLogOut(context);
+                                },
+                                child: Text("Có"),
+                              ),
+                            ],
+                          ),
+                        );
+                      });
+                    },
+                    child: Icon(Icons.logout, size: 40, color: Colors.white,)),
+              ),
               Container(
                 height: MediaQuery.of(context).size.height * 1/4,
                 padding: EdgeInsets.all(10),
@@ -71,10 +108,10 @@ class DoctorHomeScreenState extends State<DoctorHomeScreen>{
                       alignment: Alignment.centerRight,
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.all(Radius.circular(180)),
-                        image: backgroundImage,
                       ),
                       child: CircleAvatar(
                         backgroundImage: NetworkImage(url),
+                        radius: 80,
                       ),
                     ),
 
@@ -98,7 +135,11 @@ class DoctorHomeScreenState extends State<DoctorHomeScreen>{
                       (index) {
                         return GestureDetector(
                           onTap: (){
-                            Navigator.push(context, listItems[index].to);
+                            switch(index){
+                              case 4:
+                                Navigator.push(context, MaterialPageRoute(builder: (context) => DoctorMessageScreen()));
+                                break;
+                            }
                           },
                           child: Container(
                             padding: EdgeInsets.all(5),

@@ -63,7 +63,7 @@ Future<void> main() async{
     await Firebase.initializeApp();
     runApp(
         MaterialApp(
-          home: DoctorHomeScreen(),
+          home: SplashScreen(),
         )
     );
   });
@@ -94,17 +94,20 @@ class SplashScreenState extends State<SplashScreen>{
           CurrentUser.currentUser.avatar = data['avatar'];
           CurrentUser.currentUser.id = data['id'];
           CurrentUser.currentUser.role = data['role'];
-          CurrentUser.currentUser.bmi = data['bmi'];
+          CurrentUser.currentUser.bmi = data['bmi'] ?? 0.0;
         });
         // runApp(
         //     new MaterialApp(
         //       home: HomeScreen(),
         //     )
         // );
-        if(CurrentUser.currentUser.role == "doctor")
-          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => MyApp()));
+        if(CurrentUser.currentUser.role != "user" )
+          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => DoctorHomeScreen()));
+        else if(CurrentUser.currentUser.bmi == 0)
+          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => BMIScreen()));
         else
           Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomeScreen()));
+
       }).onError((error, stackTrace){
         // runApp(
         //     new MaterialApp(

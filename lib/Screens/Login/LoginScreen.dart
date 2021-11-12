@@ -10,6 +10,7 @@ import 'package:luan_van/resources/shape_clipper_custom.dart';
 import 'package:luan_van/resources/styles.dart';
 import 'package:luan_van/resources/button_circle_max.dart';
 import 'package:luan_van/screens/bmi/BMIScreen.dart';
+import 'package:luan_van/screens/home/DoctorHomeScreen.dart';
 import 'package:luan_van/screens/home/HomeScreen.dart';
 import 'package:luan_van/screens/signup/SignUpScreen.dart';
 import 'package:toast/toast.dart';
@@ -28,8 +29,8 @@ class LoginScreenState extends State<LoginScreen>{
   TextEditingController _userController = new TextEditingController();
   TextEditingController _passController = new TextEditingController();
   //TODO: Message login
-  var _userErrorMessage = "User name is not exist";
-  var _passErrorMessage = "Invalid password";
+  var _userErrorMessage = "Tài khoản không tồn tại";
+  var _passErrorMessage = "Mật khẩu không hợp lệ";
   var _isUserError = false;
   var _isPassError = false;
 
@@ -44,6 +45,7 @@ class LoginScreenState extends State<LoginScreen>{
       CurrentUser.currentUser.avatar = data['avatar'];
       CurrentUser.currentUser.id = data['id'];
       CurrentUser.currentUser.role = data['role'];
+      CurrentUser.currentUser.bmi = data['bmi'] ?? 0.0;
     });
   }
 
@@ -74,10 +76,12 @@ class LoginScreenState extends State<LoginScreen>{
         _isPassError = false;
         await getData(value.user.uid).whenComplete(() async{
           ProgressLoading().hideLoading(context);
-          if(CurrentUser.currentUser.role == "doctor")
-            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => MyApp()));
-          else
+          if(CurrentUser.currentUser.role != "user" )
+            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => DoctorHomeScreen()));
+          else if(CurrentUser.currentUser.bmi == 0)
             Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => BMIScreen()));
+          else
+            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomeScreen()));
         });
       });
     }on FirebaseAuthException catch (error){
