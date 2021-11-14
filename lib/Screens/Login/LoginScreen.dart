@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_icons/flutter_icons.dart';
 import 'package:luan_van/components/Constants.dart';
 import 'package:luan_van/components/progressLoading.dart';
 import 'package:luan_van/components/response_widget.dart';
@@ -34,6 +35,8 @@ class LoginScreenState extends State<LoginScreen>{
   var _isUserError = false;
   var _isPassError = false;
 
+  bool showPass = false;
+
   UserModel userModel = UserModel();
 
   final _firebaseAuth = FirebaseAuth.instance;
@@ -42,9 +45,9 @@ class LoginScreenState extends State<LoginScreen>{
       var data = value.data() as Map<String, dynamic>;
       CurrentUser.currentUser.name = data['name'];
       CurrentUser.currentUser.email = data['email'];
-      CurrentUser.currentUser.avatar = data['avatar'];
+      CurrentUser.currentUser.avatar = data['avatar'] ?? "";
       CurrentUser.currentUser.id = data['id'];
-      CurrentUser.currentUser.role = data['role'];
+      CurrentUser.currentUser.role = data['role'] ?? "user";
       CurrentUser.currentUser.bmi = data['bmi'] ?? 0.0;
     });
   }
@@ -53,23 +56,6 @@ class LoginScreenState extends State<LoginScreen>{
     try {
       await _firebaseAuth.signInWithEmailAndPassword(email: email, password: pass)
           .then((value) async {
-        // if (value.user!.email == 'admin@gmail.com') {
-        //
-        //   Navigator.push(context,
-        //       MaterialPageRoute(builder: (context) => HomeScreen()));
-        //   showToast('Xin chào ADMIN', null);
-        // }
-        // else {
-        //   await getData(value.user!.uid).whenComplete(() async {
-        //     //Lưu dữ liệu phiên đăng nhập
-        //     SharedPreferences pref = await SharedPreferences.getInstance();
-        //     pref.setStringList('login', [value.user!.uid, name, no]);
-        //
-        //     Navigator.push(context, MaterialPageRoute(builder: (context) =>
-        //         HomeScreenStaff(uid: value.user!.uid, name: name, no: no)));
-        //     showToast(_auth.currentUser!.email.toString() + 'đã đăng nhập', null);
-        //   });
-        // }
         SharedPreferences pref = await SharedPreferences.getInstance();
         pref.setStringList(Const.LOGIN_PREF, [value.user.uid, email, pass]);
         _isUserError = false;
@@ -88,22 +74,22 @@ class LoginScreenState extends State<LoginScreen>{
       switch(error.code){
         case 'user-not-found':
           ProgressLoading().hideLoading(context);
-          Toast.show('Tài khoản không tồn tại :(((', context);
+          Toast.show('Tài khoản không tồn tại', context);
           _isUserError = true;
           break;
         case 'invalid-email':
           ProgressLoading().hideLoading(context);
-          Toast.show('Tài khoản không tồn tại :(((', context);
+          Toast.show('Tài khoản không tồn tại', context);
           _isUserError = true;
           break;
         case 'wrong-password':
           ProgressLoading().hideLoading(context);
-          Toast.show('Mật khẩu sai :(((', context);
+          Toast.show('Mật khẩu sai', context);
           _isPassError = true;
           break;
         default:
           ProgressLoading().hideLoading(context);
-          Toast.show(error.code, context);
+          Toast.show("Lỗi khi đăng nhập", context);
       }
     }
   }
@@ -144,8 +130,8 @@ class LoginScreenState extends State<LoginScreen>{
                             TextFormField(
                               controller: _userController,
                               decoration: InputDecoration(
-                                hintText: "User name",
-                                labelText: "User Name",
+                                hintText: "Tên đăng nhập",
+                                labelText: "Tên dăng nhập",
                                 errorText: _isUserError ? _userErrorMessage : null,
                                 labelStyle: TextStyle(color: Colors.white),
                                 enabledBorder: OutlineInputBorder(
@@ -171,31 +157,49 @@ class LoginScreenState extends State<LoginScreen>{
                             SizedBox(height: 30,),
 
                             //Khung password
-                            TextFormField(
-                              controller: _passController,
-                              obscureText: true,
-                              decoration: InputDecoration(
-                                hintText: "Password",
-                                labelText: "Password",
-                                errorText: _isPassError ? _passErrorMessage : null,
-                                labelStyle: TextStyle(color: Colors.white),
-                                enabledBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                      color: Colors.white,
+                            Stack(
+                              alignment: Alignment.centerRight,
+                              children: [
+                                TextFormField(
+                                  controller: _passController,
+                                  obscureText: !showPass,
+                                  decoration: InputDecoration(
+                                    hintText: "Mật khẩu",
+                                    labelText: "Mật khẩu",
+                                    errorText: _isPassError ? _passErrorMessage : null,
+                                    labelStyle: TextStyle(color: Colors.white),
+                                    enabledBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                          color: Colors.white,
+                                        ),
+                                        borderRadius: const BorderRadius.all(Radius.circular(20))
                                     ),
-                                    borderRadius: const BorderRadius.all(Radius.circular(20))
-                                ),
-                                focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                      color: Colors.white,
+                                    focusedBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                          color: Colors.white,
+                                        ),
+                                        borderRadius: const BorderRadius.all(Radius.circular(20))
                                     ),
-                                    borderRadius: const BorderRadius.all(Radius.circular(20))
+                                    prefixIcon: Icon(
+                                      Icons.lock_outline,
+                                      color: Colors.white),
+                                  ),
+                                  style: TextStyle(fontSize: 20),
                                 ),
-                                prefixIcon: Icon(
-                                  Icons.lock_outline,
-                                  color: Colors.white,),
-                              ),
-                              style: TextStyle(fontSize: 20),
+                                
+                                GestureDetector(
+                                  onTap: (){
+                                    setState(() {
+                                      showPass = !showPass;
+                                    });
+                                  },
+                                  child: Container(
+                                      padding: EdgeInsets.only(right: 10),
+                                      child: showPass
+                                      ? Icon(Icons.visibility_off_outlined, color: Colors.white)
+                                      : Icon(Icons.visibility_outlined, color: Colors.white)),
+                                ),
+                              ],
                             ),
                           ],
                         )

@@ -187,7 +187,6 @@ class SignUpScreenState extends State<SignUpScreen>{
               ),
               child: GestureDetector(
                   onTap: (){
-                    print('Adding photo');
                     chooseFile();
                   },
                   child: Center(
@@ -230,7 +229,7 @@ class SignUpScreenState extends State<SignUpScreen>{
       textEditingController: _nameController,
       keyboardType: TextInputType.text,
       icon: Icons.person,
-      hint: "Enter your name",
+      hint: "Nhập tên của bạn",
     );
   }
 
@@ -239,7 +238,7 @@ class SignUpScreenState extends State<SignUpScreen>{
       textEditingController: _emailController,
       keyboardType: TextInputType.emailAddress,
       icon: Icons.email,
-      hint: "Email",
+      hint: "Nhập địa chỉ email",
     );
   }
 
@@ -248,7 +247,7 @@ class SignUpScreenState extends State<SignUpScreen>{
       textEditingController: _passController,
       obscureText: true,
       icon: Icons.lock,
-      hint: "Password",
+      hint: "Nhập mật khẩu",
     );
   }
 
@@ -257,7 +256,7 @@ class SignUpScreenState extends State<SignUpScreen>{
       textEditingController: _passConfirmController,
       obscureText: true,
       icon: Icons.lock,
-      hint: "Confirm password",
+      hint: "Xác nhận lại mật khẩu",
     );
   }
 
@@ -276,8 +275,8 @@ class SignUpScreenState extends State<SignUpScreen>{
                 });
               }),
           Text(
-            "I accept all terms and conditions",
-            style: TextStyle(fontWeight: FontWeight.w400, fontSize: _large? 12: (_medium? 11: 10)),
+            "Tôi đồng ý với điều khoản của ứng dụng",
+            style: TextStyle(fontWeight: FontWeight.w400, fontSize: _large? 15: (_medium? 13: 11)),
           ),
         ],
       ),
@@ -296,7 +295,7 @@ class SignUpScreenState extends State<SignUpScreen>{
       padding: EdgeInsets.all(0.0),
       child: Container(
         alignment: Alignment.center,
-       height: _height / 16,
+       height: _height / 15,
         width: MediaQuery.of(context).size.width - 60,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(20.0)),
@@ -308,30 +307,7 @@ class SignUpScreenState extends State<SignUpScreen>{
           ),
         ),
         padding: const EdgeInsets.all(12.0),
-        child: Text('SIGN UP', style: TextStyle(fontSize: _large? 18: (_medium? 16: 13), fontWeight: FontWeight.bold),),
-      ),
-    );
-  }
-
-  Widget signInTextRow() {
-    return Container(
-      margin: EdgeInsets.only(top: _height / 20.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          Text(
-            "Already have an account?",
-            style: TextStyle(fontWeight: FontWeight.w400),
-          ),
-          SizedBox(
-            width: 5,
-          ),
-          Text(
-            "Sign in",
-            style: TextStyle(
-                fontWeight: FontWeight.w800, color: Colors.orange[200], fontSize: 19),
-          )
-        ],
+        child: Text('ĐĂNG KÝ', style: TextStyle(fontSize: _large? 20: (_medium? 18: 15), fontWeight: FontWeight.bold),),
       ),
     );
   }

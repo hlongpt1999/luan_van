@@ -22,7 +22,7 @@ class HomeScreen extends StatefulWidget {
   }
 }
 
-List<String> _bottomBarTitle = ['Home', 'Evaluate', 'Message', 'Statistical'];
+List<String> _bottomBarTitle = ['Trang chủ', 'Đánh giá', 'Nhắn tin', 'Thống kê'];
 List<IconData> _bottomBarIcons = [
   Icons.home_outlined,
   Icons.list_alt_outlined,
@@ -31,7 +31,7 @@ List<IconData> _bottomBarIcons = [
 ];
 
 class HomeScreenState extends State<HomeScreen> {
-  var title = "Test Drawer";
+  var title = "Tiêu đề";
   int _selectedIndex = 0;
   double _bottomTexSize = 12;
   PageController _pageController = new PageController();
@@ -51,7 +51,7 @@ class HomeScreenState extends State<HomeScreen> {
     TabHomeScreen(),
     Expanded(
       child: Text(
-        'Likes',
+        'Đánh giá',
         style: optionStyle,
       ),
     ),
