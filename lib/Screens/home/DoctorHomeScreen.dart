@@ -3,9 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:luan_van/components/Constants.dart';
 import 'package:luan_van/main.dart';
 import 'package:luan_van/resources/styles.dart';
+import 'package:luan_van/screens/data/ThemBaiTapScreen.dart';
+import 'package:luan_van/screens/data/ThemFood.dart';
 import 'package:luan_van/screens/home/components/DoctorMessageScreen.dart';
+import 'package:luan_van/screens/login/Login.dart';
 import 'package:luan_van/screens/login/LoginScreen.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
+import 'package:luan_van/screens/schedule/ScheduleDetailScreen.dart';
 
 class DoctorHomeScreen extends StatefulWidget{
   @override
@@ -24,8 +28,8 @@ class ItemGrid {
 
 class DoctorHomeScreenState extends State<DoctorHomeScreen>{
   List<ItemGrid> listItems = [
-    ItemGrid(tenItem: "món ăn", mota: "Thêm món ăn để lập thời gian biểu", linkImage: "assets/fitness_app/lunch.png"),
-    ItemGrid(tenItem: "bài tập", mota: "Thêm các bài tập luyện", linkImage: "assets/fitness_app/runner.png"),
+    ItemGrid(tenItem: "thực phẩm", mota: "Thêm thực phẩm để lập thời gian biểu", linkImage: "assets/fitness_app/lunch.png"),
+    ItemGrid(tenItem: "động tác", mota: "Thêm các động tác luyện", linkImage: "assets/fitness_app/runner.png"),
     ItemGrid(tenItem: "Chế độ ăn uống", mota: "Thêm lịch ăn uống tuần", linkImage: "assets/fitness_app/bento.png"),
     ItemGrid(tenItem: "Chế độ luyện tập", mota: "Thêm các chế độ tập luyện theo tuần", linkImage: "assets/fitness_app/luyentap.png"),
     ItemGrid(tenItem: "Nhắn tin", mota: "Nhắn tin tư vấn cho người dùng", linkImage: "assets/fitness_app/message.png"),
@@ -93,7 +97,7 @@ class DoctorHomeScreenState extends State<DoctorHomeScreen>{
                     SizedBox(width: 10,),
                     Expanded(
                       child: Text(
-                        "Xin chào,\n" + (CurrentUser.currentUser.name ?? "").toUpperCase(),
+                        "Xin chào,\n\n" + (CurrentUser.currentUser.name ?? "").toUpperCase(),
                         style: TextStyle(
                           fontSize: 25,
                           color: Colors.white,
@@ -136,6 +140,20 @@ class DoctorHomeScreenState extends State<DoctorHomeScreen>{
                         return GestureDetector(
                           onTap: (){
                             switch(index){
+                              case 0:
+                                Navigator.push(context, MaterialPageRoute(builder: (context) => ThemFood()));
+                                break;
+                              case 1:
+                                Navigator.push(context, MaterialPageRoute(builder: (context) => ThemBaiTapScreen()));
+                                break;
+                              case 2:
+                                Const.KEY_FROM = Const.FROM_CREATE_SCHEDULE;
+                                Navigator.push(context, MaterialPageRoute(builder: (context) => MyApp()));
+                                break;
+                              case 3:
+                                Const.KEY_FROM = Const.FROM_CREATE_SCHEDULE_LUYENTAP;
+                                Navigator.push(context, MaterialPageRoute(builder: (context) => MyApp()));
+                                break;
                               case 4:
                                 Navigator.push(context, MaterialPageRoute(builder: (context) => DoctorMessageScreen()));
                                 break;

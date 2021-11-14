@@ -6,6 +6,8 @@ class MovementModel{
   String imageDetail = "";// Hình ảnh, video dùng để tham khảo.
   int priority = 0; //0=mất ít calo. ... 5=Tiêu thụ cực nhiều calo.
   String type = "";//Thân trên, thân dưới, bụng, cánh tay...
+  String link="";//liên kết để hướng dẫn động tác.
+  int quantity=0;
 
   MovementModel({
       this.idMovement,
@@ -14,17 +16,31 @@ class MovementModel{
       this.caloLost100g,
       this.imageDetail,
       this.priority,
-      this.type});
+      this.type, this.link,this.quantity});
+
+  MovementModel.fromJson(Map<String, dynamic> json){
+    idMovement = json["idMovement"] ?? "";
+    name = json["name"] ?? "";
+    type = json["type"] ?? "";
+    detail = json["detail"] ?? "";
+    caloLost100g = double.parse(json["caloLost100g"].toString()) ?? 0.0;
+    priority = json["priority"]  ?? 0;
+    imageDetail = json["imageDetail"]  ?? "";
+    quantity = json["quantity"] ?? 0;
+    link = json["link"] ?? "";
+  }
 
   Map<String, dynamic> toMap() {
     return {
-      "idMovement" : idMovement,
-      "name" : name,
-      "detail" : detail,
-      "caloLost100g" : caloLost100g,
-      "imageDetail" : imageDetail,
-      "priority" : priority,
-      "type" : type,
+      "idMovement" : idMovement ?? "",
+      "name" : name ?? "",
+      "detail" : detail ?? "",
+      "caloLost100g" : caloLost100g ?? 0.0,
+      "imageDetail" : imageDetail ?? "",
+      "priority" : priority ?? 0,
+      "type" : type ?? "",
+      "link" : link ?? "",
+      "quantity" : quantity ?? 0,
     };
   }
 }

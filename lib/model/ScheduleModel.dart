@@ -9,9 +9,10 @@ class ScheduleModel{
   DateMealModel date5;
   DateMealModel date6;
   DateMealModel date7;
+  String name;
 
   ScheduleModel({this.totalCalo, this.date1, this.date2, this.date3, this.date4,
-      this.date5, this.date6, this.date7});
+      this.date5, this.date6, this.date7, this.name});
 
   ScheduleModel.fromJson(Map<String, dynamic> json){
     totalCalo = json["totalCalo"];
@@ -22,6 +23,7 @@ class ScheduleModel{
     date5 = json["date5"];
     date6 = json["date6"];
     date7 = json["date7"];
+    name = json["name"];
   }
 
   Map<String, dynamic> toMap(){
@@ -34,6 +36,7 @@ class ScheduleModel{
       "date5" : date5,
       "date6" : date6,
       "date7" : date7,
+      "name" : name,
     };
   }
 

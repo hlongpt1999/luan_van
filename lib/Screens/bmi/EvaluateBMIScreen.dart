@@ -82,8 +82,7 @@ class EvaluateBMIScreenState extends State<EvaluateBMIScreen> {
                   SizedBox(height: 20,),
                   GestureDetector(
                     onTap: (){
-
-                      Const.KEY_FROM = FROM_BMI;
+                      Const.KEY_FROM = Const.FROM_BMI;
                       Navigator.push(context, MaterialPageRoute(builder: (context) => MyApp()));
                       CurrentUser.totalCaloDate = goiCalo[0];
                     },
@@ -93,7 +92,7 @@ class EvaluateBMIScreenState extends State<EvaluateBMIScreen> {
                   SizedBox(height: 30,),
                   GestureDetector(
                     onTap: (){
-                      Const.KEY_FROM = FROM_BMI;
+                      Const.KEY_FROM = Const.FROM_BMI;
                       Navigator.push(context, MaterialPageRoute(builder: (context) => MyApp()));
                       CurrentUser.totalCaloDate = goiCalo[1];
                     },
@@ -103,7 +102,7 @@ class EvaluateBMIScreenState extends State<EvaluateBMIScreen> {
                   if(_isShowChoice) SizedBox(height: 30,),
                   if(_isShowChoice) GestureDetector(
                       onTap: (){
-                        Const.KEY_FROM = FROM_BMI;
+                        Const.KEY_FROM = Const.FROM_BMI;
                         Navigator.push(context, MaterialPageRoute(builder: (context) => MyApp()));
                         // Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => CreateScheduleScreen()));
                         CurrentUser.totalCaloDate = goiCalo[2];

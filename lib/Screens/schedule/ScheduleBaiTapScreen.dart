@@ -5,47 +5,30 @@ import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:luan_van/components/Constants.dart';
 import 'package:luan_van/components/progressLoading.dart';
-import 'package:luan_van/model/DateMealModel.dart';
-import 'package:luan_van/model/FoodModel.dart';
+import 'package:luan_van/model/DateLuyenTapModel.dart';
+import 'package:luan_van/model/DateLuyenTapModel.dart';
+import 'package:luan_van/model/MovementModel.dart';
 import 'package:luan_van/model/User.dart';
 import 'package:luan_van/resources/button_radius_medium.dart';
 import 'package:luan_van/resources/styles.dart';
 import 'package:luan_van/screens/login/LoginScreen.dart';
+import 'package:luan_van/screens/schedule/ScheduleDetailScreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:toast/toast.dart';
 
-class ScheduleDetailScreen extends StatefulWidget{
+class ScheduleBaiTapScreen extends StatefulWidget{
   @override
   State<StatefulWidget> createState() {
-    return ScheduleDetailScreenState();
+    return ScheduleBaiTapScreenState();
   }
 }
 
 var _listColorTitle = MyList().listColorTitle;
-List<String> bmiNam = [
-  "Thấp hơn 15 (suy dinh dưỡng)",
-  "15 đến dưới 20 (gầy)",
-  "20 đến dưới 25 (cân đối)",
-  "25 đến dưới 30 (thừa cân)",
-  "Cao hơn 30 (béo phì)"
-];
-
-List<String> bmiNu = [
-  "Thấp hơn 14 (suy dinh dưỡng)",
-  "14 đến dưới 18.5 (gầy)",
-  "18.5 đến dưới 25 (cân đối)",
-  "25 đến dưới 30 (thừa cân)",
-  "Cao hơn 30 (béo phì)"
-];
-
 List<String> listGoiY = ["1500 calo","1800 calo","2000 calo","2300 calo","2500 calo","2800 calo"];
 
-List<String> gioiTinh = ["Nam", "Nữ"];
-List<String> soLuong = ["100g", "200g", "300g", "400g", "500g", "600g", "700g", "800g", "900g", "1kg"];
-
-final String food = CurrentUser.listFoodString[0];
+final String food = CurrentUser.listDongTacString[0];
 final double calo = 0;
-    // CurrentUser.listFood[0].calo100g;
+
 List<List<String>> foodValue = [
   [food, food, food, food, food, food, food, food, food, food],
   [food, food, food, food, food, food, food, food, food, food],
@@ -54,16 +37,6 @@ List<List<String>> foodValue = [
   [food, food, food, food, food, food, food, food, food, food],
   [food, food, food, food, food, food, food, food, food, food],
   [food, food, food, food, food, food, food, food, food, food]
-];
-
-List<List<String>> soLuongValue = [
-  ["100g","100g","100g","100g","100g","100g","100g","100g","100g","100g"],
-  ["100g","100g","100g","100g","100g","100g","100g","100g","100g","100g"],
-  ["100g","100g","100g","100g","100g","100g","100g","100g","100g","100g"],
-  ["100g","100g","100g","100g","100g","100g","100g","100g","100g","100g"],
-  ["100g","100g","100g","100g","100g","100g","100g","100g","100g","100g"],
-  ["100g","100g","100g","100g","100g","100g","100g","100g","100g","100g"],
-  ["100g","100g","100g","100g","100g","100g","100g","100g","100g","100g"]
 ];
 
 List<List<TextEditingController>> soLuongController = [
@@ -108,17 +81,14 @@ List<List<int>> indexQuanlity = [
 
 List<int> itemLength = [1,1,1,1,1,1,1,1,1,1];
 
-class ScheduleDetailScreenState extends State<ScheduleDetailScreen>{
+class ScheduleBaiTapScreenState extends State<ScheduleBaiTapScreen>{
   double _marginBottom = 30;
   double _marginHor = 10;
-  double marginTop = 150;
+  double marginTop = 100;
 
   String scheduleName = "Mọi đối tượng";
   TextEditingController nameController = TextEditingController();
 
-  String namValue = bmiNam[0];
-  String nuValue = bmiNu[0];
-  String gioitinhValue = gioiTinh[0];
   String goiYValue = listGoiY[0];
   int totalCalo = 0;
   List<int> totalCaloDate = [0,0,0,0,0,0,0];
@@ -168,79 +138,79 @@ class ScheduleDetailScreenState extends State<ScheduleDetailScreen>{
 
   Future<void> uploadSchedule() async{
     ProgressLoading().showLoading(context);
-    List<FoodModel> date1= [];
-    List<FoodModel> date2= [];
-    List<FoodModel> date3= [];
-    List<FoodModel> date4= [];
-    List<FoodModel> date5= [];
-    List<FoodModel> date6= [];
-    List<FoodModel> date7= [];
+    List<MovementModel> date1= [];
+    List<MovementModel> date2= [];
+    List<MovementModel> date3= [];
+    List<MovementModel> date4= [];
+    List<MovementModel> date5= [];
+    List<MovementModel> date6= [];
+    List<MovementModel> date7= [];
     for (int i=0; i< itemLength[0]; i++){
-      date1.add(CurrentUser.listFood[indexFood[0][i]]);
+      date1.add(CurrentUser.listDongTac[indexFood[0][i]]);
       date1[i].quantity=indexQuanlity[0][i];
     }for (int i=0; i< itemLength[1]; i++){
-      date2.add(CurrentUser.listFood[indexFood[1][i]]);
+      date2.add(CurrentUser.listDongTac[indexFood[1][i]]);
       date2[i].quantity=indexQuanlity[1][i];
     }for (int i=0; i< itemLength[2]; i++){
-      date3.add(CurrentUser.listFood[indexFood[2][i]]);
+      date3.add(CurrentUser.listDongTac[indexFood[2][i]]);
       date3[i].quantity=indexQuanlity[2][i];
     }for (int i=0; i< itemLength[3]; i++){
-      date4.add(CurrentUser.listFood[indexFood[3][i]]);
+      date4.add(CurrentUser.listDongTac[indexFood[3][i]]);
       date4[i].quantity=indexQuanlity[3][i];
     }for (int i=0; i< itemLength[4]; i++){
-      date5.add(CurrentUser.listFood[indexFood[4][i]]);
+      date5.add(CurrentUser.listDongTac[indexFood[4][i]]);
       date5[i].quantity=indexQuanlity[4][i];
     }for (int i=0; i< itemLength[5]; i++){
-      date6.add(CurrentUser.listFood[indexFood[5][i]]);
+      date6.add(CurrentUser.listDongTac[indexFood[5][i]]);
       date6[i].quantity=indexQuanlity[5][i];
     }for (int i=0; i< itemLength[6]; i++){
-      date7.add(CurrentUser.listFood[indexFood[6][i]]);
+      date7.add(CurrentUser.listDongTac[indexFood[6][i]]);
       date7[i].quantity=indexQuanlity[6][i];
     }
 
     FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
-    await firebaseFirestore.collection('schedule').add(
-       {
-         'name' : scheduleName,
-         'totalCalo' : totalCalo,
-         'date1' : DateMealModel(
-           id: 1,
-           caloDate: totalCaloDate[0],
-           foods: date1,
-         ).toMap(),
-         'date2' : DateMealModel(
-           id: 2,
-           caloDate: totalCaloDate[1],
-           foods: date2,
-         ).toMap(),
-         'date3' : DateMealModel(
-           id: 3,
-           caloDate: totalCaloDate[2],
-           foods: date3,
-         ).toMap(),
-         'date4' : DateMealModel(
-           id: 4,
-           caloDate: totalCaloDate[3],
-           foods: date4,
-         ).toMap(),
-         'date5' : DateMealModel(
-           id: 5,
-           caloDate: totalCaloDate[4],
-           foods: date5,
-         ).toMap(),
-         'date6' : DateMealModel(
-           id: 6,
-           caloDate: totalCaloDate[5],
-           foods: date6,
-         ).toMap(),
-         'date7' : DateMealModel(
-           id: 7,
-           caloDate: totalCaloDate[6],
-           foods: date7,
-         ).toMap(),
-       }
+    await firebaseFirestore.collection(Const.CSDL_SCHEDULE_LUYENTAP).add(
+        {
+          'name' : scheduleName,
+          'totalCalo' : totalCalo,
+          'date1' : DateLuyenTapModel(
+            id: 1,
+            caloDate: totalCaloDate[0],
+            dongTac: date1,
+          ).toMap(),
+          'date2' : DateLuyenTapModel(
+            id: 2,
+            caloDate: totalCaloDate[1],
+            dongTac: date2,
+          ).toMap(),
+          'date3' : DateLuyenTapModel(
+            id: 3,
+            caloDate: totalCaloDate[2],
+            dongTac: date3,
+          ).toMap(),
+          'date4' : DateLuyenTapModel(
+            id: 4,
+            caloDate: totalCaloDate[3],
+            dongTac: date4,
+          ).toMap(),
+          'date5' : DateLuyenTapModel(
+            id: 5,
+            caloDate: totalCaloDate[4],
+            dongTac: date5,
+          ).toMap(),
+          'date6' : DateLuyenTapModel(
+            id: 6,
+            caloDate: totalCaloDate[5],
+            dongTac: date6,
+          ).toMap(),
+          'date7' : DateLuyenTapModel(
+            id: 7,
+            caloDate: totalCaloDate[6],
+            dongTac: date7,
+          ).toMap(),
+        }
     ).then((value){
-      Toast.show("Đã thêm lịch ăn uống thành công", context);
+      Toast.show("Đã thêm lịch luyện tập thành công", context);
     }).catchError((error) => print("Lỗi khi thêm: $error")).whenComplete(() {
       ProgressLoading().hideLoading(context);
       Navigator.of(context).pop();
@@ -268,7 +238,7 @@ class ScheduleDetailScreenState extends State<ScheduleDetailScreen>{
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: Container(
-        decoration: BoxDecoration(image: foodLoadingBackground),
+        decoration: BoxDecoration(image: gymBackground),
         child: Stack(
           children:[
             PageView(
@@ -281,7 +251,7 @@ class ScheduleDetailScreenState extends State<ScheduleDetailScreen>{
             Container(
               height: marginTop,
               width: double.infinity,
-              padding: EdgeInsets.only(top: 35, right: 10, left: 10, bottom: 10),
+              padding: EdgeInsets.only(top: 35, right: 10, left: 10),
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   begin: Alignment.topLeft,
@@ -294,109 +264,44 @@ class ScheduleDetailScreenState extends State<ScheduleDetailScreen>{
                 ),
                 borderRadius: BorderRadius.vertical(bottom: Radius.circular(20)),
               ),
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    SizedBox(height: 10,),
-                    Row(
-                      children: [
-                        DropdownButtonHideUnderline(
-                          child: DropdownButton(
-                            borderRadius: BorderRadius.all(Radius.circular(20)),
-                            dropdownColor: Colors.transparent,
-                            value: goiYValue,
-                            onChanged: (String data1) {
-                              setState(() {
-                                goiYValue = data1;
-                              });
-                            },
-                            items: listGoiY.map<DropdownMenuItem<String>>((String value1) {
-                              return DropdownMenuItem<String>(
-                                value: value1,
-                                child: Text(value1, style: TextStyle(fontSize: 18, color: Colors.white, fontWeight: FontWeight.bold),),
-                              );
-                            }).toList(),
-                          ),
-                        ),
-
-                        Center(
-                          child: Text(
-                            suggestionsSchedule(goiYValue),
-                            style: TextStyle(
-                              fontSize: 15,
-                              color: Colors.white,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-            ),
-
-            GestureDetector(
-              onTap: (){
-                showModalBottomSheet(
-                  isScrollControlled: true,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20.0),
-                  ),
-                  context: context,
-                  builder: (BuildContext context){
-                    return Padding(
-                      padding: MediaQuery.of(context).viewInsets,
-                      child: Container(
-                        padding: EdgeInsets.all(20),
-                        height: 150,
-                        decoration: BoxDecoration(
-                          color: HexColor("392950"),
-                          borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-                        ),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: <Widget>[
-                            TextField(
-                              textAlign: TextAlign.center,
-                              keyboardType: TextInputType.text,
-                              controller: nameController,
-                              textCapitalization: TextCapitalization.sentences,
-                              decoration: InputDecoration(
-                                border: InputBorder.none,
-                                enabledBorder: InputBorder.none,
-                                errorBorder: InputBorder.none,
-                                disabledBorder: InputBorder.none,
-                                hintText: "Nhập tên lịch ăn uống",
-                                hintStyle: TextStyle(
-                                  color: Colors.grey,
-                                ),
-                              ),
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 19,
-                              ),
-                            ),
-
-                            ElevatedButton(
-                              onPressed: (){
-                                setState(() {
-                                  scheduleName = nameController.text;
-                                });
-                                Navigator.pop(context);
-                              },
-                              child: Text("Lưu tên"),
-                            ),
-                          ],
+              child: Column(
+                children: [
+                  SizedBox(height: 10,),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text(
+                        "Luyện tập tiêu thụ: ",
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
                         ),
                       ),
-                    );
-                  }
-                );
-              },
-              child: Container(
-                padding: EdgeInsets.only(left: _marginHor, bottom: _marginBottom),
-                alignment: Alignment.bottomLeft,
-                  child: buttonRadiusMedium("Đổi tên", Colors.red)
+
+                      DropdownButtonHideUnderline(
+                        child: DropdownButton(
+                          borderRadius: BorderRadius.all(Radius.circular(20)),
+                          dropdownColor: Colors.transparent,
+                          value: goiYValue,
+                          onChanged: (String data1) {
+                            setState(() {
+                              goiYValue = data1;
+                              suggestionsSchedule(data1);
+                            });
+                          },
+                          items: listGoiY.map<DropdownMenuItem<String>>((String value1) {
+                            return DropdownMenuItem<String>(
+                              value: value1,
+                              child: Text(value1, style: TextStyle(fontSize: 18, color: Colors.white, fontWeight: FontWeight.bold),),
+                            );
+                          }).toList(),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
               ),
             ),
 
@@ -405,7 +310,7 @@ class ScheduleDetailScreenState extends State<ScheduleDetailScreen>{
                 if (isNull())
                   Toast.show("Vui lòng nhập các giá trị hợp lệ", context);
                 else if (isOutOfCalo())
-                  Toast.show("Có ngày tiếp thu không đủ calo", context);
+                  Toast.show("Có ngày tiêu hao không đủ calo", context);
                 else
                   uploadSchedule();
               },
@@ -438,7 +343,7 @@ class ScheduleDetailScreenState extends State<ScheduleDetailScreen>{
                   ),
                   child: Center(
                     child: Text(
-                      "Lưu lịch ăn uống",
+                      "Lưu lịch tập luyện",
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 20,
@@ -463,7 +368,7 @@ class ScheduleDetailScreenState extends State<ScheduleDetailScreen>{
     void updateCalo(String text, int index){
       setState(() {
         indexQuanlity[i][index] = text.isEmpty ? 0 : int.parse(text);
-        foodNumberCalo[i][index] = (indexQuanlity[i][index] * CurrentUser.listFood[indexFood[i][index]].calo100g)/100;
+        foodNumberCalo[i][index] = (indexQuanlity[i][index] * CurrentUser.listDongTac[indexFood[i][index]].caloLost100g)/100;
       });
     }
 
@@ -498,9 +403,9 @@ class ScheduleDetailScreenState extends State<ScheduleDetailScreen>{
                       enabledBorder: InputBorder.none,
                       errorBorder: InputBorder.none,
                       disabledBorder: InputBorder.none,
-                      hintText: "gam",
+                      hintText: "lần",
                       hintStyle: TextStyle(
-                        color: Colors.white,
+                        color: Colors.grey,
                       ),
                     ),
                     style: TextStyle(
@@ -519,11 +424,11 @@ class ScheduleDetailScreenState extends State<ScheduleDetailScreen>{
                       onChanged: (String data1) {
                         setState(() {
                           foodValue[i][index] = data1;
-                          indexFood[i][index] = CurrentUser.listFoodString.indexOf(data1);
-                          foodNumberCalo[i][index] = (indexQuanlity[i][index] * CurrentUser.listFood[indexFood[i][index]].calo100g)/100;
+                          indexFood[i][index] = CurrentUser.listDongTacString.indexOf(data1);
+                          foodNumberCalo[i][index] = (indexQuanlity[i][index] * CurrentUser.listDongTac[indexFood[i][index]].caloLost100g)/100;
                         });
                       },
-                      items: CurrentUser.listFoodString.map<DropdownMenuItem<String>>((String value1) {
+                      items: CurrentUser.listDongTacString.map<DropdownMenuItem<String>>((String value1) {
                         return DropdownMenuItem<String>(
                           value: value1,
                           child: Text(value1.toString()),
@@ -535,10 +440,12 @@ class ScheduleDetailScreenState extends State<ScheduleDetailScreen>{
 
                 SizedBox(width: 10,),
                 Expanded(
-                child:Text(
-                  foodNumberCalo[i][index].round().toString() + " calo",
-                  style: TextStyle(color: Colors.white),
-                ),),
+                  child:Text(
+                      foodNumberCalo[i][index].round().toString()=="0" ?
+                      foodNumberCalo[i][index].round().toString() + " calo" :
+                    "-"+foodNumberCalo[i][index].round().toString() + " calo",
+                    style: TextStyle(color: Colors.white),
+                  ),),
               ],
             ),
           ),
@@ -593,58 +500,60 @@ class ScheduleDetailScreenState extends State<ScheduleDetailScreen>{
                         SizedBox(width: 10,),
 
                         Expanded(
-                          child: GestureDetector(
-                            onTap: (){
-                              setState(() {
-                                if(itemLength[i]<10)  itemLength[i]++;
-                              });
-                            },
-                            child: Container(
-                              alignment: Alignment.center,
-                              height: 40,
-                              decoration: BoxDecoration(
-                                color: Colors.green,
-                                borderRadius: BorderRadius.all(Radius.circular(10)),
+                            child: GestureDetector(
+                              onTap: (){
+                                setState(() {
+                                  if(itemLength[i]<10)  itemLength[i]++;
+                                });
+                              },
+                              child: Container(
+                                alignment: Alignment.center,
+                                height: 40,
+                                decoration: BoxDecoration(
+                                  color: Colors.green,
+                                  borderRadius: BorderRadius.all(Radius.circular(10)),
+                                ),
+                                child: Icon(
+                                  Icons.add,
+                                  color: Colors.white,
+                                ),
                               ),
-                              child: Icon(
-                                Icons.add,
-                                color: Colors.white,
-                              ),
-                            ),
-                          )
+                            )
                         ),
 
                         SizedBox(width: 10,),
 
                         Expanded(
-                          child: GestureDetector(
-                            onTap: (){
-                              setState(() {
-                                if(itemLength[i]>1) itemLength[i]--;
-                              });
-                            },
-                            child: Container(
-                              alignment: Alignment.center,
-                              height: 40,
-                              decoration: BoxDecoration(
-                                color: Colors.green,
-                                borderRadius: BorderRadius.all(Radius.circular(10)),
+                            child: GestureDetector(
+                              onTap: (){
+                                setState(() {
+                                  if(itemLength[i]>1) itemLength[i]--;
+                                });
+                              },
+                              child: Container(
+                                alignment: Alignment.center,
+                                height: 40,
+                                decoration: BoxDecoration(
+                                  color: Colors.green,
+                                  borderRadius: BorderRadius.all(Radius.circular(10)),
+                                ),
+                                child: Icon(
+                                  Icons.remove,
+                                  color: Colors.white,
+                                ),
                               ),
-                              child: Icon(
-                                Icons.remove,
-                                color: Colors.white,
-                              ),
-                            ),
-                          )
+                            )
                         ),
 
                         SizedBox(width: 10,),
 
                         Expanded(
-                            child: Text(
-                              getTotalCalo().round().toString()+ " calo",
-                              style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20),
-                            ),
+                          child: Text(
+                              getTotalCalo().round().toString() =="0"?
+                              getTotalCalo().round().toString()+ " calo":
+                            "-"+getTotalCalo().round().toString()+ " calo",
+                            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20),
+                          ),
                         ),
 
                         SizedBox(width: 10,),
@@ -707,7 +616,7 @@ class ScheduleDetailScreenState extends State<ScheduleDetailScreen>{
                                                 enabledBorder: InputBorder.none,
                                                 errorBorder: InputBorder.none,
                                                 disabledBorder: InputBorder.none,
-                                                hintText: "Nhập tên lịch ăn uống",
+                                                hintText: "Nhập tên lịch tập luyện",
                                                 hintStyle: TextStyle(
                                                   color: Colors.grey,
                                                 ),
@@ -753,7 +662,7 @@ class ScheduleDetailScreenState extends State<ScheduleDetailScreen>{
                           ),
 
                           scheduleName!="Mọi đối tượng"
-                          ? GestureDetector(
+                              ? GestureDetector(
                             onTap: (){
                               setState(() {
                                 scheduleName="Mọi đối tượng";
@@ -765,7 +674,7 @@ class ScheduleDetailScreenState extends State<ScheduleDetailScreen>{
                               size: 25,
                             ),
                           )
-                          : SizedBox.shrink(),
+                              : SizedBox.shrink(),
                         ],
                       ),
                     ),

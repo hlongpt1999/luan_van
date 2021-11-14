@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:luan_van/model/FoodModel.dart';
+import 'package:luan_van/model/MovementModel.dart';
 import 'package:luan_van/model/User.dart';
 import 'package:luan_van/screens/login/LoginScreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -14,6 +15,17 @@ class Const{
   static int colorMainPaint = 0xffff9900;
   static int colorMiddlePaint = 0x12345678;
   static int colorLowPaint = 0x87654321;
+
+  static final String CSDL_FOODS = "foods";
+  static final String CSDL_TEST = "test";
+  static final String CSDL_LICH = "schedule";
+  static final String CSDL_USERS = "users";
+  static final String CSDL_DONGTAC = "dongtac";
+  static final String CSDL_SCHEDULE_LUYENTAP = "scheduleLuyenTap";
+
+  static final String FROM_BMI = "FROM_BMI";
+  static final String FROM_CREATE_SCHEDULE = "FROM_CREATE_SCHEDULE";
+  static final String FROM_CREATE_SCHEDULE_LUYENTAP = "FROM_CREATE_SCHEDULE_LUYENTAP";
 
 }
 
@@ -69,6 +81,10 @@ class CurrentUser {
   static UserModel currentUser = UserModel();
   static List<FoodModel> listFood = [];
   static List<String> listFoodString = [];
+
+  static List<MovementModel> listDongTac = [];
+  static List<String> listDongTacString = [];
+
   static int totalCaloDate = 0;
   static UserModel userConnect = UserModel();
 }

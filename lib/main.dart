@@ -5,7 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:luan_van/ThemFood.dart';
+import 'package:luan_van/screens/data/ThemFood.dart';
 import 'package:luan_van/screens/bmi/BMIScreen.dart';
 import 'package:luan_van/screens/bmi/EvaluateBMIScreen.dart';
 import 'package:luan_van/screens/home/DoctorHomeScreen.dart';

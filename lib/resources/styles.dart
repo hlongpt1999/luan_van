@@ -27,7 +27,6 @@ DecorationImage universalBackground = DecorationImage(
 
 DecorationImage foodBackground = DecorationImage(
   image: new ExactAssetImage('assets/background/foodb.jpg'),
-  fit: BoxFit.cover,
 );
 
 DecorationImage balanceBackground = DecorationImage(
@@ -37,6 +36,16 @@ DecorationImage balanceBackground = DecorationImage(
 
 DecorationImage gymBackground = DecorationImage(
   image: new ExactAssetImage('assets/background/gym.jpg'),
+  fit: BoxFit.cover,
+);
+
+DecorationImage foodLoadingBackground = DecorationImage(
+  image: new ExactAssetImage('assets/background/food.jpg'),
+  fit: BoxFit.cover,
+);
+
+DecorationImage gymWallpaper = DecorationImage(
+  image: new ExactAssetImage('assets/background/gymwall.jpg'),
   fit: BoxFit.cover,
 );
 

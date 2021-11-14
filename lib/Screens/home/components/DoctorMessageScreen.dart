@@ -87,15 +87,15 @@ class DoctorMessageScreenState extends State<DoctorMessageScreen>{
             onPressed: (){
               Navigator.of(context).pop();
             },
-            icon: Icon(Icons.arrow_back_rounded)),
-        title: Center(child: Text("NHẮN TIN")),
+            icon: Icon(Icons.arrow_back_rounded, color: HexColor("392950"),)),
+        backgroundColor: Colors.white,
+        title: Center(child: Text("Nhắn tin", style: TextStyle(color: HexColor("392950"), fontWeight: FontWeight.bold),)),
         actions: [
-          SizedBox(width: 40),
+          SizedBox(width: 50,),
         ],
-        backgroundColor: HexColor("392950"),
       ),
       body: Container(
-        color: Colors.blue,
+        color: HexColor("392950"),
         alignment: Alignment.bottomLeft,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -103,7 +103,7 @@ class DoctorMessageScreenState extends State<DoctorMessageScreen>{
           children: [
             Container(
               padding: EdgeInsets.only(left: 15),
-              child: Text("Admin: ",
+              child: Text("Liên hệ admin: ",
                 style: GoogleFonts.aBeeZee(
                   // textStyle: Theme.of(context).textTheme.headline4,
                   color: Colors.white,
@@ -160,8 +160,22 @@ class DoctorMessageScreenState extends State<DoctorMessageScreen>{
             SizedBox(height: 20,),
 
             Container(
+              padding: EdgeInsets.only(left: 15),
+              child: Text("Phản hồi người dùng: ",
+                style: GoogleFonts.aBeeZee(
+                  // textStyle: Theme.of(context).textTheme.headline4,
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                  fontSize: MediaQuery.of(context).size.height/30,
+                ),
+              ),
+            ),
+
+            SizedBox(height: 10,),
+
+            Container(
               padding: EdgeInsets.only(top:15, right: 15, left: 15),
-              height: MediaQuery.of(context).size.height * 2/3,
+              height: MediaQuery.of(context).size.height * 3/5,
               decoration: BoxDecoration(
                   color: MyColor.colorBackgroundTab,
                   borderRadius: BorderRadius.vertical(top: Radius.circular(30))
