@@ -17,11 +17,11 @@ class ThemFood extends StatefulWidget{
 }
 
 List<String> listLoaiThucPham = [
-  "Thịt, cá",
-  "Trứng, sữa",
+  "Thịt cá",
+  "Trứng sữa",
   "Trái cây",
   "Ngũ cốc",
-  "Rau củ quả"
+  "Rau củ"
 ];
 
 class ThemFoodState extends State<ThemFood>{
@@ -235,13 +235,14 @@ class ThemFoodState extends State<ThemFood>{
 
               for(int i=0; i<ghiChuLength;i++)
               Container(
-                height: 40,
+                height: 50,
                 padding: EdgeInsets.only(bottom: 8),
                 child: Row(
                   children: [
                     SizedBox(width: 20,),
                     Expanded(
                       child: TextField(
+                        maxLines: 1,
                         textAlign: TextAlign.center,
                         keyboardType: TextInputType.text,
                         controller: ghiChuController[i],

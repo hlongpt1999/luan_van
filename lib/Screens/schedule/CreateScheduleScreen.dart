@@ -1,7 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:intl/intl.dart';
 import 'package:luan_van/components/Constants.dart';
+import 'package:luan_van/components/Method.dart';
+import 'package:luan_van/components/progressLoading.dart';
 import 'package:luan_van/model/DateMealModel.dart';
 import 'package:luan_van/resources/button_back.dart';
 import 'package:luan_van/resources/button_next.dart';
@@ -10,6 +14,8 @@ import 'package:luan_van/screens/login/Login.dart';
 import 'package:luan_van/screens/schedule/MockData.dart';
 import 'package:luan_van/screens/schedule/ScheduleDetailScreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
+import 'package:toast/toast.dart';
 
 class CreateScheduleScreen extends StatefulWidget {
   @override
@@ -160,64 +166,43 @@ class CreateScheduleScreenState extends State<CreateScheduleScreen> {
               height: _sizeBox,
             ),
 
-            Container(
-              color: Colors.grey,
-              height: _sizeHeightSchedule,
-              width: double.infinity,
-              child: Row(
-                children: [
-                  rotateTitle("Bài tập"),
-                  SizedBox(
-                    width: 5,
-                  ),
-                  Expanded(
-                    child: Container(
-                      child: ListView.builder(
-                        scrollDirection: Axis.horizontal,
-                        itemCount: 7,
-                        itemBuilder: (BuildContext context, int index) {
-                          return Center(child: itemSchedule(_listMeal[index],
-                              _listColorTitle[index], _listDate[index],
-                              "- " + (index * 100).toString() + " calo"),);
-                        },
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
+            //TODO: TẠM ẨN ĐỂ CHẠY K BỊ LỖI THÔI
+            // Container(
+            //   color: Colors.grey,
+            //   height: _sizeHeightSchedule,
+            //   width: double.infinity,
+            //   child: Row(
+            //     children: [
+            //       rotateTitle("Bài tập"),
+            //       SizedBox(
+            //         width: 5,
+            //       ),
+            //       Expanded(
+            //         child: Container(
+            //           child: ListView.builder(
+            //             scrollDirection: Axis.horizontal,
+            //             itemCount: 7,
+            //             itemBuilder: (BuildContext context, int index) {
+            //               return Center(child: itemSchedule(_listMeal[index],
+            //                   _listColorTitle[index], _listDate[index],
+            //                   "- " + (index * 100).toString() + " calo"),);
+            //             },
+            //           ),
+            //         ),
+            //       ),
+            //     ],
+            //   ),
+            // ),
 
             SizedBox(
               height: _sizeBox,
             ),
 
-            // Row(
-            //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            //   children: [
-            //     buttonBack("Back"),
-            //
-            //     Container(
-            //       child: GestureDetector(
-            //           onTap: (){
-            //             onNextClick(context);
-            //           },
-            //           child: buttonNext("Next")),
-            //     ),
-            //   ],
-            // ),
-
-
             Center(
               child: GestureDetector(
                 onTap: (){
                   // testNotification();
-
                   onNextClick(context);
-
-                  // _showNotificationWithoutSound();
-                  // _showNotificationWithDefaultSound();
-
-                  // Navigator.of(context).push(MaterialPageRoute(builder: (context) => HomeScreen()));
                 },
                 child: Container(
                   padding: EdgeInsets.only(top: _sizeBox),
@@ -254,26 +239,29 @@ class CreateScheduleScreenState extends State<CreateScheduleScreen> {
     );
   }
 
-  void onNextClick(BuildContext _context){
-    saveSchedule();
-    setState(() {
-      Navigator.of(_context).push(MaterialPageRoute(builder: (context) => HomeScreen()));
-    });
+  //Biến lưu hôm nay hoặc ngày mai
+  Future<void> uploadSchedule(BuildContext _context) async{
+    for(int i =0; i<7;i++){
+      DateMealModel dateMealModel = _listMeal[i];
+      //Set thời gian là 12h từ nay tới 7 ngày.
+      DateTime now = DateTime.now();
+      DateTime today = DateTime(now.year, now.month, now.day + i, 12, 0, 0, 0, 0);
+      dateMealModel.time = Timestamp.fromDate(today);
+
+      await FirebaseFirestore.instance.collection(Const.CSDL_USERS).doc(CurrentUser.currentUser.id)
+          .collection("schedule").add(dateMealModel.toMap()
+      ).onError((error, stackTrace){
+        ProgressLoading().hideLoading(context);
+        Toast.show("Đã xảy ra lỗi, vui lòng thử lại", context);
+      });
+    }
+    //LẤy lịch để hiển thị.
+    getSchedule(CurrentUser.currentUser.id, context);
   }
 
-  Future<void> saveSchedule() async {
-    //LƯU Danh sách lại CSDL để có gì bắn thông báo
-
-    List<String> foodName=[];
-    SharedPreferences pref = await SharedPreferences.getInstance();
-    for (var i = 0; i<7; i++){
-      //TODO: THÊM EMAIL ĐỂ ĐỊNH NGHĨA. nhớ key để nữa lấy shared
-      for (var j=0; j<_listMeal[i].foods.length ; j++){
-        foodName.add(_listMeal[i].foods[j].name);
-        pref.setStringList(_listMeal[i].foods[j].name, [_listMeal[i].foods[j].calo100g.toString(), _listMeal[i].foods[j].quantity.toString()]);
-      }
-      pref.setStringList(_listMeal[i].id.toString(), foodName);
-    }
+  void onNextClick(BuildContext _context){
+    ProgressLoading().showLoading(context);
+    uploadSchedule(_context);
   }
 
   Widget itemSchedule(DateMealModel listMeal,Color _colorTitle, String _date, String _calo) {

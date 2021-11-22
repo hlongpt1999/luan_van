@@ -7,6 +7,7 @@ import 'package:luan_van/components/progressLoading.dart';
 import 'package:luan_van/model/User.dart';
 import 'package:luan_van/screens/bmi/BMIScreen.dart';
 import 'package:luan_van/screens/login/LoginScreen.dart';
+import 'package:luan_van/testvideo.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class MyDrawer extends StatefulWidget{
@@ -119,7 +120,11 @@ class MyDrawerState extends State<MyDrawer>{
                 child: DrawerItem("Thay đổi mật khẩu", Icons.password)),
 
             SizedBox(height: 10,),
-            DrawerItem("FAQs", Icons.question_answer),
+            GestureDetector(
+                onTap: (){
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => YoutubePlayerDemoApp()));
+                },
+                child: DrawerItem("FAQs", Icons.question_answer)),
 
             SizedBox(height: 10,),
             GestureDetector(

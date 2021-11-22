@@ -5,6 +5,7 @@ class DateMealModel {
   int id = 0;
   int caloDate = 0;
   List<FoodModel> foods = [];
+  Timestamp time = Timestamp.now();
 
   DateMealModel({this.id, this.caloDate, this.foods});
 
@@ -13,7 +14,7 @@ class DateMealModel {
     caloDate = json["caloDate"];
     var messages = List<Map<String, dynamic>>.from(json["foods"] as List<dynamic>);
     foods = messages.map((m) => FoodModel.fromJson(m)).toList();
-    // foods = FoodModel.fromJson(json["foods"]).toList();
+    time = json["time"] ?? Timestamp.now();
   }
 
   Map<String, dynamic> toMap() {
@@ -26,6 +27,7 @@ class DateMealModel {
       "id" : id,
       "caloDate" : caloDate,
       "foods" : FieldValue.arrayUnion(foodMap),
+      "time" : time,
     };
   }
 }

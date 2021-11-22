@@ -177,25 +177,32 @@ class ScheduleDetailScreenState extends State<ScheduleDetailScreen>{
     List<FoodModel> date7= [];
     for (int i=0; i< itemLength[0]; i++){
       date1.add(CurrentUser.listFood[indexFood[0][i]]);
-      date1[i].quantity=indexQuanlity[0][i];
+      // date1[i].quantity=indexQuanlity[0][i];
+      date1[i].quantity=int.parse(soLuongController[0][i].text.toString());
     }for (int i=0; i< itemLength[1]; i++){
       date2.add(CurrentUser.listFood[indexFood[1][i]]);
-      date2[i].quantity=indexQuanlity[1][i];
+      // date2[i].quantity=indexQuanlity[1][i];
+      date2[i].quantity=int.parse(soLuongController[1][i].text.toString());
     }for (int i=0; i< itemLength[2]; i++){
       date3.add(CurrentUser.listFood[indexFood[2][i]]);
-      date3[i].quantity=indexQuanlity[2][i];
+      // date3[i].quantity=indexQuanlity[2][i];
+      date3[i].quantity=int.parse(soLuongController[2][i].text.toString());
     }for (int i=0; i< itemLength[3]; i++){
       date4.add(CurrentUser.listFood[indexFood[3][i]]);
-      date4[i].quantity=indexQuanlity[3][i];
+      // date4[i].quantity=indexQuanlity[3][i];
+      date4[i].quantity=int.parse(soLuongController[3][i].text.toString());
     }for (int i=0; i< itemLength[4]; i++){
       date5.add(CurrentUser.listFood[indexFood[4][i]]);
-      date5[i].quantity=indexQuanlity[4][i];
+      // date5[i].quantity=indexQuanlity[4][i];
+      date5[i].quantity=int.parse(soLuongController[4][i].text.toString());
     }for (int i=0; i< itemLength[5]; i++){
       date6.add(CurrentUser.listFood[indexFood[5][i]]);
-      date6[i].quantity=indexQuanlity[5][i];
+      // date6[i].quantity=indexQuanlity[5][i];
+      date6[i].quantity=int.parse(soLuongController[5][i].text.toString());
     }for (int i=0; i< itemLength[6]; i++){
       date7.add(CurrentUser.listFood[indexFood[6][i]]);
-      date7[i].quantity=indexQuanlity[6][i];
+      // date7[i].quantity=indexQuanlity[6][i];
+      date7[i].quantity=int.parse(soLuongController[6][i].text.toString());
     }
 
     FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
@@ -313,7 +320,17 @@ class ScheduleDetailScreenState extends State<ScheduleDetailScreen>{
                             items: listGoiY.map<DropdownMenuItem<String>>((String value1) {
                               return DropdownMenuItem<String>(
                                 value: value1,
-                                child: Text(value1, style: TextStyle(fontSize: 18, color: Colors.white, fontWeight: FontWeight.bold),),
+                                child: Wrap(
+                                  children: [
+                                    Text(
+                                      value1,
+                                      style: TextStyle(
+                                          fontSize: 18,
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ],
+                                ),
                               );
                             }).toList(),
                           ),
@@ -484,7 +501,8 @@ class ScheduleDetailScreenState extends State<ScheduleDetailScreen>{
             child: Row(
               children: [
                 SizedBox(width: 10,),
-                Expanded(
+                Container(
+                  width: 70,
                   child: TextField(
                     textAlign: TextAlign.center,
                     onChanged: (String text) async{
@@ -526,7 +544,13 @@ class ScheduleDetailScreenState extends State<ScheduleDetailScreen>{
                       items: CurrentUser.listFoodString.map<DropdownMenuItem<String>>((String value1) {
                         return DropdownMenuItem<String>(
                           value: value1,
-                          child: Text(value1.toString()),
+                          child: Wrap(
+                            children: [
+                              Text(
+                                  value1.toString()
+                              ),
+                            ],
+                          ),
                         );
                       }).toList(),
                     ),
@@ -534,7 +558,8 @@ class ScheduleDetailScreenState extends State<ScheduleDetailScreen>{
                 ),
 
                 SizedBox(width: 10,),
-                Expanded(
+                Container(
+                  width: 80,
                 child:Text(
                   foodNumberCalo[i][index].round().toString() + " calo",
                   style: TextStyle(color: Colors.white),

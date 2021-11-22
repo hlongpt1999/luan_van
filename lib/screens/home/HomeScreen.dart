@@ -131,7 +131,6 @@ class HomeScreenState extends State<HomeScreen> {
                     _selectedIndex = index;
                     _pageController.jumpToPage(index);
                     title = _bottomBarTitle[index];
-                    getData();
                   });
                 }),
           ),

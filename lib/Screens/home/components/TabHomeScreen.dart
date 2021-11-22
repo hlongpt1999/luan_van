@@ -4,6 +4,7 @@ import 'package:luan_van/components/Constants.dart';
 import 'package:luan_van/resources/AppTheme.dart';
 
 import 'DietListView.dart';
+import 'LuyenTapListView.dart';
 import 'MediterranesnDietView.dart';
 
 class TabHomeScreen extends StatefulWidget{
@@ -31,7 +32,7 @@ class TabHomeScreenState extends State<TabHomeScreen>{
             Bar(),
 
             MyTitle("Lịch tập hôm nay"),
-            new DietListView(),
+            new LuyenTapListView(),
           ],
         ),
       ),

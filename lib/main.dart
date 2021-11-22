@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:luan_van/components/Method.dart';
 import 'package:luan_van/screens/data/ThemFood.dart';
 import 'package:luan_van/screens/bmi/BMIScreen.dart';
 import 'package:luan_van/screens/bmi/EvaluateBMIScreen.dart';
@@ -96,32 +97,18 @@ class SplashScreenState extends State<SplashScreen>{
           CurrentUser.currentUser.role = data['role'];
           CurrentUser.currentUser.bmi = data['bmi'] ?? 0.0;
         });
-        // runApp(
-        //     new MaterialApp(
-        //       home: HomeScreen(),
-        //     )
-        // );
         if(CurrentUser.currentUser.role != "user" )
           Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => DoctorHomeScreen()));
-        else if(CurrentUser.currentUser.bmi == 0)
+        else if(CurrentUser.currentUser.bmi < 2)
           Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => BMIScreen()));
         else
-          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomeScreen()));
+          getSchedule(CurrentUser.currentUser.id, context);
+          // Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomeScreen()));
 
       }).onError((error, stackTrace){
-        // runApp(
-        //     new MaterialApp(
-        //       home: LoginScreen(),
-        //     )
-        // );
         Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => LoginScreen()));
       });
     }else {
-      // runApp(
-      //     new MaterialApp(
-      //       home: LoginScreen(),
-      //     )
-      // );
       Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => LoginScreen()));
     }
   }
@@ -129,7 +116,7 @@ class SplashScreenState extends State<SplashScreen>{
   FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
   @override
   void initState() {
-    Future.delayed(const Duration(milliseconds: 1000), () {
+    Future.delayed(const Duration(milliseconds: 500), () {
       handleSignIn();
     });
 

@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:luan_van/components/Constants.dart';
+import 'package:luan_van/components/Method.dart';
 import 'package:luan_van/components/progressLoading.dart';
 import 'package:luan_van/model/DateMealModel.dart';
 import 'package:luan_van/model/FoodModel.dart';
@@ -29,7 +30,7 @@ class MyAppState extends State<MyApp> {
   Future<void> getFoods() async{
     CurrentUser.listFood.clear();
     CurrentUser.listFoodString.clear();
-    await FirebaseFirestore.instance.collection("test").get().then(
+    await FirebaseFirestore.instance.collection(Const.CSDL_FOODS).get().then(
             (value){
           value.docs.forEach((element) {
             var data = element.data() as Map<String, dynamic>;
@@ -48,7 +49,7 @@ class MyAppState extends State<MyApp> {
         }
     ).whenComplete((){
       ProgressLoading().hideLoading(context);
-      Navigator.push(context, MaterialPageRoute(builder: (context) => ScheduleDetailScreen()));
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => ScheduleDetailScreen()));
     });
   }
 
@@ -67,7 +68,7 @@ class MyAppState extends State<MyApp> {
         }
     ).whenComplete((){
       ProgressLoading().hideLoading(context);
-      Navigator.push(context, MaterialPageRoute(builder: (context) => ScheduleBaiTapScreen()));
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => ScheduleBaiTapScreen()));
     });
   }
 
@@ -76,17 +77,19 @@ class MyAppState extends State<MyApp> {
     super.initState();
     Future.delayed(const Duration(milliseconds: 2000), () {
       if(Const.KEY_FROM == Const.FROM_BMI){
-        getSchedule();
+        getToSchedule();
       } else if (Const.KEY_FROM == Const.FROM_CREATE_SCHEDULE){
         getFoods();
       } else if (Const.KEY_FROM == Const.FROM_CREATE_SCHEDULE_LUYENTAP){
         getBaiTap();
+      } else if (Const.KEY_FROM == Const.FROM_SCHEDULE){
+        getSchedule(CurrentUser.currentUser.id, context);
       }
     });
   }
 
-  Future<void> getSchedule() async {
-    await FirebaseFirestore.instance.collection("schedule").get().then(
+  Future<void> getToSchedule() async {
+    await FirebaseFirestore.instance.collection(Const.CSDL_LICH).get().then(
       (value){
         value.docs.forEach((element) {
           var data = element.data() as Map<String, dynamic>;
@@ -103,12 +106,9 @@ class MyAppState extends State<MyApp> {
           );
           if (data["totalCalo"] == 1500){
             MockData.listMeal2 = [scheduleModel.date1, scheduleModel.date2, scheduleModel.date3, scheduleModel.date4, scheduleModel.date5, scheduleModel.date6, scheduleModel.date7];
-            print("---"+MockData.listMeal2[3].id.toString());
-            print("---"+MockData.listMeal2[0].caloDate.toString());
           }
-          print("---2"+MockData.listMeal2[3].foods[0].name.toString());
         });
-      }).whenComplete(() => Navigator.push(context, MaterialPageRoute(builder: (context) => CreateScheduleScreen())));
+      }).whenComplete(() => Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => CreateScheduleScreen())));
   }
 
   @override

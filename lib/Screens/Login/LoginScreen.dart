@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:luan_van/components/Constants.dart';
+import 'package:luan_van/components/Method.dart';
 import 'package:luan_van/components/progressLoading.dart';
 import 'package:luan_van/components/response_widget.dart';
 import 'package:luan_van/model/User.dart';
@@ -64,10 +65,10 @@ class LoginScreenState extends State<LoginScreen>{
           ProgressLoading().hideLoading(context);
           if(CurrentUser.currentUser.role != "user" )
             Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => DoctorHomeScreen()));
-          else if(CurrentUser.currentUser.bmi == 0)
+          else if(CurrentUser.currentUser.bmi < 2.0)
             Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => BMIScreen()));
           else
-            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomeScreen()));
+            getSchedule(CurrentUser.currentUser.id, context);
         });
       });
     }on FirebaseAuthException catch (error){
@@ -150,7 +151,7 @@ class LoginScreenState extends State<LoginScreen>{
                                   Icons.person_outline,
                                   color: Colors.white,),
                               ),
-                              style: TextStyle(fontSize: 20),
+                              style: TextStyle(fontSize: 20, color: Colors.white,),
                             ),
 
                             //Space between 2 TextForm.
@@ -184,7 +185,7 @@ class LoginScreenState extends State<LoginScreen>{
                                       Icons.lock_outline,
                                       color: Colors.white),
                                   ),
-                                  style: TextStyle(fontSize: 20),
+                                  style: TextStyle(fontSize: 20, color: Colors.white,),
                                 ),
                                 
                                 GestureDetector(

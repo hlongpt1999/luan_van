@@ -16,7 +16,7 @@ class Const{
   static int colorMiddlePaint = 0x12345678;
   static int colorLowPaint = 0x87654321;
 
-  static final String CSDL_FOODS = "foods";
+  static final String CSDL_FOODS = "Foods";
   static final String CSDL_TEST = "test";
   static final String CSDL_LICH = "schedule";
   static final String CSDL_USERS = "users";
@@ -26,7 +26,7 @@ class Const{
   static final String FROM_BMI = "FROM_BMI";
   static final String FROM_CREATE_SCHEDULE = "FROM_CREATE_SCHEDULE";
   static final String FROM_CREATE_SCHEDULE_LUYENTAP = "FROM_CREATE_SCHEDULE_LUYENTAP";
-
+  static final String FROM_SCHEDULE = "FROM_SCHEDULE";
 }
 
 class MyColor{
@@ -96,6 +96,9 @@ Future<void> onLogOut(BuildContext context) async {
   CurrentUser.totalCaloDate = 0;
   SharedPreferences pref = await SharedPreferences.getInstance();
   pref.remove(Const.LOGIN_PREF);
+  for(String key in pref.getKeys()) {
+    pref.remove(key);
+  }
   pref.clear();
   Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => LoginScreen()));
   await FirebaseAuth.instance.signOut();

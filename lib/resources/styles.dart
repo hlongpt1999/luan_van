@@ -27,6 +27,7 @@ DecorationImage universalBackground = DecorationImage(
 
 DecorationImage foodBackground = DecorationImage(
   image: new ExactAssetImage('assets/background/foodb.jpg'),
+  fit: BoxFit.cover,
 );
 
 DecorationImage balanceBackground = DecorationImage(
