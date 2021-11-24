@@ -7,8 +7,8 @@ import 'package:luan_van/screens/login/LoginScreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Const{
-  static final String VERSION = "Beta version 1.0.4";
-  static final String VERSION_DATE = "22/11/2021";
+  static final String VERSION = "Beta version 1.0.5";
+  static final String VERSION_DATE = "24/11/2021";
   static final String LOGIN_PREF = "LoginPref";
 
   static String KEY_FROM = "";
