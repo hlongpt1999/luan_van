@@ -43,7 +43,13 @@ Future<void> getSchedule(String idUser, BuildContext _context) async{
     //TODO: ID_NUMER 1
     List<String> foodName=[];
     SharedPreferences pref = await SharedPreferences.getInstance();
+
+    if(MockData.listMeal2.length>1) // Vậy là ngày mai vẫn có lịch.
+      CurrentUser.lichNgayMai = true;
+    else CurrentUser.lichNgayMai = false;
+
     for (var i = 0; i<MockData.listMeal2.length; i++){
+      foodName.clear();
       for (var j=0; j<_listMeal[i].foods.length ; j++){
         foodName.add(_listMeal[i].foods[j].name);
         var ref = firebase_storage.FirebaseStorage.instance
@@ -54,7 +60,8 @@ Future<void> getSchedule(String idUser, BuildContext _context) async{
             [
               _listMeal[i].foods[j].calo100g.toString(),
               _listMeal[i].foods[j].quantity.toString(),
-              avatar
+              avatar,
+              _listMeal[i].foods[j].type, //Loại để show màu
             ]);
       }
       DateTime now = DateTime.now();
@@ -105,6 +112,7 @@ Future<void> getLuyenTapShow(String idUser, BuildContext _context) async{
     List<String> dongTacName=[];
     SharedPreferences pref = await SharedPreferences.getInstance();
     for (var i = 0; i<MockData.listLuyenTap.length; i++){
+      dongTacName.clear();
       for (var j=0; j<_listLuyenTap[i].dongTac.length ; j++){
         dongTacName.add(_listLuyenTap[i].dongTac[j].name);
         var ref = firebase_storage.FirebaseStorage.instance
@@ -115,7 +123,7 @@ Future<void> getLuyenTapShow(String idUser, BuildContext _context) async{
             [
               _listLuyenTap[i].dongTac[j].caloLost100g.toString(),
               _listLuyenTap[i].dongTac[j].quantity.toString(),
-              avatar
+              avatar,
             ]);
       }
       DateTime now = DateTime.now();

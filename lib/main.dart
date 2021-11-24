@@ -88,7 +88,7 @@ class SplashScreenState extends State<SplashScreen>{
 
       await _firebaseAuth.signInWithEmailAndPassword(email: email, password: pass)
           .then((value) async{
-        await FirebaseFirestore.instance.collection('users').doc(login.elementAt(0)).get().then((value) async{
+        await FirebaseFirestore.instance.collection(Const.CSDL_USERS).doc(login.elementAt(0)).get().then((value) async{
           var data = value.data() as Map<String, dynamic>;
           CurrentUser.currentUser.name = data['name'];
           CurrentUser.currentUser.email = data['email'];
@@ -96,6 +96,10 @@ class SplashScreenState extends State<SplashScreen>{
           CurrentUser.currentUser.id = data['id'];
           CurrentUser.currentUser.role = data['role'];
           CurrentUser.currentUser.bmi = data['bmi'] ?? 0.0;
+          CurrentUser.currentUser.height = data["height"] ?? 0;
+          CurrentUser.currentUser.weight = data["weight"] ?? 0;
+          CurrentUser.currentUser.bornYear = data["bornYear"] ?? 0;
+          CurrentUser.currentUser.sex = data["sex"] ?? 0.0;
         });
         if(CurrentUser.currentUser.role != "user" )
           Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => DoctorHomeScreen()));

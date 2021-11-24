@@ -90,6 +90,7 @@ class CurrentUser {
   static int totalCaloDate = 0;
   static int totalCaloDateLost = 0;
   static UserModel userConnect = UserModel();
+  static bool lichNgayMai = true;
 }
 
 Future<void> onLogOut(BuildContext context) async {

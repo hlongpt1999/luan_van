@@ -4,14 +4,18 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:luan_van/components/Constants.dart';
+import 'package:luan_van/components/progressLoading.dart';
 import 'package:luan_van/model/FoodModel.dart';
 import 'package:luan_van/model/MealsListData.dart';
 import 'package:luan_van/resources/AppTheme.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:youtube_player_flutter/youtube_player_flutter.dart';
-import 'package:youtube_player_flutter/youtube_player_flutter.dart';
+import 'dart:math' as math;
 
 class DietListView extends StatefulWidget{
+  final int keyHomNao;
+
+  const DietListView ({ Key key, this.keyHomNao }): super(key: key);
+
   @override
   State<StatefulWidget> createState() {
     return DietListViewState();
@@ -21,16 +25,24 @@ class DietListView extends StatefulWidget{
 class DietListViewState extends State<DietListView>{
   List<FoodModel> listData = [];
   FoodModel foodDetail = FoodModel();
+
   Future getData() async{
     listData.clear();
     SharedPreferences pref = await SharedPreferences.getInstance();
     DateTime now = DateTime.now();
-    String today = DateFormat("dd/M/yyyy").format(now);
+    DateTime todayHomNao = DateTime(now.year, now.month, now.day + widget.keyHomNao, 12, 0, 0, 0, 0);
+    String today = DateFormat("dd/M/yyyy").format(todayHomNao);
     List<String> listPrefData = pref.getStringList(today);
     for (var i=0;i<listPrefData.length;i++) {
       var name = listPrefData[i];
       List<String> listPrefData2 = pref.getStringList(name);
-      FoodModel foodModel = FoodModel(name: name, calo100g: double.parse(listPrefData2[0]), quantity: int.parse(listPrefData2[1]), foodImage: listPrefData2[2]);
+      FoodModel foodModel = FoodModel(
+          name: name,
+          calo100g: double.parse(listPrefData2[0]),
+          quantity: int.parse(listPrefData2[1]),
+          foodImage: listPrefData2[2],
+          type: listPrefData2[3]
+      );
       listData.add(foodModel);
     }
   }
@@ -43,6 +55,7 @@ class DietListViewState extends State<DietListView>{
     }
     ).whenComplete(
             (){
+              ProgressLoading().hideLoading(context);
           showModalBottomSheet(
               isScrollControlled: true,
               shape: RoundedRectangleBorder(
@@ -226,7 +239,8 @@ class DietListViewState extends State<DietListView>{
               listData.length > 10 ? 10 : listData.length;
               return GestureDetector(
                 onTap: (){
-                  getFoodDetail(listData[index].name, listData[index].foodImage);//TODO CHỈNH NAME LẠI
+                  ProgressLoading().showLoading(context);
+                  getFoodDetail(listData[index].name, listData[index].foodImage);
                 },
                 child: MealsView(
                   foodModel: listData[index],
@@ -258,15 +272,23 @@ class MealsView extends StatelessWidget {
                   decoration: BoxDecoration(
                     boxShadow: <BoxShadow>[
                       BoxShadow(
-                          color: Colors.orange
+                          color: Colors.white
                               .withOpacity(0.6),
                           offset: const Offset(1.1, 4.0),
                           blurRadius: 8.0),
                     ],
                     gradient: LinearGradient(
                       colors: [
-                        Colors.blue,
-                        Colors.green,
+                    foodModel.type=="Thịt cá" ? Colors.red
+                        : (foodModel.type=="Trứng sữa" ? Colors.yellow
+                        : (foodModel.type=="Trái cây" ? Colors.orangeAccent
+                        : (foodModel.type=="Rau củ" ? Colors.green
+                        : (foodModel.type=="Tinh bột" ? Colors.blueGrey : Colors.purple)))),
+                        foodModel.type=="Thịt cá" ? Colors.red[200]
+                            : (foodModel.type=="Trứng sữa" ? Colors.yellow[200]
+                            : (foodModel.type=="Trái cây" ? Colors.orangeAccent[200]
+                            : (foodModel.type=="Rau củ" ? Colors.green[200]
+                            : (foodModel.type=="Tinh bột" ? Colors.blueGrey[200] : Colors.purple[200])))),
                       ],
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
