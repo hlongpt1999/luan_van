@@ -7,6 +7,7 @@ import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:luan_van/components/Constants.dart';
 import 'package:luan_van/components/Method.dart';
 import 'package:luan_van/components/progressLoading.dart';
+import 'package:luan_van/model/DateLuyenTapModel.dart';
 import 'package:luan_van/model/DateMealModel.dart';
 import 'package:luan_van/model/FoodModel.dart';
 import 'package:luan_van/model/MovementModel.dart';
@@ -108,8 +109,35 @@ class MyAppState extends State<MyApp> {
             MockData.listMeal2 = [scheduleModel.date1, scheduleModel.date2, scheduleModel.date3, scheduleModel.date4, scheduleModel.date5, scheduleModel.date6, scheduleModel.date7];
           }
         });
-      }).whenComplete(() => Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => CreateScheduleScreen())));
+      }).whenComplete(() => getToScheduleLuyenTap());
   }
+
+  Future<void> getToScheduleLuyenTap() async {
+    await FirebaseFirestore.instance.collection(Const.CSDL_SCHEDULE_LUYENTAP).get().then(
+            (value){
+          value.docs.forEach((element) {
+            var data = element.data() as Map<String, dynamic>;
+            ScheduleLuyenTapModel scheduleModel = ScheduleLuyenTapModel(
+              totalCalo: data["totalCalo"],
+              date1: DateLuyenTapModel.fromJson(data["date1"]),
+              date2: DateLuyenTapModel.fromJson(data["date2"]),
+              date3: DateLuyenTapModel.fromJson(data["date3"]),
+              date4: DateLuyenTapModel.fromJson(data["date4"]),
+              date5: DateLuyenTapModel.fromJson(data["date5"]),
+              date6: DateLuyenTapModel.fromJson(data["date6"]),
+              date7: DateLuyenTapModel.fromJson(data["date7"]),
+              name: data["name"] ?? "Mọi đối tượng",
+            );
+            if (data["totalCalo"] == 1500){
+              MockData.listLuyenTap = [scheduleModel.date1, scheduleModel.date2, scheduleModel.date3, scheduleModel.date4, scheduleModel.date5, scheduleModel.date6, scheduleModel.date7];
+            }
+          });
+        }).whenComplete(()
+    => Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => CreateScheduleScreen()))
+    );
+  }
+
+
 
   @override
   Widget build(BuildContext context) {

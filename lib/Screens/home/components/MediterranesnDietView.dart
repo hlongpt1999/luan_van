@@ -141,7 +141,7 @@ class MediterranesnDietView extends StatelessWidget {
                                       padding: const EdgeInsets.only(
                                           left: 4, bottom: 2),
                                       child: Text(
-                                        'Đã tiêu thụ',
+                                        'Cần đốt cháy',
                                         textAlign: TextAlign.center,
                                         style: TextStyle(
                                           fontFamily: AppTheme.fontName,
@@ -169,7 +169,7 @@ class MediterranesnDietView extends StatelessWidget {
                                           padding: const EdgeInsets.only(
                                               left: 4, bottom: 3),
                                           child: Text(
-                                            '${(102 * _value).toInt()}',
+                                            CurrentUser.totalCaloDateLost.toString(),
                                             textAlign: TextAlign.center,
                                             style: TextStyle(
                                               fontFamily: AppTheme.fontName,

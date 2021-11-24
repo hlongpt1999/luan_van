@@ -24,6 +24,10 @@ List<String> listNhomCo = [
   "Toàn thân"
 ];
 
+List<String> listDonVi = [
+  "lần", "mét", "phút",
+];
+
 class ThemBaiTapScreenState extends State<ThemBaiTapScreen>{
   TextEditingController _nameC = TextEditingController();
   TextEditingController _caloC = TextEditingController();
@@ -33,6 +37,7 @@ class ThemBaiTapScreenState extends State<ThemBaiTapScreen>{
   //51-100 =2,
   //101-150=3.......
   String nhomCo = listNhomCo[0];
+  String donVi = listDonVi[0];
 
   PickedFile _image = PickedFile("");
   Future chooseFile() async {
@@ -77,10 +82,10 @@ class ThemBaiTapScreenState extends State<ThemBaiTapScreen>{
       caloLost100g: calo,
       imageDetail: imageDetail,
       priority: 0,
+      donvi: donVi,
     );
 
     //Cách thêm này hơi rườm rà
-    // await firebaseFirestore.collection('Foods').doc(type).collection(prio.toString()).doc(name).set(foodModel.toMap());
     await firebaseFirestore.collection(Const.CSDL_DONGTAC).doc(name).set(movementModel.toMap());
     Toast.show('Đã thêm động tác : ' + name, context);
     ProgressLoading().hideLoading(mContext);
@@ -187,7 +192,34 @@ class ThemBaiTapScreenState extends State<ThemBaiTapScreen>{
               ),
               SizedBox(height: 20,),
 
-              Field(_caloC, "Tiêu hao calo ở 1 động tác",TextInputType.number, Icons.confirmation_number),
+              Row(
+                children: [
+                  Container(
+                      width: MediaQuery.of(context).size.width*2/3,
+                      child: Field(_caloC, "Tiêu hao calo/1 đơn vị",TextInputType.number, Icons.confirmation_number)),
+
+                  SizedBox(width: 10,),
+
+                  DropdownButtonHideUnderline(
+                    child: DropdownButton(
+                      dropdownColor: Colors.transparent,
+                      style: TextStyle(color: Colors.white, fontSize: 20 ),
+                      value: donVi,
+                      onChanged: (String data1) {
+                        setState(() {
+                          donVi = data1;
+                        });
+                      },
+                      items: listDonVi.map<DropdownMenuItem<String>>((String value1) {
+                        return DropdownMenuItem<String>(
+                          value: value1,
+                          child: Text(value1, style: TextStyle(fontSize: 20),),
+                        );
+                      }).toList(),
+                    ),
+                  ),
+                ],
+              ),
               SizedBox(height: 20,),
 
               Field(_detailC, "Chi tiết thực hiện",TextInputType.text, Icons.list),

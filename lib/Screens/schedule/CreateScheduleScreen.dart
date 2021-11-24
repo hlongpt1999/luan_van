@@ -6,6 +6,7 @@ import 'package:intl/intl.dart';
 import 'package:luan_van/components/Constants.dart';
 import 'package:luan_van/components/Method.dart';
 import 'package:luan_van/components/progressLoading.dart';
+import 'package:luan_van/model/DateLuyenTapModel.dart';
 import 'package:luan_van/model/DateMealModel.dart';
 import 'package:luan_van/resources/button_back.dart';
 import 'package:luan_van/resources/button_next.dart';
@@ -25,6 +26,7 @@ class CreateScheduleScreen extends StatefulWidget {
 List<String> _listDate = MyList().listDate;
 var _listColorTitle = MyList().listColorTitle;
 List<DateMealModel> _listMeal = MockData.listMeal2;
+List<DateLuyenTapModel> _listLuyenTap = MockData.listLuyenTap;
 
 class CreateScheduleScreenState extends State<CreateScheduleScreen> {
   double _sizeHeightSchedule = 250,
@@ -151,8 +153,7 @@ class CreateScheduleScreenState extends State<CreateScheduleScreen> {
                         itemBuilder: (BuildContext context, int index) {
                           return Center(
                             child: itemSchedule(_listMeal[index],
-                                _listColorTitle[index], _listDate[index],
-                                "+ " + (index * 100).toString() + " calo"),
+                                _listColorTitle[index], _listDate[index]),
                           );
                         },
                       ),
@@ -167,32 +168,33 @@ class CreateScheduleScreenState extends State<CreateScheduleScreen> {
             ),
 
             //TODO: TẠM ẨN ĐỂ CHẠY K BỊ LỖI THÔI
-            // Container(
-            //   color: Colors.grey,
-            //   height: _sizeHeightSchedule,
-            //   width: double.infinity,
-            //   child: Row(
-            //     children: [
-            //       rotateTitle("Bài tập"),
-            //       SizedBox(
-            //         width: 5,
-            //       ),
-            //       Expanded(
-            //         child: Container(
-            //           child: ListView.builder(
-            //             scrollDirection: Axis.horizontal,
-            //             itemCount: 7,
-            //             itemBuilder: (BuildContext context, int index) {
-            //               return Center(child: itemSchedule(_listMeal[index],
-            //                   _listColorTitle[index], _listDate[index],
-            //                   "- " + (index * 100).toString() + " calo"),);
-            //             },
-            //           ),
-            //         ),
-            //       ),
-            //     ],
-            //   ),
-            // ),
+            Container(
+              color: Colors.grey,
+              height: _sizeHeightSchedule,
+              width: double.infinity,
+              child: Row(
+                children: [
+                  rotateTitle("Bài tập"),
+                  SizedBox(
+                    width: 5,
+                  ),
+                  Expanded(
+                    child: Container(
+                      child: ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: 7,
+                        itemBuilder: (BuildContext context, int index) {
+                          return Center(
+                              child: itemScheduleLuyenTap(_listLuyenTap[index],
+                              _listColorTitle[index], _listDate[index]),
+                          );
+                        },
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
 
             SizedBox(
               height: _sizeBox,
@@ -243,6 +245,8 @@ class CreateScheduleScreenState extends State<CreateScheduleScreen> {
   Future<void> uploadSchedule(BuildContext _context) async{
     for(int i =0; i<7;i++){
       DateMealModel dateMealModel = _listMeal[i];
+      DateLuyenTapModel dateLuyenTapModel = _listLuyenTap[i];
+
       //Set thời gian là 12h từ nay tới 7 ngày.
       DateTime now = DateTime.now();
       DateTime today = DateTime(now.year, now.month, now.day + i, 12, 0, 0, 0, 0);
@@ -250,6 +254,13 @@ class CreateScheduleScreenState extends State<CreateScheduleScreen> {
 
       await FirebaseFirestore.instance.collection(Const.CSDL_USERS).doc(CurrentUser.currentUser.id)
           .collection("schedule").add(dateMealModel.toMap()
+      ).onError((error, stackTrace){
+        ProgressLoading().hideLoading(context);
+        Toast.show("Đã xảy ra lỗi, vui lòng thử lại", context);
+      });
+
+      await FirebaseFirestore.instance.collection(Const.CSDL_USERS).doc(CurrentUser.currentUser.id)
+          .collection("scheduleLuyenTap").add(dateLuyenTapModel.toMap()
       ).onError((error, stackTrace){
         ProgressLoading().hideLoading(context);
         Toast.show("Đã xảy ra lỗi, vui lòng thử lại", context);
@@ -264,7 +275,7 @@ class CreateScheduleScreenState extends State<CreateScheduleScreen> {
     uploadSchedule(_context);
   }
 
-  Widget itemSchedule(DateMealModel listMeal,Color _colorTitle, String _date, String _calo) {
+  Widget itemSchedule(DateMealModel listMeal,Color _colorTitle, String _date) {
     final rows = <TableRow>[
     TableRow(children: [
         Column(children: [Text('SL', style: TextStyle(
@@ -374,6 +385,129 @@ class CreateScheduleScreenState extends State<CreateScheduleScreen> {
             child: Center(
               child: Text(
                 "+" + listMeal.caloDate.toString(),
+                style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20,
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget itemScheduleLuyenTap(DateLuyenTapModel listLuyenTap,Color _colorTitle, String _date) {
+    final rows = <TableRow>[
+      TableRow(children: [
+        Column(children: [Text('Lần', style: TextStyle(
+            fontSize: 20.0, fontWeight: FontWeight.bold))
+        ]),
+        Column(children: [Text('Động tác', style: TextStyle(
+            fontSize: 20.0, fontWeight: FontWeight.bold))
+        ]),
+        Column(children: [Text('Tiêu thụ', style: TextStyle(
+            fontSize: 20.0, fontWeight: FontWeight.bold))
+        ]),
+      ]),
+    ];
+    for (var rowData in listLuyenTap.dongTac) {
+      rows.add(
+        TableRow(children: [
+          Column(children: [
+            Text(
+              rowData.quantity != null
+                  ? rowData.quantity.toString() + "lần"
+                  : "giá trị null",
+              style: TextStyle(
+                fontSize: _sizeTextDetail,
+              ),
+            ),
+          ]),
+          Column(children: [
+            Text(
+              rowData.name,
+              style: TextStyle(
+                fontSize: _sizeTextDetail,
+              ),
+            ),
+          ]),
+          Column(children: [
+            Text(
+              (rowData.caloLost100g!=null && rowData.quantity!=null)
+                  ? ((rowData.caloLost100g * rowData.quantity).round().toString())
+                  : "Giá trị null",
+              style: TextStyle(
+                fontSize: _sizeTextDetail,
+              ),
+            ),
+          ]),
+        ]),
+      );
+    }
+
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 5.0),
+      height: _sizeHeightItemSchedule,
+      width: _sizeWidthItemSchedule,
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(_radiusItem),
+            topRight: Radius.circular(_radiusItem),
+            bottomRight: Radius.circular(_radiusItem),
+          )
+      ),
+      child: Column(
+        children: [
+          Container(
+            height: _sizeHeightTitle,
+            decoration: BoxDecoration(
+              color: _colorTitle,
+              borderRadius: BorderRadius.vertical(
+                  top: Radius.circular(_radiusItem)),
+            ),
+            child: Center(
+              child: Text(
+                _date,
+                style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20,
+                ),
+              ),
+            ),
+          ),
+
+          Container(
+            color: Colors.white70,
+            height: _sizeHeightItemSchedule - 2 * _sizeHeightTitle,
+            child: SingleChildScrollView(
+              child: Table(
+                columnWidths: {
+                  0: FlexColumnWidth(2),
+                  1: FlexColumnWidth(5),
+                  2: FlexColumnWidth(3),
+                },
+                // border: TableBorder.all(
+                //     color: Colors.black,
+                //     style: BorderStyle.solid,
+                //     width: 0),
+                children: rows,
+              ),
+            ),
+          ),
+
+          Container(
+            height: _sizeHeightTitle,
+            decoration: BoxDecoration(
+              color: _colorTitle,
+              borderRadius: BorderRadius.only(
+                  bottomRight: Radius.circular(_radiusItem)),
+            ),
+            child: Center(
+              child: Text(
+                "+" + listLuyenTap.caloDate.toString(),
                 style: TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.bold,

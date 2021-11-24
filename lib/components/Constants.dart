@@ -27,6 +27,8 @@ class Const{
   static final String FROM_CREATE_SCHEDULE = "FROM_CREATE_SCHEDULE";
   static final String FROM_CREATE_SCHEDULE_LUYENTAP = "FROM_CREATE_SCHEDULE_LUYENTAP";
   static final String FROM_SCHEDULE = "FROM_SCHEDULE";
+
+  static final String PREF_LUYENTAP = "luyenTap";
 }
 
 class MyColor{
@@ -86,6 +88,7 @@ class CurrentUser {
   static List<String> listDongTacString = [];
 
   static int totalCaloDate = 0;
+  static int totalCaloDateLost = 0;
   static UserModel userConnect = UserModel();
 }
 

@@ -16,6 +16,7 @@ import 'package:luan_van/screens/schedule/ScheduleDetailScreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:toast/toast.dart';
 
+//TODO: ITem trùng nhau. bài tập với thức ăn luôn.
 class ScheduleBaiTapScreen extends StatefulWidget{
   @override
   State<StatefulWidget> createState() {
@@ -90,7 +91,7 @@ class ScheduleBaiTapScreenState extends State<ScheduleBaiTapScreen>{
   TextEditingController nameController = TextEditingController();
 
   String goiYValue = listGoiY[0];
-  int totalCalo = 0;
+  int totalCalo = 1500;
   List<int> totalCaloDate = [0,0,0,0,0,0,0];
 
   String suggestionsSchedule(String calo){
@@ -147,25 +148,25 @@ class ScheduleBaiTapScreenState extends State<ScheduleBaiTapScreen>{
     List<MovementModel> date7= [];
     for (int i=0; i< itemLength[0]; i++){
       date1.add(CurrentUser.listDongTac[indexFood[0][i]]);
-      date1[i].quantity=indexQuanlity[0][i];
+      date1[i].quantity=int.parse(soLuongController[0][i].text.toString());
     }for (int i=0; i< itemLength[1]; i++){
       date2.add(CurrentUser.listDongTac[indexFood[1][i]]);
-      date2[i].quantity=indexQuanlity[1][i];
+      date2[i].quantity=int.parse(soLuongController[1][i].text.toString());
     }for (int i=0; i< itemLength[2]; i++){
       date3.add(CurrentUser.listDongTac[indexFood[2][i]]);
-      date3[i].quantity=indexQuanlity[2][i];
+      date3[i].quantity=int.parse(soLuongController[2][i].text.toString());
     }for (int i=0; i< itemLength[3]; i++){
       date4.add(CurrentUser.listDongTac[indexFood[3][i]]);
-      date4[i].quantity=indexQuanlity[3][i];
+      date4[i].quantity=int.parse(soLuongController[3][i].text.toString());
     }for (int i=0; i< itemLength[4]; i++){
       date5.add(CurrentUser.listDongTac[indexFood[4][i]]);
-      date5[i].quantity=indexQuanlity[4][i];
+      date5[i].quantity=int.parse(soLuongController[4][i].text.toString());
     }for (int i=0; i< itemLength[5]; i++){
       date6.add(CurrentUser.listDongTac[indexFood[5][i]]);
-      date6[i].quantity=indexQuanlity[5][i];
+      date6[i].quantity=int.parse(soLuongController[5][i].text.toString());
     }for (int i=0; i< itemLength[6]; i++){
       date7.add(CurrentUser.listDongTac[indexFood[6][i]]);
-      date7[i].quantity=indexQuanlity[6][i];
+      date7[i].quantity=int.parse(soLuongController[6][i].text.toString());
     }
 
     FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
@@ -368,7 +369,7 @@ class ScheduleBaiTapScreenState extends State<ScheduleBaiTapScreen>{
     void updateCalo(String text, int index){
       setState(() {
         indexQuanlity[i][index] = text.isEmpty ? 0 : int.parse(text);
-        foodNumberCalo[i][index] = (indexQuanlity[i][index] * CurrentUser.listDongTac[indexFood[i][index]].caloLost100g)/100;
+        foodNumberCalo[i][index] = (indexQuanlity[i][index] * CurrentUser.listDongTac[indexFood[i][index]].caloLost100g);
       });
     }
 
@@ -425,7 +426,7 @@ class ScheduleBaiTapScreenState extends State<ScheduleBaiTapScreen>{
                         setState(() {
                           foodValue[i][index] = data1;
                           indexFood[i][index] = CurrentUser.listDongTacString.indexOf(data1);
-                          foodNumberCalo[i][index] = (indexQuanlity[i][index] * CurrentUser.listDongTac[indexFood[i][index]].caloLost100g)/100;
+                          foodNumberCalo[i][index] = (indexQuanlity[i][index] * CurrentUser.listDongTac[indexFood[i][index]].caloLost100g);
                         });
                       },
                       items: CurrentUser.listDongTacString.map<DropdownMenuItem<String>>((String value1) {

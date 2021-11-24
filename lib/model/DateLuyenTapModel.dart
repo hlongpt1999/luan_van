@@ -5,14 +5,16 @@ class DateLuyenTapModel{
   int id = 0;
   int caloDate = 0;
   List<MovementModel> dongTac = [];
+  Timestamp time = Timestamp.now();
 
-  DateLuyenTapModel({this.id, this.caloDate, this.dongTac});
+  DateLuyenTapModel({this.id, this.caloDate, this.dongTac, this.time});
 
   DateLuyenTapModel.fromJson(Map<String, dynamic> json){
     id = json["id"];
     caloDate = json["caloDate"];
     var messages = List<Map<String, dynamic>>.from(json["dongTac"] as List<dynamic>);
     dongTac = messages.map((m) => MovementModel.fromJson(m)).toList();
+    time = json["time"] ?? Timestamp.now();
     // foods = FoodModel.fromJson(json["foods"]).toList();
   }
 
@@ -25,7 +27,8 @@ class DateLuyenTapModel{
     return {
       "id" : id,
       "caloDate" : caloDate,
-      "foods" : FieldValue.arrayUnion(dongTacMap),
+      "dongTac" : FieldValue.arrayUnion(dongTacMap),
+      "time" : time,
     };
   }
 }

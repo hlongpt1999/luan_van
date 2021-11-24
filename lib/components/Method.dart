@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:luan_van/components/Constants.dart';
 import 'package:luan_van/model/ChatModel.dart';
+import 'package:luan_van/model/DateLuyenTapModel.dart';
 import 'package:luan_van/model/DateMealModel.dart';
 import 'package:luan_van/screens/bmi/BMIScreen.dart';
 import 'package:luan_van/screens/home/HomeScreen.dart';
@@ -12,6 +13,8 @@ import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 
 Future<void> getSchedule(String idUser, BuildContext _context) async{
   MockData.listMeal2 = [];
+  MockData.listLuyenTap = [];
+
   await FirebaseFirestore.instance.collection(Const.CSDL_USERS).doc(idUser).collection("schedule").get().then(
           (value){
         value.docs.forEach((element) async {
@@ -40,7 +43,7 @@ Future<void> getSchedule(String idUser, BuildContext _context) async{
     //TODO: ID_NUMER 1
     List<String> foodName=[];
     SharedPreferences pref = await SharedPreferences.getInstance();
-    for (var i = 0; i<7; i++){
+    for (var i = 0; i<MockData.listMeal2.length; i++){
       for (var j=0; j<_listMeal[i].foods.length ; j++){
         foodName.add(_listMeal[i].foods[j].name);
         var ref = firebase_storage.FirebaseStorage.instance
@@ -61,6 +64,67 @@ Future<void> getSchedule(String idUser, BuildContext _context) async{
       pref.setStringList(ngay, foodName);
       if(ngay == DateFormat("dd/M/yyyy").format(now)) {//Tính số calo cần tiên thụ 1 ngày lưu vào biến tổng.
         CurrentUser.totalCaloDate = _listMeal[i].caloDate;
+      }
+    }
+    getLuyenTapShow(idUser, _context);
+  }).onError((error, stackTrace){
+    Navigator.of(_context).pushReplacement(MaterialPageRoute(builder: (context) => BMIScreen()));
+    print("LỖI: "+ error.toString());
+  });
+
+
+}
+
+Future<void> getLuyenTapShow(String idUser, BuildContext _context) async{
+  await FirebaseFirestore.instance.collection(Const.CSDL_USERS).doc(idUser).collection("scheduleLuyenTap").get().then(
+          (value){
+        value.docs.forEach((element) async {
+          var data = element.data() as Map<String, dynamic>;
+          final now = DateTime.now();
+          DateLuyenTapModel dateLuyenTapModel = new DateLuyenTapModel.fromJson(data);
+          for(int i=0; i<7;i++){
+            if(dateLuyenTapModel.time.toDate().day== now.day + i &&
+                dateLuyenTapModel.time.toDate().month == now.month &&
+                dateLuyenTapModel.time.toDate().year == now.year){
+              MockData.listLuyenTap.add(dateLuyenTapModel);
+            }
+          }
+        });
+      }
+  ).whenComplete(() async {
+    for (int j=0 ; j<MockData.listLuyenTap.length-1;j++)
+      for (int k=j+1; k <MockData.listLuyenTap.length;k++){
+        if(MockData.listLuyenTap[j].time.millisecondsSinceEpoch > MockData.listLuyenTap[k].time.millisecondsSinceEpoch ){
+          DateLuyenTapModel temp = MockData.listLuyenTap[j];
+          MockData.listLuyenTap[j] = MockData.listLuyenTap[k];
+          MockData.listLuyenTap[k] = temp;
+        }
+      }
+    List<DateLuyenTapModel> _listLuyenTap = MockData.listLuyenTap;
+    //TODO: ID_NUMER 1
+    List<String> dongTacName=[];
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    for (var i = 0; i<MockData.listLuyenTap.length; i++){
+      for (var j=0; j<_listLuyenTap[i].dongTac.length ; j++){
+        dongTacName.add(_listLuyenTap[i].dongTac[j].name);
+        var ref = firebase_storage.FirebaseStorage.instance
+            .ref(_listLuyenTap[i].dongTac[j].imageDetail);
+        String avatar = await ref.getDownloadURL();
+        //Lưu dữ liệu món ăn (Theo thứ tự lần lượt là: 0- Calo, 1- quanlity , 2-LinkdownfoodImage,
+        pref.setStringList(_listLuyenTap[i].dongTac[j].name,
+            [
+              _listLuyenTap[i].dongTac[j].caloLost100g.toString(),
+              _listLuyenTap[i].dongTac[j].quantity.toString(),
+              avatar
+            ]);
+      }
+      DateTime now = DateTime.now();
+      DateTime today = DateTime(now.year, now.month, now.day + i, 12, 0, 0, 0, 0);
+      String ngay = DateFormat("dd/M/yyyy").format(today);
+      // pref.setStringList(_listMeal[i].id.toString(), foodName);
+      pref.setStringList(ngay+Const.PREF_LUYENTAP, dongTacName);
+      if(ngay == DateFormat("dd/M/yyyy").format(now)) {//Tính số calo cần tiên thụ 1 ngày lưu vào biến tổng.
+        CurrentUser.totalCaloDateLost = _listLuyenTap[i].caloDate;
       }
     }
     Navigator.of(_context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => HomeScreen()),(Route<dynamic> route) => false);

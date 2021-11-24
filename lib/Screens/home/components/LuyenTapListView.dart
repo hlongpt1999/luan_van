@@ -2,7 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 import 'package:luan_van/components/Constants.dart';
+import 'package:luan_van/components/progressLoading.dart';
 import 'package:luan_van/model/FoodModel.dart';
 import 'package:luan_van/model/MealsListData.dart';
 import 'package:luan_van/model/MovementModel.dart';
@@ -19,18 +21,21 @@ class LuyenTapListView extends StatefulWidget{
 }
 
 class LuyenTapListViewState extends State<LuyenTapListView>{
+  List<MovementModel> listData = [];
 
-  List<FoodModel> listData = [];
   Future getData() async{
     listData.clear();
     SharedPreferences pref = await SharedPreferences.getInstance();
-    List<String> listPrefData = pref.getStringList("1");
+    DateTime now = DateTime.now();
+    String today = DateFormat("dd/M/yyyy").format(now);
+    List<String> listPrefData = pref.getStringList(today+Const.PREF_LUYENTAP);
     for (var i=0;i<listPrefData.length;i++) {
       var name = listPrefData[i];
       List<String> listPrefData2 = pref.getStringList(name);
-      print("LENGTH--" + listPrefData.length.toString());
-      FoodModel foodModel = FoodModel(name: listPrefData2[2], calo100g: double.parse(listPrefData2[0]), quantity: int.parse(listPrefData2[1]));
-      listData.add(foodModel);
+      MovementModel movementModel = MovementModel(name: name, caloLost100g: double.parse(listPrefData2[0]), quantity: int.parse(listPrefData2[1]),
+        imageDetail: listPrefData2[2]
+      );
+      listData.add(movementModel);
     }
   }
 
@@ -51,7 +56,7 @@ class LuyenTapListViewState extends State<LuyenTapListView>{
   void initState() {
     super.initState();
     _controller = YoutubePlayerController(
-      initialVideoId: 'ruWVlqG1P6Q',
+      initialVideoId: 'ruWVlqG1P6Q',//TODO lấy link video
       flags: const YoutubePlayerFlags(
         mute: false,
         autoPlay: true,
@@ -72,16 +77,17 @@ class LuyenTapListViewState extends State<LuyenTapListView>{
     super.dispose();
   }
 
-  MovementModel detailDongTac = MovementModel(name: "Test nhaaaaaa", caloLost100g: 12345, type: "Đầu", detail: "AAAAA");
+  MovementModel detailDongTac = MovementModel();
   
-  Future getDongTac()async{
-    await FirebaseFirestore.instance.collection(Const.CSDL_TEST).doc("Long").get().then(
+  Future getDongTac(String foodName, String imageDetail)async{
+    await FirebaseFirestore.instance.collection(Const.CSDL_DONGTAC).doc(foodName).get().then(
             (value) {
           var data = value.data() as Map<String, dynamic>;
-          // foodDetail = FoodModel.fromJson(data);
+          detailDongTac = MovementModel.fromJson(data);
         }
     ).whenComplete(
             (){
+              ProgressLoading().hideLoading(context);
           showModalBottomSheet(
               isScrollControlled: true,
               shape: RoundedRectangleBorder(
@@ -153,7 +159,7 @@ class LuyenTapListViewState extends State<LuyenTapListView>{
                               SizedBox(width: 15,),
 
                               Text(
-                                detailDongTac.caloLost100g.round().toString()+ "calo/1 động tác" , //TODO: Thêm calo
+                                detailDongTac.caloLost100g.toString()+ "calo/1 "+detailDongTac.donvi, //TODO: Thêm calo
                                 style: GoogleFonts.quicksand(
                                     fontWeight: FontWeight.bold,
                                     // color: listData[index].priority==1 ? Colors.green
@@ -177,7 +183,7 @@ class LuyenTapListViewState extends State<LuyenTapListView>{
                                 Container(
                                   width: 100,
                                   child: Text(
-                                    "Nhóm cơ:" ,//todo: Thêm nhóm
+                                    "Nhóm cơ:" ,
                                     style: GoogleFonts.quicksand(
                                         fontWeight: FontWeight.bold,
                                         color: Colors.black,
@@ -187,11 +193,11 @@ class LuyenTapListViewState extends State<LuyenTapListView>{
                                 ),
                                 SizedBox(width: 15,),
                                 Chip(
-                                  // backgroundColor: listData[index].type=="Thịt, cá" ? Colors.red
-                                  //     : (listData[index].type=="Trứng, sữa" ? Colors.yellow
-                                  //     : (listData[index].type=="Trái cây" ? Colors.orangeAccent
-                                  //     : (listData[index].type=="Rau củ" ? Colors.green
-                                  //     : (listData[index].type=="Tinh bột" ? Colors.blueGrey : Colors.purple)))),
+                                  backgroundColor: detailDongTac.type=="Đầu, cổ" ? Colors.red
+                                      : (detailDongTac.type=="Thân trên" ? Colors.yellow
+                                      : (detailDongTac.type=="Tay" ? Colors.orangeAccent
+                                      : (detailDongTac.type=="Chân" ? Colors.green
+                                      : (detailDongTac.type=="Toàn thân" ? Colors.blueGrey : Colors.purple)))),
                                   label: Text(
                                     detailDongTac.type,
                                     style: GoogleFonts.quicksand(
@@ -224,7 +230,7 @@ class LuyenTapListViewState extends State<LuyenTapListView>{
                           alignment: Alignment.topLeft,
                           height: 50,
                           child: Marquee(
-                            text: detailDongTac.detail+"AAAAAAAAAAAAAAAAAAA AAAAAAAAAAAAAAAAAAA AAAAAAAAAAAA",
+                            text: detailDongTac.detail,
                             style: GoogleFonts.quicksand(
                                 color: Colors.black,
                                 fontSize: 19
@@ -264,14 +270,13 @@ class LuyenTapListViewState extends State<LuyenTapListView>{
                 final int count =
                 listData.length > 10 ? 10 : listData.length;
 
-                print("LISTDATA--"+listData.length.toString());
-
                 return GestureDetector(
                   onTap: (){
-                    getDongTac();
+                    ProgressLoading().showLoading(context);
+                    getDongTac(listData[index].name, listData[index].imageDetail);
                   },
                   child: MealsView(
-                    foodModel: listData[index],
+                    movementModel: listData[index],
                   ),
                 );
               },
@@ -283,9 +288,9 @@ class LuyenTapListViewState extends State<LuyenTapListView>{
 }
 
 class MealsView extends StatelessWidget {
-  const MealsView({Key key, this.foodModel}) : super(key: key);
+  const MealsView({Key key, this.movementModel}) : super(key: key);
 
-  final FoodModel foodModel;
+  final MovementModel movementModel;
 
   @override
   Widget build(BuildContext context) {
@@ -328,7 +333,7 @@ class MealsView extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Text(
-                      foodModel.name,
+                      movementModel.name,
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontFamily: AppTheme.fontName,
@@ -347,7 +352,7 @@ class MealsView extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
                             Text(
-                              foodModel.quantity>=10 ? (foodModel.quantity/10).toString() + "kg" : (foodModel.quantity * 100).toString() + "g",
+                              movementModel.quantity.toString() + " lần",
                               style: TextStyle(
                                 fontFamily: AppTheme.fontName,
                                 fontWeight: FontWeight.w500,
@@ -366,7 +371,7 @@ class MealsView extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: <Widget>[
                         Text(
-                          (foodModel.quantity/100 * foodModel.calo100g).round().toString(),
+                          "-"+(movementModel.quantity * movementModel.caloLost100g).round().toString(),
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontFamily: AppTheme.fontName,
@@ -380,7 +385,7 @@ class MealsView extends StatelessWidget {
                           padding: const EdgeInsets.only(
                               left: 4, bottom: 3),
                           child: Text(
-                            'kcal',
+                            'Calo',
                             style: TextStyle(
                               fontFamily:
                               AppTheme.fontName,
@@ -423,8 +428,8 @@ class MealsView extends StatelessWidget {
             top: 0,
             left: 0,
             child: Container(
-              width: 84,
-              height: 84,
+              width: 80,
+              height: 80,
               decoration: BoxDecoration(
                 color: AppTheme.nearlyWhite.withOpacity(0.2),
                 shape: BoxShape.circle,
@@ -433,11 +438,16 @@ class MealsView extends StatelessWidget {
           ),
           Positioned(
             top: 0,
-            left: 8,
+            left: 0,
             child: Container(
               width: 80,
               height: 80,
-              child: Image.asset("assets/fitness_app/breakfast.png", width: 80, height: 80,),
+              child: CircleAvatar(
+                radius: 80,
+                backgroundImage: NetworkImage(movementModel.imageDetail),
+                backgroundColor: Colors.transparent,
+              ),
+              // child: Image.network(foodModel.foodImage, width: 80, height: 80,),
             ),
           )
         ],

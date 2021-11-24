@@ -8,6 +8,7 @@ class MovementModel{
   String type = "";//Thân trên, thân dưới, bụng, cánh tay...
   String link="";//liên kết để hướng dẫn động tác.
   int quantity=0;
+  String donvi = "";
 
   MovementModel({
       this.idMovement,
@@ -16,7 +17,10 @@ class MovementModel{
       this.caloLost100g,
       this.imageDetail,
       this.priority,
-      this.type, this.link,this.quantity});
+      this.type,
+      this.link,
+      this.quantity,
+      this.donvi});
 
   MovementModel.fromJson(Map<String, dynamic> json){
     idMovement = json["idMovement"] ?? "";
@@ -28,6 +32,7 @@ class MovementModel{
     imageDetail = json["imageDetail"]  ?? "";
     quantity = json["quantity"] ?? 0;
     link = json["link"] ?? "";
+    donvi = json ["donvi"] ?? "";
   }
 
   Map<String, dynamic> toMap() {
@@ -41,6 +46,7 @@ class MovementModel{
       "type" : type ?? "",
       "link" : link ?? "",
       "quantity" : quantity ?? 0,
+      "donvi" : donvi
     };
   }
 }

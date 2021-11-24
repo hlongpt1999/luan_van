@@ -84,7 +84,6 @@ class EvaluateBMIScreenState extends State<EvaluateBMIScreen> {
                     onTap: (){
                       Const.KEY_FROM = Const.FROM_BMI;
                       Navigator.push(context, MaterialPageRoute(builder: (context) => MyApp()));
-                      CurrentUser.totalCaloDate = goiCalo[0];
                     },
                     child: boxBMISelect(showTitleChoice(1), foodBackground, _listIcon[0])
                   ),
@@ -94,7 +93,6 @@ class EvaluateBMIScreenState extends State<EvaluateBMIScreen> {
                     onTap: (){
                       Const.KEY_FROM = Const.FROM_BMI;
                       Navigator.push(context, MaterialPageRoute(builder: (context) => MyApp()));
-                      CurrentUser.totalCaloDate = goiCalo[1];
                     },
                     child: boxBMISelect(showTitleChoice(2), balanceBackground, _listIcon[1]),
                   ),
@@ -105,7 +103,6 @@ class EvaluateBMIScreenState extends State<EvaluateBMIScreen> {
                         Const.KEY_FROM = Const.FROM_BMI;
                         Navigator.push(context, MaterialPageRoute(builder: (context) => MyApp()));
                         // Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => CreateScheduleScreen()));
-                        CurrentUser.totalCaloDate = goiCalo[2];
                       },
                       child: boxBMISelect(showTitleChoice(3), gymBackground, _listIcon[2]),),
                 ],
