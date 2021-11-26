@@ -10,8 +10,8 @@ class DateLuyenTapModel{
   DateLuyenTapModel({this.id, this.caloDate, this.dongTac, this.time});
 
   DateLuyenTapModel.fromJson(Map<String, dynamic> json){
-    id = json["id"];
-    caloDate = json["caloDate"];
+    id = json["id"] ?? 0;
+    caloDate = json["caloDate"] ?? 0;
     var messages = List<Map<String, dynamic>>.from(json["dongTac"] as List<dynamic>);
     dongTac = messages.map((m) => MovementModel.fromJson(m)).toList();
     time = json["time"] ?? Timestamp.now();
@@ -25,8 +25,8 @@ class DateLuyenTapModel{
     }
 
     return {
-      "id" : id,
-      "caloDate" : caloDate,
+      "id" : id ?? 0,
+      "caloDate" : caloDate ?? 0,
       "dongTac" : FieldValue.arrayUnion(dongTacMap),
       "time" : time,
     };

@@ -37,8 +37,12 @@ class LuyenTapListViewState extends State<LuyenTapListView>{
     for (var i=0;i<listPrefData.length;i++) {
       var name = listPrefData[i];
       List<String> listPrefData2 = pref.getStringList(name);
-      MovementModel movementModel = MovementModel(name: name, caloLost100g: double.parse(listPrefData2[0]), quantity: int.parse(listPrefData2[1]),
-        imageDetail: listPrefData2[2]
+      MovementModel movementModel = MovementModel(
+        name: name,
+        caloLost100g: double.parse(listPrefData2[0]),
+        quantity: int.parse(listPrefData2[1]),
+        imageDetail: listPrefData2[2],
+        link: listPrefData2[3]
       );
       listData.add(movementModel);
     }
@@ -62,18 +66,6 @@ class LuyenTapListViewState extends State<LuyenTapListView>{
   @override
   void initState() {
     super.initState();
-    _controller = YoutubePlayerController(
-      initialVideoId: 'ruWVlqG1P6Q',//TODO lấy link video
-      flags: const YoutubePlayerFlags(
-        mute: false,
-        autoPlay: true,
-        disableDragSeek: false,
-        loop: false,
-        isLive: false,
-        forceHD: false,
-        enableCaption: true,
-      ),
-    )..addListener(listener);
     _videoMetaData = const YoutubeMetaData();
     _playerState = PlayerState.unknown;
   }
@@ -86,7 +78,28 @@ class LuyenTapListViewState extends State<LuyenTapListView>{
 
   MovementModel detailDongTac = MovementModel();
   
-  Future getDongTac(String foodName, String imageDetail)async{
+  Future getDongTac(String foodName, String imageDetail, String link)async{
+    String youtubeID = "";
+    String keyYoutube = "watch?v=";
+
+    if(link !=null && link != ""){
+      int dauBang = link.lastIndexOf(keyYoutube);
+      youtubeID = link.substring(dauBang + keyYoutube.length);
+    }
+
+    _controller = YoutubePlayerController(
+      initialVideoId: youtubeID,//TODO lấy link video
+      flags: const YoutubePlayerFlags(
+        mute: false,
+        autoPlay: true,
+        disableDragSeek: false,
+        loop: false,
+        isLive: false,
+        forceHD: false,
+        enableCaption: true,
+      ),
+    )..addListener(listener);
+
     await FirebaseFirestore.instance.collection(Const.CSDL_DONGTAC).doc(foodName).get().then(
             (value) {
           var data = value.data() as Map<String, dynamic>;
@@ -106,14 +119,16 @@ class LuyenTapListViewState extends State<LuyenTapListView>{
                   padding: MediaQuery.of(context).viewInsets,
                   child: Container(
                     padding: EdgeInsets.all(20),
-                    height: 500,
+                    height: (youtubeID == null || youtubeID =="") ? 300 : 500,
                     decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.vertical(top: Radius.circular(30)),
                     ),
                     child: Column(
                       children: [
-                        Container(
+                        (youtubeID == null || youtubeID =="")
+                        ? SizedBox.shrink()
+                        : Container(
                           height: 200,
                           child: ClipRRect(
                             borderRadius: BorderRadius.all(Radius.circular(20)),
@@ -123,7 +138,8 @@ class LuyenTapListViewState extends State<LuyenTapListView>{
                               onReady: (){
                                 _controller.addListener(listener);
                               },
-                            ),
+                            )
+
                           ),
                         ),
 
@@ -133,7 +149,7 @@ class LuyenTapListViewState extends State<LuyenTapListView>{
                             child: Wrap(
                               children: [
                                 Text(
-                                  detailDongTac.name, //TODO;Name
+                                  detailDongTac.name,
                                   style: GoogleFonts.quicksand(
                                     fontWeight: FontWeight.bold,
                                     color: Colors.black,
@@ -166,7 +182,7 @@ class LuyenTapListViewState extends State<LuyenTapListView>{
                               SizedBox(width: 15,),
 
                               Text(
-                                detailDongTac.caloLost100g.toString()+ "calo/1 "+detailDongTac.donvi, //TODO: Thêm calo
+                                detailDongTac.caloLost100g.toString()+ "calo/1 "+detailDongTac.donvi,
                                 style: GoogleFonts.quicksand(
                                     fontWeight: FontWeight.bold,
                                     // color: listData[index].priority==1 ? Colors.green
@@ -223,7 +239,7 @@ class LuyenTapListViewState extends State<LuyenTapListView>{
                           child: Align(
                             alignment: Alignment.centerLeft,
                             child: Text(
-                              "Cách thực hiện:" ,//todo: Thêm danh sách lưu ý
+                              "Cách thực hiện:" ,
                               style: GoogleFonts.quicksand(
                                   fontWeight: FontWeight.bold,
                                   color: Colors.black,
@@ -280,7 +296,7 @@ class LuyenTapListViewState extends State<LuyenTapListView>{
                 return GestureDetector(
                   onTap: (){
                     ProgressLoading().showLoading(context);
-                    getDongTac(listData[index].name, listData[index].imageDetail);
+                    getDongTac(listData[index].name, listData[index].imageDetail, listData[index].link);
                   },
                   child: MealsView(
                     movementModel: listData[index],
@@ -339,15 +355,17 @@ class MealsView extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Text(
-                      movementModel.name,
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontFamily: AppTheme.fontName,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16,
-                        letterSpacing: 0.2,
-                        color: AppTheme.white,
+                    Expanded(
+                      child: Text(
+                        movementModel.name,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontFamily: AppTheme.fontName,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                          letterSpacing: 0.2,
+                          color: AppTheme.white,
+                        ),
                       ),
                     ),
                     Expanded(
@@ -405,27 +423,6 @@ class MealsView extends StatelessWidget {
                         ),
                       ],
                     ),
-                    //   : Container(
-                    // decoration: BoxDecoration(
-                    //   color: AppTheme.nearlyWhite,
-                    //   shape: BoxShape.circle,
-                    //   boxShadow: <BoxShadow>[
-                    //     BoxShadow(
-                    //         color: AppTheme.nearlyBlack
-                    //             .withOpacity(0.4),
-                    //         offset: Offset(8.0, 8.0),
-                    //         blurRadius: 8.0),
-                    //   ],
-                    // ),
-                    // child: Padding(
-                    //   padding: const EdgeInsets.all(6.0),
-                    //   child: Icon(
-                    //     Icons.add,
-                    //     color: HexColor(mealsListData.endColor),
-                    //     size: 24,
-                    //   ),
-                    // ),
-                    // ),
                   ],
                 ),
               ),
@@ -454,7 +451,6 @@ class MealsView extends StatelessWidget {
                 backgroundImage: NetworkImage(movementModel.imageDetail),
                 backgroundColor: Colors.transparent,
               ),
-              // child: Image.network(foodModel.foodImage, width: 80, height: 80,),
             ),
           )
         ],

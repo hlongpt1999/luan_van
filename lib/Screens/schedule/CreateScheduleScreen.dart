@@ -251,6 +251,7 @@ class CreateScheduleScreenState extends State<CreateScheduleScreen> {
       DateTime now = DateTime.now();
       DateTime today = DateTime(now.year, now.month, now.day + i, 12, 0, 0, 0, 0);
       dateMealModel.time = Timestamp.fromDate(today);
+      dateLuyenTapModel.time = Timestamp.fromDate(today);
 
       await FirebaseFirestore.instance.collection(Const.CSDL_USERS).doc(CurrentUser.currentUser.id)
           .collection("schedule").add(dateMealModel.toMap()

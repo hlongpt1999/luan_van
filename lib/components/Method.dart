@@ -118,18 +118,19 @@ Future<void> getLuyenTapShow(String idUser, BuildContext _context) async{
         var ref = firebase_storage.FirebaseStorage.instance
             .ref(_listLuyenTap[i].dongTac[j].imageDetail);
         String avatar = await ref.getDownloadURL();
-        //Lưu dữ liệu món ăn (Theo thứ tự lần lượt là: 0- Calo, 1- quanlity , 2-LinkdownfoodImage,
+        String link =  _listLuyenTap[i].dongTac[j].link ?? "";
+        //Lưu dữ liệu món ăn (Theo thứ tự lần lượt là: 0- Calo, 1- quanlity , 2-LinkdownfoodImage, 3 - link youtube
         pref.setStringList(_listLuyenTap[i].dongTac[j].name,
             [
               _listLuyenTap[i].dongTac[j].caloLost100g.toString(),
               _listLuyenTap[i].dongTac[j].quantity.toString(),
               avatar,
+              link,
             ]);
       }
       DateTime now = DateTime.now();
       DateTime today = DateTime(now.year, now.month, now.day + i, 12, 0, 0, 0, 0);
       String ngay = DateFormat("dd/M/yyyy").format(today);
-      // pref.setStringList(_listMeal[i].id.toString(), foodName);
       pref.setStringList(ngay+Const.PREF_LUYENTAP, dongTacName);
       if(ngay == DateFormat("dd/M/yyyy").format(now)) {//Tính số calo cần tiên thụ 1 ngày lưu vào biến tổng.
         CurrentUser.totalCaloDateLost = _listLuyenTap[i].caloDate;
