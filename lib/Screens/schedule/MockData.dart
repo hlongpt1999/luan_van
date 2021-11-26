@@ -8,7 +8,7 @@ class MockData{
   // List<DateMealModel> listMeal = [date1, date2, date3, date4, date5, date6, date7];
   static List<DateMealModel> listMeal2 = [];
   static List<DateLuyenTapModel> listLuyenTap = [];
-  static List<DateLuyenTapModel> listLuyenTap2 = [d1, d1,d1,d1,d1,d1,d1];
+  // static List<DateLuyenTapModel> listLuyenTap2 = [d1, d1,d1,d1,d1,d1,d1];
 
   static DateLuyenTapModel d1 = new DateLuyenTapModel(id: 1, caloDate: 1400, dongTac: list, time: Timestamp.now());
   static List<MovementModel> list  =<MovementModel>[movementModel, movementModel, movementModel];
