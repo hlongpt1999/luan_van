@@ -18,9 +18,22 @@ class BMIScreen extends StatefulWidget{
 }
 
 class BMIScreenState extends State<BMIScreen>{
+  var now = DateTime.now();
   double myBorder = 40;
-  double mAge = 20, mHeight = 175, mWeight = 60;
+  double mAge = 20;
+  double mHeight = CurrentUser.currentUser.height ?? 175;
+  double mWeight = CurrentUser.currentUser.weight ?? 60;
   bool isMale = true;
+
+  @override
+  void initState() {
+    super.initState();
+    if(CurrentUser.currentUser.bornYear != null)
+      mAge = now.year.roundToDouble() - CurrentUser.currentUser.bornYear;
+
+    if(CurrentUser.currentUser.sex == "Nữ")
+      isMale = false;
+  }
 
   @override
   Widget build(BuildContext context) {

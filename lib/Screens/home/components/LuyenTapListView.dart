@@ -14,6 +14,10 @@ import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 import 'package:marquee/marquee.dart';
 
 class LuyenTapListView extends StatefulWidget{
+  final int keyHomNao;
+
+  const LuyenTapListView ({ Key key, this.keyHomNao }): super(key: key);
+
   @override
   State<StatefulWidget> createState() {
     return LuyenTapListViewState();
@@ -27,7 +31,8 @@ class LuyenTapListViewState extends State<LuyenTapListView>{
     listData.clear();
     SharedPreferences pref = await SharedPreferences.getInstance();
     DateTime now = DateTime.now();
-    String today = DateFormat("dd/M/yyyy").format(now);
+    DateTime todayHomNao = DateTime(now.year, now.month, now.day + widget.keyHomNao, 12, 0, 0, 0, 0);
+    String today = DateFormat("dd/M/yyyy").format(todayHomNao);
     List<String> listPrefData = pref.getStringList(today+Const.PREF_LUYENTAP);
     for (var i=0;i<listPrefData.length;i++) {
       var name = listPrefData[i];
@@ -37,6 +42,8 @@ class LuyenTapListViewState extends State<LuyenTapListView>{
       );
       listData.add(movementModel);
     }
+    if(widget.keyHomNao == 0)
+      CurrentUser.listDongTac = listData;
   }
 
   PlayerState _playerState;

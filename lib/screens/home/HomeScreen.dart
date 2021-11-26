@@ -4,6 +4,7 @@ import 'package:flutter_icons/flutter_icons.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:luan_van/components/Constants.dart';
 import 'package:luan_van/screens/home/components/DietListView.dart';
+import 'package:luan_van/screens/home/components/TabDanhGiaScreen.dart';
 import 'package:luan_van/screens/home/components/TabHomeScreen.dart';
 import 'package:flutter_slider_drawer/flutter_slider_drawer.dart';
 import 'package:luan_van/screens/home/components/TabMessageScreen.dart';
@@ -49,12 +50,7 @@ class HomeScreenState extends State<HomeScreen> {
       TextStyle(fontSize: 30, fontWeight: FontWeight.w600);
   static List<Widget> _widgetOptions = <Widget>[
     TabHomeScreen(),
-    Expanded(
-      child: Text(
-        'Đánh giá',
-        style: optionStyle,
-      ),
-    ),
+    TabDanhGiaScreen(),
     TabMessageScreen(),
    TabStatisticalScreen(),
   ];

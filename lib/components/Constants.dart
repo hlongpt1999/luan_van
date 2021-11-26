@@ -23,6 +23,8 @@ class Const{
   static final String CSDL_DONGTAC = "dongtac";
   static final String CSDL_SCHEDULE_LUYENTAP = "scheduleLuyenTap";
 
+  static final String COLLECTION_DALAM = "historyDaLam";
+
   static final String FROM_BMI = "FROM_BMI";
   static final String FROM_CREATE_SCHEDULE = "FROM_CREATE_SCHEDULE";
   static final String FROM_CREATE_SCHEDULE_LUYENTAP = "FROM_CREATE_SCHEDULE_LUYENTAP";

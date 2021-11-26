@@ -25,7 +25,6 @@ class DietListView extends StatefulWidget{
 class DietListViewState extends State<DietListView>{
   List<FoodModel> listData = [];
   FoodModel foodDetail = FoodModel();
-
   Future getData() async{
     listData.clear();
     SharedPreferences pref = await SharedPreferences.getInstance();
@@ -45,6 +44,8 @@ class DietListViewState extends State<DietListView>{
       );
       listData.add(foodModel);
     }
+    if(widget.keyHomNao == 0)
+      CurrentUser.listFood = listData;
   }
 //TODO gắn food name(Đẻ lên firestore tìm kiếm) và imageFood(link) vào
   Future getFoodDetail(String foodName, String imageFood) async{

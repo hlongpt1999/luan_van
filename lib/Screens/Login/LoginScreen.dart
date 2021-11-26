@@ -42,7 +42,7 @@ class LoginScreenState extends State<LoginScreen>{
 
   final _firebaseAuth = FirebaseAuth.instance;
   Future getData(String uid) async {
-    await FirebaseFirestore.instance.collection('users').doc(uid).get().then((value){
+    await FirebaseFirestore.instance.collection(Const.CSDL_USERS).doc(uid).get().then((value){
       var data = value.data() as Map<String, dynamic>;
       CurrentUser.currentUser.name = data['name'];
       CurrentUser.currentUser.email = data['email'];
@@ -50,6 +50,10 @@ class LoginScreenState extends State<LoginScreen>{
       CurrentUser.currentUser.id = data['id'];
       CurrentUser.currentUser.role = data['role'] ?? "user";
       CurrentUser.currentUser.bmi = data['bmi'] ?? 0.0;
+      CurrentUser.currentUser.height = data["height"] ?? 0;
+      CurrentUser.currentUser.weight = data["weight"] ?? 0;
+      CurrentUser.currentUser.bornYear = data["bornYear"] ?? 0;
+      CurrentUser.currentUser.sex = data["sex"] ?? 0.0;
     });
   }
 
@@ -132,7 +136,7 @@ class LoginScreenState extends State<LoginScreen>{
                               controller: _userController,
                               decoration: InputDecoration(
                                 hintText: "Tên đăng nhập",
-                                labelText: "Tên dăng nhập",
+                                labelText: "Tên đăng nhập",
                                 errorText: _isUserError ? _userErrorMessage : null,
                                 labelStyle: TextStyle(color: Colors.white),
                                 enabledBorder: OutlineInputBorder(
