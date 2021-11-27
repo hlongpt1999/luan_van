@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 Widget boxBMISelect(String _textChoice, DecorationImage _backgroundColor, IconData _icon){
   return Container(
@@ -44,7 +45,7 @@ Widget boxBMISelect(String _textChoice, DecorationImage _backgroundColor, IconDa
         Flexible(
           child: Text(
             _textChoice,
-            style: TextStyle(
+            style: GoogleFonts.quicksand(
               color: Colors.white,
               fontWeight: FontWeight.bold,
               fontSize: 25,

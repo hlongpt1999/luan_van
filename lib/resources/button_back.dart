@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:luan_van/components/Constants.dart';
 
 Widget buttonBack(String _text){
@@ -34,7 +35,7 @@ Widget buttonBack(String _text){
                       Container(
                         padding: EdgeInsets.all(10),
                         child: Text(_text,
-                          style: TextStyle(color: Colors.white,fontSize: 20),),
+                          style: GoogleFonts.quicksand(color: Colors.white,fontSize: 20),),
                       ),
 
 

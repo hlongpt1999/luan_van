@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:luan_van/components/response_widget.dart';
 
 class CustomTextField extends StatelessWidget {
@@ -35,9 +36,11 @@ class CustomTextField extends StatelessWidget {
         keyboardType: keyboardType,
         obscureText: obscureText,
         cursorColor: Colors.orange[200],
+        style: GoogleFonts.quicksand(),
         decoration: InputDecoration(
           prefixIcon: Icon(icon, color: Colors.orange[200], size: 20),
           hintText: hint,
+          hintStyle: GoogleFonts.quicksand(),
           enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(30.0),
               borderSide: BorderSide.none),

@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:luan_van/resources/AppTheme.dart';
 
 class MyAppBar extends AppBar{
@@ -40,8 +41,7 @@ class MyAppBar extends AppBar{
                     child: Text(
                       'My Diary',
                       textAlign: TextAlign.left,
-                      style: TextStyle(
-                        fontFamily: AppTheme.fontName,
+                      style: GoogleFonts.quicksand(
                         fontWeight: FontWeight.w700,
                         fontSize: 22 + 6 - 6 * topBarOpacity,
                         letterSpacing: 1.2,
@@ -84,8 +84,7 @@ class MyAppBar extends AppBar{
                       Text(
                         '15 May',
                         textAlign: TextAlign.left,
-                        style: TextStyle(
-                          fontFamily: AppTheme.fontName,
+                        style: GoogleFonts.quicksand(
                           fontWeight: FontWeight.normal,
                           fontSize: 18,
                           letterSpacing: -0.2,

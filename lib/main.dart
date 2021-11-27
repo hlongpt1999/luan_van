@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:luan_van/components/Method.dart';
 import 'package:luan_van/screens/data/ThemFood.dart';
 import 'package:luan_van/screens/bmi/BMIScreen.dart';
@@ -223,7 +224,7 @@ class SplashScreenState extends State<SplashScreen>{
               Center(
                 child: Text(
                   "DiEx",
-                  style: TextStyle(
+                  style: GoogleFonts.quicksand(
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
                     fontSize: MediaQuery.of(context).size.width/4,

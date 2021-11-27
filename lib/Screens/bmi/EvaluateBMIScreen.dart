@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:luan_van/components/Constants.dart';
 import 'package:luan_van/resources/background_painter_circle.dart';
 import 'package:luan_van/resources/button_outline.dart';
@@ -47,7 +48,7 @@ class EvaluateBMIScreenState extends State<EvaluateBMIScreen> {
                   RichText(
                     text: TextSpan(
                       text: "Chỉ số BMI của bạn là: ",
-                      style: TextStyle(
+                      style: GoogleFonts.quicksand(
                         color: Colors.black,
                         fontWeight: FontWeight.bold,
                         fontSize: 25,
@@ -55,7 +56,7 @@ class EvaluateBMIScreenState extends State<EvaluateBMIScreen> {
                       children: [
                         TextSpan (
                           text: _BMI.toStringAsFixed(2).toString(),
-                          style: TextStyle(
+                          style: GoogleFonts.quicksand(
                             color: _textColor,
                             fontWeight: FontWeight.bold,
                             fontSize: 25,
@@ -70,7 +71,7 @@ class EvaluateBMIScreenState extends State<EvaluateBMIScreen> {
                     child: Flexible(
                       child: Text(
                         evaluateBmiText(_BMI),
-                        style: TextStyle(
+                        style: GoogleFonts.quicksand(
                             color: _textColor,
                             fontWeight: FontWeight.bold,
                             fontSize: 20),

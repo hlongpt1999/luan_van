@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 Widget buttonCircleMax (BuildContext context, String _text,{ Color color1, Color color2, Color colorText}){
   return Container(
@@ -19,7 +20,7 @@ Widget buttonCircleMax (BuildContext context, String _text,{ Color color1, Color
     ),
     child: new Text(
       _text,
-      style: new TextStyle(
+      style: GoogleFonts.quicksand(
         color: colorText ?? Colors.white,
         fontSize: 20.0,
         fontWeight: FontWeight.bold,

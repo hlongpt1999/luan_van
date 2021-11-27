@@ -195,8 +195,7 @@ class TabHomeScreenState extends State<TabHomeScreen>{
           child: Text(
             _text,
             textAlign: TextAlign.left,
-            style: TextStyle(
-              fontFamily: AppTheme.fontName,
+            style: GoogleFonts.quicksand(
               fontWeight: FontWeight.w500,
               fontSize: 18,
               letterSpacing: 0.5,

@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:luan_van/components/Constants.dart';
 import 'package:luan_van/components/progressLoading.dart';
@@ -102,7 +103,7 @@ class ThemBaiTapScreenState extends State<ThemBaiTapScreen>{
             },
             icon: Icon(Icons.arrow_back_rounded, color: HexColor("392950"),)),
         backgroundColor: Colors.white,
-        title: Center(child: Text("Thêm động tác", style: TextStyle(color: HexColor("392950"), fontWeight: FontWeight.bold),)),
+        title: Center(child: Text("Thêm động tác", style: GoogleFonts.quicksand(color: HexColor("392950"), fontWeight: FontWeight.bold),)),
         actions: [
           SizedBox(width: 50,),
         ],
@@ -162,7 +163,7 @@ class ThemBaiTapScreenState extends State<ThemBaiTapScreen>{
                   Center(
                     child: Text(
                       "Nhóm cơ ở: ",
-                      style: TextStyle(fontSize: 20, color: Colors.white),
+                      style: GoogleFonts.quicksand(fontSize: 20, color: Colors.white),
                     ),
                   ),
 
@@ -171,7 +172,7 @@ class ThemBaiTapScreenState extends State<ThemBaiTapScreen>{
                   DropdownButtonHideUnderline(
                     child: DropdownButton(
                       dropdownColor: Colors.transparent,
-                      style: TextStyle(color: Colors.white, fontSize: 20 ),
+                      style: GoogleFonts.quicksand(color: Colors.white, fontSize: 20 ),
                       value: nhomCo,
                       onChanged: (String data1) {
                         setState(() {
@@ -181,7 +182,7 @@ class ThemBaiTapScreenState extends State<ThemBaiTapScreen>{
                       items: listNhomCo.map<DropdownMenuItem<String>>((String value1) {
                         return DropdownMenuItem<String>(
                           value: value1,
-                          child: Text(value1, style: TextStyle(fontSize: 20),),
+                          child: Text(value1, style: GoogleFonts.quicksand(fontSize: 20),),
                         );
                       }).toList(),
                     ),
@@ -203,7 +204,7 @@ class ThemBaiTapScreenState extends State<ThemBaiTapScreen>{
                   DropdownButtonHideUnderline(
                     child: DropdownButton(
                       dropdownColor: Colors.transparent,
-                      style: TextStyle(color: Colors.white, fontSize: 20 ),
+                      style: GoogleFonts.quicksand(color: Colors.white, fontSize: 20 ),
                       value: donVi,
                       onChanged: (String data1) {
                         setState(() {
@@ -213,7 +214,7 @@ class ThemBaiTapScreenState extends State<ThemBaiTapScreen>{
                       items: listDonVi.map<DropdownMenuItem<String>>((String value1) {
                         return DropdownMenuItem<String>(
                           value: value1,
-                          child: Text(value1, style: TextStyle(fontSize: 20),),
+                          child: Text(value1, style: GoogleFonts.quicksand(fontSize: 20),),
                         );
                       }).toList(),
                     ),
@@ -260,10 +261,10 @@ class ThemBaiTapScreenState extends State<ThemBaiTapScreen>{
                   child: Center(
                     child: Text(
                       "Thêm",
-                      style: TextStyle(
+                      style: GoogleFonts.quicksand(
                         color: HexColor("392950"),
                         fontSize: 20,
-                        fontWeight: FontWeight.w500,
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
                   ),
@@ -293,7 +294,7 @@ class ThemBaiTapScreenState extends State<ThemBaiTapScreen>{
       decoration: InputDecoration(
         hintText: _name,
         labelText: _name,
-        labelStyle: TextStyle(color: Colors.white),
+        labelStyle: GoogleFonts.quicksand(color: Colors.white),
         enabledBorder: OutlineInputBorder(
             borderSide: BorderSide(
               color: Colors.white,
@@ -310,7 +311,7 @@ class ThemBaiTapScreenState extends State<ThemBaiTapScreen>{
           _icon,
           color: Colors.white,),
       ),
-      style: TextStyle(fontSize: 20, color: Colors.white),
+      style: GoogleFonts.quicksand(fontSize: 20, color: Colors.white),
     );
   }
 }

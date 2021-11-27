@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:luan_van/components/Constants.dart';
 import 'package:luan_van/components/progressLoading.dart';
@@ -274,7 +275,7 @@ class ScheduleBaiTapScreenState extends State<ScheduleBaiTapScreen>{
                     children: [
                       Text(
                         "Luyện tập tiêu thụ: ",
-                        style: TextStyle(
+                        style: GoogleFonts.quicksand(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
                           color: Colors.white,
@@ -295,7 +296,7 @@ class ScheduleBaiTapScreenState extends State<ScheduleBaiTapScreen>{
                           items: listGoiY.map<DropdownMenuItem<String>>((String value1) {
                             return DropdownMenuItem<String>(
                               value: value1,
-                              child: Text(value1, style: TextStyle(fontSize: 18, color: Colors.white, fontWeight: FontWeight.bold),),
+                              child: Text(value1, style: GoogleFonts.quicksand(fontSize: 18, color: Colors.white, fontWeight: FontWeight.bold),),
                             );
                           }).toList(),
                         ),
@@ -345,7 +346,7 @@ class ScheduleBaiTapScreenState extends State<ScheduleBaiTapScreen>{
                   child: Center(
                     child: Text(
                       "Lưu lịch tập luyện",
-                      style: TextStyle(
+                      style: GoogleFonts.quicksand(
                         color: Colors.white,
                         fontSize: 20,
                         fontWeight: FontWeight.w500,
@@ -405,11 +406,11 @@ class ScheduleBaiTapScreenState extends State<ScheduleBaiTapScreen>{
                       errorBorder: InputBorder.none,
                       disabledBorder: InputBorder.none,
                       hintText: "lần",
-                      hintStyle: TextStyle(
+                      hintStyle: GoogleFonts.quicksand(
                         color: Colors.grey,
                       ),
                     ),
-                    style: TextStyle(
+                    style: GoogleFonts.quicksand(
                       color: Colors.white,
                     ),
                   ),
@@ -421,7 +422,7 @@ class ScheduleBaiTapScreenState extends State<ScheduleBaiTapScreen>{
                     child: DropdownButton(
                       dropdownColor: Colors.transparent,
                       value: foodValue[i][index],
-                      style: TextStyle(color: Colors.white),
+                      style: GoogleFonts.quicksand(color: Colors.white),
                       onChanged: (String data1) {
                         setState(() {
                           foodValue[i][index] = data1;
@@ -445,7 +446,7 @@ class ScheduleBaiTapScreenState extends State<ScheduleBaiTapScreen>{
                       foodNumberCalo[i][index].round().toString()=="0" ?
                       foodNumberCalo[i][index].round().toString() + " calo" :
                     "-"+foodNumberCalo[i][index].round().toString() + " calo",
-                    style: TextStyle(color: Colors.white),
+                    style: GoogleFonts.quicksand(color: Colors.white),
                   ),),
               ],
             ),
@@ -553,7 +554,7 @@ class ScheduleBaiTapScreenState extends State<ScheduleBaiTapScreen>{
                               getTotalCalo().round().toString() =="0"?
                               getTotalCalo().round().toString()+ " calo":
                             "-"+getTotalCalo().round().toString()+ " calo",
-                            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20),
+                            style: GoogleFonts.quicksand(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20),
                           ),
                         ),
 
@@ -618,11 +619,11 @@ class ScheduleBaiTapScreenState extends State<ScheduleBaiTapScreen>{
                                                 errorBorder: InputBorder.none,
                                                 disabledBorder: InputBorder.none,
                                                 hintText: "Nhập tên lịch tập luyện",
-                                                hintStyle: TextStyle(
+                                                hintStyle: GoogleFonts.quicksand(
                                                   color: Colors.grey,
                                                 ),
                                               ),
-                                              style: TextStyle(
+                                              style: GoogleFonts.quicksand(
                                                 color: Colors.white,
                                                 fontSize: 19,
                                               ),
@@ -635,7 +636,7 @@ class ScheduleBaiTapScreenState extends State<ScheduleBaiTapScreen>{
                                                 });
                                                 Navigator.pop(context);
                                               },
-                                              child: Text("Lưu tên"),
+                                              child: Text("Lưu tên", style: GoogleFonts.quicksand(fontWeight: FontWeight.bold),),
                                             ),
                                           ],
                                         ),
@@ -651,7 +652,7 @@ class ScheduleBaiTapScreenState extends State<ScheduleBaiTapScreen>{
                             child: Flexible(
                               child: Text(
                                 scheduleName,
-                                style: TextStyle(
+                                style: GoogleFonts.quicksand(
                                   color: Colors.black,
                                   fontSize: 16,
                                   fontWeight: FontWeight.bold,
@@ -698,7 +699,7 @@ class ScheduleBaiTapScreenState extends State<ScheduleBaiTapScreen>{
                       child: Center(
                         child: Text(
                           _date,
-                          style: TextStyle(
+                          style: GoogleFonts.quicksand(
                             color: _color,
                             fontSize: 25,
                             fontWeight: FontWeight.bold,

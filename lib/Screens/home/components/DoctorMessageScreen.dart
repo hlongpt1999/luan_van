@@ -23,7 +23,7 @@ class DoctorMessageScreenState extends State<DoctorMessageScreen>{
   Future<List<UserModel>> _dataFuture;
   Future<List<UserModel>> getUser() async {
     //TODO: Lọc đối tượng chat là bác sĩ.
-    await FirebaseFirestore.instance.collection("users").get().then(
+    await FirebaseFirestore.instance.collection(Const.CSDL_USERS).get().then(
             (value){
           value.docs.forEach((element) async {
             var data = element.data() as Map<String, dynamic>;
@@ -45,7 +45,7 @@ class DoctorMessageScreenState extends State<DoctorMessageScreen>{
   }
 
   Future<void> getUserInfo(String id, String avatarUrl) async{
-    await FirebaseFirestore.instance.collection('users').doc(id).get().then((value) async{
+    await FirebaseFirestore.instance.collection(Const.CSDL_USERS).doc(id).get().then((value) async{
       var data = value.data() as Map<String, dynamic>;
       CurrentUser.userConnect.name = data['name'];
       CurrentUser.userConnect.email = data['email'];
@@ -89,7 +89,7 @@ class DoctorMessageScreenState extends State<DoctorMessageScreen>{
             },
             icon: Icon(Icons.arrow_back_rounded, color: HexColor("392950"),)),
         backgroundColor: Colors.white,
-        title: Center(child: Text("Nhắn tin", style: TextStyle(color: HexColor("392950"), fontWeight: FontWeight.bold),)),
+        title: Center(child: Text("Nhắn tin", style: GoogleFonts.quicksand(color: HexColor("392950"), fontWeight: FontWeight.bold),)),
         actions: [
           SizedBox(width: 50,),
         ],
@@ -104,7 +104,7 @@ class DoctorMessageScreenState extends State<DoctorMessageScreen>{
             Container(
               padding: EdgeInsets.only(left: 15),
               child: Text("Liên hệ admin: ",
-                style: GoogleFonts.aBeeZee(
+                style: GoogleFonts.quicksand(
                   // textStyle: Theme.of(context).textTheme.headline4,
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
@@ -197,7 +197,7 @@ class DoctorMessageScreenState extends State<DoctorMessageScreen>{
                       return Center(
                         child: Text(
                           "- Không có hội thoại nào -",
-                          style: TextStyle(
+                          style: GoogleFonts.quicksand(
                             color: Colors.white,
                             fontStyle: FontStyle.italic,
                             fontSize: 20,
@@ -212,76 +212,77 @@ class DoctorMessageScreenState extends State<DoctorMessageScreen>{
                               onTap: (){
                                 getUserInfo(listChat[index].id, listChat[index].avatar);
                               },
-                              child: Container(
-                                padding: EdgeInsets.all(10),
-                                height: MediaQuery.of(context).size.height/7,
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.all(Radius.circular(15)),
-                                ),
-                                child: Row(
-                                  children: [
-                                    Container(
-                                      width: MediaQuery.of(context).size.height/7 - 30,
-                                      child: CircleAvatar(
-                                        backgroundImage: NetworkImage(listChat[index].avatar),
-                                        radius: MediaQuery.of(context).size.height/7 - 30,
+                              child: Padding(
+                                padding: EdgeInsets.only(bottom: 10),
+                                child: Container(
+                                  padding: EdgeInsets.all(10),
+                                  height: MediaQuery.of(context).size.height/7,
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.all(Radius.circular(15)),
+                                  ),
+                                  child: Row(
+                                    children: [
+                                      Container(
+                                        width: MediaQuery.of(context).size.height/7 - 30,
+                                        child: CircleAvatar(
+                                          backgroundImage: NetworkImage(listChat[index].avatar),
+                                          radius: MediaQuery.of(context).size.height/7 - 30,
+                                        ),
                                       ),
-                                    ),
 
-                                    SizedBox(width: 15,),
+                                      SizedBox(width: 15,),
 
-                                    Column(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Expanded(
-                                          child: Row(
-                                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                            crossAxisAlignment: CrossAxisAlignment.center,
-                                            children: [
-                                              Container(
-                                                width: MediaQuery.of(context).size.width* 178/500,
-                                                child: Text(
-                                                  listChat[index].name,
-                                                  style: TextStyle(
-                                                    color: Colors.black,
-                                                    fontWeight: FontWeight.bold,
-                                                    fontSize: 18,
+                                      Column(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Expanded(
+                                            child: Row(
+                                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                              crossAxisAlignment: CrossAxisAlignment.center,
+                                              children: [
+                                                Container(
+                                                  width: MediaQuery.of(context).size.width* 178/500,
+                                                  child: Text(
+                                                    listChat[index].name,
+                                                    style: GoogleFonts.quicksand(                                                    color: Colors.black,
+                                                      fontWeight: FontWeight.bold,
+                                                      fontSize: 18,
+                                                    ),
+                                                    maxLines: 1,
+                                                    overflow: TextOverflow.ellipsis,
                                                   ),
+                                                ),
+                                                Text(getLastTime(listChat[index].time),
+                                                  style: GoogleFonts.quicksand(                                                  color: Colors.black,
+                                                    fontStyle: FontStyle.italic,
+                                                    fontSize: 12,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+
+                                          Expanded(
+                                            child: Container(
+                                              width: MediaQuery.of(context).size.width* 5/9,
+                                              alignment: Alignment.centerLeft,
+                                              child: Flexible(
+                                                child: Text(
+                                                  (listChat[index].isMe ? "Bạn: " : "") + listChat[index].content,
                                                   maxLines: 1,
                                                   overflow: TextOverflow.ellipsis,
                                                 ),
                                               ),
-                                              Text(getLastTime(listChat[index].time),
-                                                style: TextStyle(
-                                                  color: Colors.black,
-                                                  fontStyle: FontStyle.italic,
-                                                  fontSize: 12,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-
-                                        Expanded(
-                                          child: Container(
-                                            width: MediaQuery.of(context).size.width* 5/9,
-                                            alignment: Alignment.centerLeft,
-                                            child: Flexible(
-                                              child: Text(
-                                                (listChat[index].isMe ? "Bạn: " : "") + listChat[index].content,
-                                                maxLines: 1,
-                                                overflow: TextOverflow.ellipsis,
-                                              ),
                                             ),
                                           ),
-                                        ),
-                                      ],
-                                    ),
+                                        ],
+                                      ),
 
 
-                                  ],
+                                    ],
+                                  ),
                                 ),
                               ),
                             );
@@ -291,8 +292,7 @@ class DoctorMessageScreenState extends State<DoctorMessageScreen>{
                   return Center(
                     child: Text(
                       "Đang tải ...",
-                      style: TextStyle(
-                        color: Colors.white,
+                      style: GoogleFonts.quicksand(                        color: Colors.white,
                         fontStyle: FontStyle.italic,
                         fontSize: 20,
                       ),

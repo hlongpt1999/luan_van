@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:luan_van/components/Constants.dart';
 import 'package:luan_van/components/progressLoading.dart';
@@ -96,7 +97,7 @@ class ThemFoodState extends State<ThemFood>{
             },
             icon: Icon(Icons.arrow_back_rounded, color: HexColor("392950"),)),
         backgroundColor: Colors.white,
-        title: Center(child: Text("Thêm thực phẩm", style: TextStyle(color: HexColor("392950"), fontWeight: FontWeight.bold),)),
+        title: Center(child: Text("Thêm thực phẩm", style: GoogleFonts.quicksand(color: HexColor("392950"), fontWeight: FontWeight.bold),)),
         actions: [
           SizedBox(width: 50,),
         ],
@@ -156,7 +157,7 @@ class ThemFoodState extends State<ThemFood>{
                   Center(
                     child: Text(
                       "Loại thực phẩm: ",
-                      style: TextStyle(fontSize: 20, color: Colors.white),
+                      style: GoogleFonts.quicksand(fontSize: 20, color: Colors.white),
                     ),
                   ),
 
@@ -165,7 +166,7 @@ class ThemFoodState extends State<ThemFood>{
                   DropdownButtonHideUnderline(
                     child: DropdownButton(
                       dropdownColor: Colors.transparent,
-                      style: TextStyle(color: Colors.white, fontSize: 20 ),
+                      style: GoogleFonts.quicksand(color: Colors.white, fontSize: 20 ),
                       value: loaiThucPham,
                       onChanged: (String data1) {
                         setState(() {
@@ -175,7 +176,7 @@ class ThemFoodState extends State<ThemFood>{
                       items: listLoaiThucPham.map<DropdownMenuItem<String>>((String value1) {
                         return DropdownMenuItem<String>(
                           value: value1,
-                          child: Text(value1, style: TextStyle(fontSize: 20),),
+                          child: Text(value1, style: GoogleFonts.quicksand(fontSize: 20),),
                         );
                       }).toList(),
                     ),
@@ -195,7 +196,7 @@ class ThemFoodState extends State<ThemFood>{
                     alignment: Alignment.centerLeft,
                     child: Text(
                       "Ghi chú: ",
-                      style: TextStyle(fontSize: 20, color: Colors.white),
+                      style: GoogleFonts.quicksand(fontSize: 20, color: Colors.white),
                     ),
                   ),
                   SizedBox(width: 20,),
@@ -253,11 +254,11 @@ class ThemFoodState extends State<ThemFood>{
                           errorBorder: InputBorder.none,
                           disabledBorder: InputBorder.none,
                           hintText: "Nhập ghi chú",
-                          hintStyle: TextStyle(
+                          hintStyle: GoogleFonts.quicksand(
                             color: Colors.grey,
                           ),
                         ),
-                        style: TextStyle(
+                        style: GoogleFonts.quicksand(
                           color: Colors.white,
                           fontSize: 19,
                         ),
@@ -304,10 +305,10 @@ class ThemFoodState extends State<ThemFood>{
                     child: Center(
                       child: Text(
                         "Thêm",
-                        style: TextStyle(
+                        style: GoogleFonts.quicksand(
                           color: HexColor("392950"),
                           fontSize: 20,
-                          fontWeight: FontWeight.w500,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
                     ),
@@ -340,7 +341,7 @@ class ThemFoodState extends State<ThemFood>{
       decoration: InputDecoration(
         hintText: _name,
         labelText: _name,
-        labelStyle: TextStyle(color: Colors.white),
+        labelStyle: GoogleFonts.quicksand(color: Colors.white),
         enabledBorder: OutlineInputBorder(
             borderSide: BorderSide(
               color: Colors.white,
@@ -357,7 +358,7 @@ class ThemFoodState extends State<ThemFood>{
           _icon,
           color: Colors.white,),
       ),
-      style: TextStyle(fontSize: 20, color: Colors.white),
+      style: GoogleFonts.quicksand(fontSize: 20, color: Colors.white),
     );
   }
 }

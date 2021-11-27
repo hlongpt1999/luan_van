@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:luan_van/components/Constants.dart';
 import 'package:luan_van/main.dart';
 import 'package:luan_van/resources/styles.dart';
@@ -31,7 +32,7 @@ class DoctorHomeScreenState extends State<DoctorHomeScreen>{
     ItemGrid(tenItem: "thực phẩm", mota: "Thêm thực phẩm để lập thời gian biểu", linkImage: "assets/fitness_app/lunch.png"),
     ItemGrid(tenItem: "động tác", mota: "Thêm các động tác luyện", linkImage: "assets/fitness_app/runner.png"),
     ItemGrid(tenItem: "Chế độ ăn uống", mota: "Thêm lịch ăn uống tuần", linkImage: "assets/fitness_app/bento.png"),
-    ItemGrid(tenItem: "Chế độ luyện tập", mota: "Thêm các chế độ tập luyện theo tuần", linkImage: "assets/fitness_app/luyentap.png"),
+    ItemGrid(tenItem: "luyện tập", mota: "Thêm các chế độ tập luyện theo tuần", linkImage: "assets/fitness_app/luyentap.png"),
     ItemGrid(tenItem: "Nhắn tin", mota: "Nhắn tin tư vấn cho người dùng", linkImage: "assets/fitness_app/message.png"),
   ];
 
@@ -67,20 +68,22 @@ class DoctorHomeScreenState extends State<DoctorHomeScreen>{
                         showDialog(
                           context: context,
                           builder: (_context)=> AlertDialog(
-                            title: Text("Đăng xuất"),
-                            content: Text("Bạn có muốn đăng xuất khỏi ứng dụng?"),
+                            title: Text("Đăng xuất", style: GoogleFonts.quicksand(
+                              fontWeight: FontWeight.bold,
+                            ),),
+                            content: Text("Bạn có muốn đăng xuất khỏi ứng dụng?", style: GoogleFonts.quicksand(),),
                             actions: <Widget>[
                               FlatButton(
                                 onPressed: () {
                                   Navigator.of(context).pop();
                                 },
-                                child: Text("Không"),
+                                child: Text("Không", style: GoogleFonts.quicksand(fontWeight: FontWeight.bold),),
                               ),
                               FlatButton(
                                 onPressed: (){
                                   onLogOut(context);
                                 },
-                                child: Text("Có"),
+                                child: Text("Có", style: GoogleFonts.quicksand(fontWeight: FontWeight.bold),),
                               ),
                             ],
                           ),
@@ -98,7 +101,7 @@ class DoctorHomeScreenState extends State<DoctorHomeScreen>{
                     Expanded(
                       child: Text(
                         "Xin chào,\n\n" + (CurrentUser.currentUser.name ?? "").toUpperCase(),
-                        style: TextStyle(
+                        style: GoogleFonts.quicksand(
                           fontSize: 25,
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
@@ -174,7 +177,7 @@ class DoctorHomeScreenState extends State<DoctorHomeScreen>{
 
                                 Text(
                                   listItems[index].tenItem.toUpperCase(),
-                                  style: TextStyle(
+                                  style: GoogleFonts.quicksand(
                                     color: Colors.white,
                                     fontWeight: FontWeight.bold,
                                     fontSize: 16,
@@ -186,7 +189,7 @@ class DoctorHomeScreenState extends State<DoctorHomeScreen>{
                                   children: [
                                     Text(
                                         listItems[index].mota,
-                                      style: TextStyle(
+                                      style: GoogleFonts.quicksand(
                                         color: Colors.white.withOpacity(0.2),
                                         fontSize: 14,
                                       ),

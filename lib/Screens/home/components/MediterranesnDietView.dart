@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:luan_van/components/Constants.dart';
 import 'dart:math' as math;
 import 'package:luan_van/resources/AppTheme.dart';
@@ -59,8 +60,7 @@ class MediterranesnDietView extends StatelessWidget {
                                       child: Text(
                                         "Cần tiêu thụ",
                                         textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                          fontFamily: AppTheme.fontName,
+                                        style: GoogleFonts.quicksand(
                                           fontWeight: FontWeight.w500,
                                           fontSize: 16,
                                           letterSpacing: -0.1,
@@ -85,8 +85,7 @@ class MediterranesnDietView extends StatelessWidget {
                                             // '${(1127 * _value).toInt()}',
                                             CurrentUser.totalCaloDate.toString(),
                                             textAlign: TextAlign.center,
-                                            style: TextStyle(
-                                              fontFamily: AppTheme.fontName,
+                                            style: GoogleFonts.quicksand(
                                               fontWeight: FontWeight.w600,
                                               fontSize: 16,
                                               color: AppTheme.darkerText,
@@ -99,8 +98,7 @@ class MediterranesnDietView extends StatelessWidget {
                                           child: Text(
                                             'Calo',
                                             textAlign: TextAlign.center,
-                                            style: TextStyle(
-                                              fontFamily: AppTheme.fontName,
+                                            style: GoogleFonts.quicksand(
                                               fontWeight: FontWeight.w600,
                                               fontSize: 12,
                                               letterSpacing: -0.2,
@@ -143,8 +141,7 @@ class MediterranesnDietView extends StatelessWidget {
                                       child: Text(
                                         'Cần đốt cháy',
                                         textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                          fontFamily: AppTheme.fontName,
+                                        style: GoogleFonts.quicksand(
                                           fontWeight: FontWeight.w500,
                                           fontSize: 16,
                                           letterSpacing: -0.1,
@@ -171,8 +168,7 @@ class MediterranesnDietView extends StatelessWidget {
                                           child: Text(
                                             CurrentUser.totalCaloDateLost.toString(),
                                             textAlign: TextAlign.center,
-                                            style: TextStyle(
-                                              fontFamily: AppTheme.fontName,
+                                            style: GoogleFonts.quicksand(
                                               fontWeight: FontWeight.w600,
                                               fontSize: 16,
                                               color: AppTheme.darkerText,
@@ -185,8 +181,7 @@ class MediterranesnDietView extends StatelessWidget {
                                           child: Text(
                                             'Calo',
                                             textAlign: TextAlign.center,
-                                            style: TextStyle(
-                                              fontFamily: AppTheme.fontName,
+                                            style: GoogleFonts.quicksand(
                                               fontWeight: FontWeight.w600,
                                               fontSize: 12,
                                               letterSpacing: -0.2,
@@ -234,8 +229,7 @@ class MediterranesnDietView extends StatelessWidget {
                                   Text(
                                     '${(1503 * _value).toInt()}',
                                     textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                      fontFamily: AppTheme.fontName,
+                                    style: GoogleFonts.quicksand(
                                       fontWeight: FontWeight.normal,
                                       fontSize: 24,
                                       letterSpacing: 0.0,
@@ -245,8 +239,7 @@ class MediterranesnDietView extends StatelessWidget {
                                   Text(
                                     'Calo còn lại',
                                     textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                      fontFamily: AppTheme.fontName,
+                                    style: GoogleFonts.quicksand(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 12,
                                       letterSpacing: 0.0,
@@ -304,7 +297,7 @@ class MediterranesnDietView extends StatelessWidget {
             //             Text(
             //               'Carbs',
             //               textAlign: TextAlign.center,
-            //               style: TextStyle(
+            //               style: GoogleFonts.quicksand(
             //                 fontFamily: AppTheme.fontName,
             //                 fontWeight: FontWeight.w500,
             //                 fontSize: 16,
@@ -345,7 +338,7 @@ class MediterranesnDietView extends StatelessWidget {
             //               child: Text(
             //                 '12g left',
             //                 textAlign: TextAlign.center,
-            //                 style: TextStyle(
+            //                 style: GoogleFonts.quicksand(
             //                   fontFamily: AppTheme.fontName,
             //                   fontWeight: FontWeight.w600,
             //                   fontSize: 12,
@@ -368,7 +361,7 @@ class MediterranesnDietView extends StatelessWidget {
             //                 Text(
             //                   'Protein',
             //                   textAlign: TextAlign.center,
-            //                   style: TextStyle(
+            //                   style: GoogleFonts.quicksand(
             //                     fontFamily: AppTheme.fontName,
             //                     fontWeight: FontWeight.w500,
             //                     fontSize: 16,
@@ -410,7 +403,7 @@ class MediterranesnDietView extends StatelessWidget {
             //                   child: Text(
             //                     '30g left',
             //                     textAlign: TextAlign.center,
-            //                     style: TextStyle(
+            //                     style: GoogleFonts.quicksand(
             //                       fontFamily: AppTheme.fontName,
             //                       fontWeight: FontWeight.w600,
             //                       fontSize: 12,
@@ -434,7 +427,7 @@ class MediterranesnDietView extends StatelessWidget {
             //               children: <Widget>[
             //                 Text(
             //                   'Fat',
-            //                   style: TextStyle(
+            //                   style: GoogleFonts.quicksand(
             //                     fontFamily: AppTheme.fontName,
             //                     fontWeight: FontWeight.w500,
             //                     fontSize: 16,
@@ -477,7 +470,7 @@ class MediterranesnDietView extends StatelessWidget {
             //                   child: Text(
             //                     '10g left',
             //                     textAlign: TextAlign.center,
-            //                     style: TextStyle(
+            //                     style: GoogleFonts.quicksand(
             //                       fontFamily: AppTheme.fontName,
             //                       fontWeight: FontWeight.w600,
             //                       fontSize: 12,

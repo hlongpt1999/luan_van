@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:luan_van/components/Constants.dart';
 import 'package:luan_van/components/Method.dart';
@@ -121,7 +122,7 @@ class CreateScheduleScreenState extends State<CreateScheduleScreen> {
                 child: Center(
                   child: Text(
                     "Lịch tập",
-                    style: TextStyle(
+                    style: GoogleFonts.quicksand(
                       color: Colors.white,
                       fontSize: 40,
                       fontWeight: FontWeight.bold,
@@ -225,7 +226,7 @@ class CreateScheduleScreenState extends State<CreateScheduleScreen> {
                   child: Center(
                     child: Text(
                       "LƯU",
-                      style: TextStyle(
+                      style: GoogleFonts.quicksand(
                         color: Colors.white,
                         fontSize: 40,
                         fontWeight: FontWeight.bold,
@@ -279,13 +280,13 @@ class CreateScheduleScreenState extends State<CreateScheduleScreen> {
   Widget itemSchedule(DateMealModel listMeal,Color _colorTitle, String _date) {
     final rows = <TableRow>[
     TableRow(children: [
-        Column(children: [Text('SL', style: TextStyle(
+        Column(children: [Text('SL', style: GoogleFonts.quicksand(
             fontSize: 20.0, fontWeight: FontWeight.bold))
         ]),
-        Column(children: [Text('Thực phẩm', style: TextStyle(
+        Column(children: [Text('Thực phẩm', style: GoogleFonts.quicksand(
             fontSize: 20.0, fontWeight: FontWeight.bold))
         ]),
-        Column(children: [Text('Calo', style: TextStyle(
+        Column(children: [Text('Calo', style: GoogleFonts.quicksand(
             fontSize: 20.0, fontWeight: FontWeight.bold))
         ]),
       ]),
@@ -298,7 +299,7 @@ class CreateScheduleScreenState extends State<CreateScheduleScreen> {
               rowData.quantity != null
               ? (rowData.quantity>=1000 ? (rowData.quantity/1000).toString() + "kg" : rowData.quantity.toString() + "g")//TODO
               : "giá trị null",
-              style: TextStyle(
+              style: GoogleFonts.quicksand(
                 fontSize: _sizeTextDetail,
               ),
             ),
@@ -306,7 +307,7 @@ class CreateScheduleScreenState extends State<CreateScheduleScreen> {
           Column(children: [
             Text(
               rowData.name,
-              style: TextStyle(
+              style: GoogleFonts.quicksand(
                 fontSize: _sizeTextDetail,
               ),
             ),
@@ -316,7 +317,7 @@ class CreateScheduleScreenState extends State<CreateScheduleScreen> {
               (rowData.calo100g!=null && rowData.quantity!=null)
               ? ((rowData.calo100g * rowData.quantity/100).round().toString())//TODO
               : "Giá trị null",
-              style: TextStyle(
+              style: GoogleFonts.quicksand(
                 fontSize: _sizeTextDetail,
               ),
             ),
@@ -348,7 +349,7 @@ class CreateScheduleScreenState extends State<CreateScheduleScreen> {
             child: Center(
               child: Text(
                 _date,
-                style: TextStyle(
+                style: GoogleFonts.quicksand(
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
                   fontSize: 20,
@@ -386,7 +387,7 @@ class CreateScheduleScreenState extends State<CreateScheduleScreen> {
             child: Center(
               child: Text(
                 "+" + listMeal.caloDate.toString(),
-                style: TextStyle(
+                style: GoogleFonts.quicksand(
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
                   fontSize: 20,
@@ -402,13 +403,13 @@ class CreateScheduleScreenState extends State<CreateScheduleScreen> {
   Widget itemScheduleLuyenTap(DateLuyenTapModel listLuyenTap,Color _colorTitle, String _date) {
     final rows = <TableRow>[
       TableRow(children: [
-        Column(children: [Text('Lần', style: TextStyle(
+        Column(children: [Text('Lần', style: GoogleFonts.quicksand(
             fontSize: 20.0, fontWeight: FontWeight.bold))
         ]),
-        Column(children: [Text('Động tác', style: TextStyle(
+        Column(children: [Text('Động tác', style: GoogleFonts.quicksand(
             fontSize: 20.0, fontWeight: FontWeight.bold))
         ]),
-        Column(children: [Text('Tiêu thụ', style: TextStyle(
+        Column(children: [Text('Tiêu thụ', style: GoogleFonts.quicksand(
             fontSize: 20.0, fontWeight: FontWeight.bold))
         ]),
       ]),
@@ -421,7 +422,7 @@ class CreateScheduleScreenState extends State<CreateScheduleScreen> {
               rowData.quantity != null
                   ? rowData.quantity.toString() + "lần"
                   : "giá trị null",
-              style: TextStyle(
+              style: GoogleFonts.quicksand(
                 fontSize: _sizeTextDetail,
               ),
             ),
@@ -429,7 +430,7 @@ class CreateScheduleScreenState extends State<CreateScheduleScreen> {
           Column(children: [
             Text(
               rowData.name,
-              style: TextStyle(
+              style: GoogleFonts.quicksand(
                 fontSize: _sizeTextDetail,
               ),
             ),
@@ -439,7 +440,7 @@ class CreateScheduleScreenState extends State<CreateScheduleScreen> {
               (rowData.caloLost100g!=null && rowData.quantity!=null)
                   ? ((rowData.caloLost100g * rowData.quantity).round().toString())
                   : "Giá trị null",
-              style: TextStyle(
+              style: GoogleFonts.quicksand(
                 fontSize: _sizeTextDetail,
               ),
             ),
@@ -471,7 +472,7 @@ class CreateScheduleScreenState extends State<CreateScheduleScreen> {
             child: Center(
               child: Text(
                 _date,
-                style: TextStyle(
+                style: GoogleFonts.quicksand(
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
                   fontSize: 20,
@@ -509,7 +510,7 @@ class CreateScheduleScreenState extends State<CreateScheduleScreen> {
             child: Center(
               child: Text(
                 "+" + listLuyenTap.caloDate.toString(),
-                style: TextStyle(
+                style: GoogleFonts.quicksand(
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
                   fontSize: 20,
@@ -535,7 +536,7 @@ class CreateScheduleScreenState extends State<CreateScheduleScreen> {
         child: Center(
           child: Text(
             _title,
-            style: TextStyle(
+            style: GoogleFonts.quicksand(
               color: Colors.white,
               fontSize: 25,
               fontWeight: FontWeight.bold,

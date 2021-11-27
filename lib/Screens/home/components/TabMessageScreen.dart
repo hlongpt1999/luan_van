@@ -94,7 +94,7 @@ class TabMessageScreenState extends State<TabMessageScreen>{
           Container(
             padding: EdgeInsets.only(left: 15),
             child: Text("Nhắn tin tư vấn\nvới chuyên gia",
-              style: GoogleFonts.aBeeZee(
+              style: GoogleFonts.quicksand(
                 // textStyle: Theme.of(context).textTheme.headline4,
                 color: Colors.white,
                 fontWeight: FontWeight.bold,
@@ -173,7 +173,7 @@ class TabMessageScreenState extends State<TabMessageScreen>{
                     return Center(
                       child: Text(
                         "- Không có hội thoại nào -",
-                        style: TextStyle(
+                        style: GoogleFonts.quicksand(
                           color: Colors.white,
                           fontStyle: FontStyle.italic,
                           fontSize: 20,
@@ -222,7 +222,7 @@ class TabMessageScreenState extends State<TabMessageScreen>{
                                                 width: MediaQuery.of(context).size.width* 178/500,
                                                 child: Text(
                                                   listChat[index].name,
-                                                  style: TextStyle(
+                                                  style: GoogleFonts.quicksand(
                                                     color: Colors.black,
                                                     fontWeight: FontWeight.bold,
                                                     fontSize: 18,
@@ -232,7 +232,7 @@ class TabMessageScreenState extends State<TabMessageScreen>{
                                                 ),
                                               ),
                                               Text(getLastTime(listChat[index].time),
-                                                style: TextStyle(
+                                                style: GoogleFonts.quicksand(
                                                   color: Colors.black,
                                                   fontStyle: FontStyle.italic,
                                                   fontSize: 12,
@@ -270,7 +270,7 @@ class TabMessageScreenState extends State<TabMessageScreen>{
                 return Center(
                   child: Text(
                     "Đang tải ...",
-                    style: TextStyle(
+                    style: GoogleFonts.quicksand(
                       color: Colors.white,
                       fontStyle: FontStyle.italic,
                       fontSize: 20,

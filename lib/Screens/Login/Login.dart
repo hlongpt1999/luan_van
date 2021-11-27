@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:luan_van/components/Constants.dart';
 import 'package:luan_van/components/Method.dart';
@@ -50,7 +51,7 @@ class MyAppState extends State<MyApp> {
         }
     ).whenComplete((){
       ProgressLoading().hideLoading(context);
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => ScheduleDetailScreen()));
+      Navigator.push(context, MaterialPageRoute(builder: (context) => ScheduleDetailScreen()));
     });
   }
 
@@ -69,7 +70,7 @@ class MyAppState extends State<MyApp> {
         }
     ).whenComplete((){
       ProgressLoading().hideLoading(context);
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => ScheduleBaiTapScreen()));
+      Navigator.push(context, MaterialPageRoute(builder: (context) => ScheduleBaiTapScreen()));
     });
   }
 
@@ -168,7 +169,7 @@ class MyAppState extends State<MyApp> {
               SizedBox(width: 15,),
 
               Text("Đang tải ...",
-                style: TextStyle(
+                style: GoogleFonts.quicksand(
                   fontSize: 20,
                   color: HexColor("392950"),
                   fontWeight: FontWeight.bold,

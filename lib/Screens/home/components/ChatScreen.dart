@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:luan_van/components/Constants.dart';
 import 'package:luan_van/model/ChatModel.dart';
@@ -187,14 +188,14 @@ class ChatScreenState extends State<ChatScreen>{
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         Text(listChat[index].content,
-                                          style: TextStyle(
+                                          style: GoogleFonts.quicksand(
                                             fontSize: MediaQuery.of(context).size.width/22,
                                             color: textColor,
                                           ),
                                         ),
                                         SizedBox(height: 5,),
                                         Text(getTime(listChat[index].time),
-                                          style: TextStyle(
+                                          style: GoogleFonts.quicksand(
                                             fontSize: MediaQuery.of(context).size.width/28,
                                             color: timeColor,
                                           ),
@@ -270,7 +271,7 @@ class ChatScreenState extends State<ChatScreen>{
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       Text(listChat[index].content,
-                                        style: TextStyle(
+                                        style: GoogleFonts.quicksand(
                                           fontSize: MediaQuery.of(context).size.width/22,
                                           color: textColor,
                                         ),
@@ -278,7 +279,7 @@ class ChatScreenState extends State<ChatScreen>{
                                       SizedBox(height: 5,),
                                       Text(
                                          getTime(listChat[index].time),
-                                        style: TextStyle(
+                                        style: GoogleFonts.quicksand(
                                           fontSize: MediaQuery.of(context).size.width/30,
                                           color: timeColor,
                                         ),
@@ -325,7 +326,7 @@ class ChatScreenState extends State<ChatScreen>{
                               controller: textEditingController,
                               decoration: InputDecoration(
                                   hintText: "Nhập tin nhắn.",
-                                  hintStyle: TextStyle( color:  Colors.blueAccent),
+                                  hintStyle: GoogleFonts.quicksand( color:  Colors.blueAccent),
                                   border: InputBorder.none),
                             ),
                           ),

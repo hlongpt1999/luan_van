@@ -6,6 +6,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:luan_van/components/response_widget.dart';
 import 'package:luan_van/firebase/auth_firebase.dart';
 import 'package:luan_van/model/User.dart';
@@ -276,7 +277,7 @@ class SignUpScreenState extends State<SignUpScreen>{
               }),
           Text(
             "Tôi đồng ý với điều khoản của ứng dụng",
-            style: TextStyle(fontWeight: FontWeight.w400, fontSize: _large? 15: (_medium? 13: 11)),
+            style: GoogleFonts.quicksand(fontWeight: FontWeight.w400, fontSize: _large? 15: (_medium? 13: 11)),
           ),
         ],
       ),
@@ -307,7 +308,7 @@ class SignUpScreenState extends State<SignUpScreen>{
           ),
         ),
         padding: const EdgeInsets.all(12.0),
-        child: Text('ĐĂNG KÝ', style: TextStyle(fontSize: _large? 20: (_medium? 18: 15), fontWeight: FontWeight.bold),),
+        child: Text('ĐĂNG KÝ', style: GoogleFonts.quicksand(fontSize: _large? 20: (_medium? 18: 15), fontWeight: FontWeight.bold),),
       ),
     );
   }

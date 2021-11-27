@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 Widget buttonRadiusBig(){
   return Container(
@@ -26,7 +27,7 @@ Widget buttonRadiusBig(){
     child: Center(
       child: Text(
         'Press',
-        style: TextStyle(
+        style: GoogleFonts.quicksand(
           color: Colors.white,
           fontSize: 30,
           fontWeight: FontWeight.w500,

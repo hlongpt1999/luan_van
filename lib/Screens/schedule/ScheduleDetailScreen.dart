@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:luan_van/components/Constants.dart';
 import 'package:luan_van/components/progressLoading.dart';
@@ -324,7 +325,7 @@ class ScheduleDetailScreenState extends State<ScheduleDetailScreen>{
                                   children: [
                                     Text(
                                       value1,
-                                      style: TextStyle(
+                                      style: GoogleFonts.quicksand(
                                           fontSize: 18,
                                           color: Colors.white,
                                           fontWeight: FontWeight.bold),
@@ -339,7 +340,7 @@ class ScheduleDetailScreenState extends State<ScheduleDetailScreen>{
                         Center(
                           child: Text(
                             suggestionsSchedule(goiYValue),
-                            style: TextStyle(
+                            style: GoogleFonts.quicksand(
                               fontSize: 15,
                               color: Colors.white,
                             ),
@@ -384,11 +385,11 @@ class ScheduleDetailScreenState extends State<ScheduleDetailScreen>{
                                 errorBorder: InputBorder.none,
                                 disabledBorder: InputBorder.none,
                                 hintText: "Nhập tên lịch ăn uống",
-                                hintStyle: TextStyle(
+                                hintStyle: GoogleFonts.quicksand(
                                   color: Colors.grey,
                                 ),
                               ),
-                              style: TextStyle(
+                              style: GoogleFonts.quicksand(
                                 color: Colors.white,
                                 fontSize: 19,
                               ),
@@ -401,7 +402,7 @@ class ScheduleDetailScreenState extends State<ScheduleDetailScreen>{
                                 });
                                 Navigator.pop(context);
                               },
-                              child: Text("Lưu tên"),
+                              child: Text("Lưu tên", style: GoogleFonts.quicksand(fontWeight: FontWeight.bold),),
                             ),
                           ],
                         ),
@@ -456,7 +457,7 @@ class ScheduleDetailScreenState extends State<ScheduleDetailScreen>{
                   child: Center(
                     child: Text(
                       "Lưu lịch ăn uống",
-                      style: TextStyle(
+                      style: GoogleFonts.quicksand(
                         color: Colors.white,
                         fontSize: 20,
                         fontWeight: FontWeight.w500,
@@ -517,11 +518,11 @@ class ScheduleDetailScreenState extends State<ScheduleDetailScreen>{
                       errorBorder: InputBorder.none,
                       disabledBorder: InputBorder.none,
                       hintText: "gam",
-                      hintStyle: TextStyle(
+                      hintStyle: GoogleFonts.quicksand(
                         color: Colors.white,
                       ),
                     ),
-                    style: TextStyle(
+                    style: GoogleFonts.quicksand(
                       color: Colors.white,
                     ),
                   ),
@@ -533,7 +534,7 @@ class ScheduleDetailScreenState extends State<ScheduleDetailScreen>{
                     child: DropdownButton(
                       dropdownColor: Colors.transparent,
                       value: foodValue[i][index],
-                      style: TextStyle(color: Colors.white),
+                      style: GoogleFonts.quicksand(color: Colors.white),
                       onChanged: (String data1) {
                         setState(() {
                           foodValue[i][index] = data1;
@@ -562,7 +563,7 @@ class ScheduleDetailScreenState extends State<ScheduleDetailScreen>{
                   width: 80,
                 child:Text(
                   foodNumberCalo[i][index].round().toString() + " calo",
-                  style: TextStyle(color: Colors.white),
+                  style: GoogleFonts.quicksand(color: Colors.white),
                 ),),
               ],
             ),
@@ -668,7 +669,7 @@ class ScheduleDetailScreenState extends State<ScheduleDetailScreen>{
                         Expanded(
                             child: Text(
                               getTotalCalo().round().toString()+ " calo",
-                              style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20),
+                              style: GoogleFonts.quicksand(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20),
                             ),
                         ),
 
@@ -733,11 +734,11 @@ class ScheduleDetailScreenState extends State<ScheduleDetailScreen>{
                                                 errorBorder: InputBorder.none,
                                                 disabledBorder: InputBorder.none,
                                                 hintText: "Nhập tên lịch ăn uống",
-                                                hintStyle: TextStyle(
+                                                hintStyle: GoogleFonts.quicksand(
                                                   color: Colors.grey,
                                                 ),
                                               ),
-                                              style: TextStyle(
+                                              style: GoogleFonts.quicksand(
                                                 color: Colors.white,
                                                 fontSize: 19,
                                               ),
@@ -750,7 +751,7 @@ class ScheduleDetailScreenState extends State<ScheduleDetailScreen>{
                                                 });
                                                 Navigator.pop(context);
                                               },
-                                              child: Text("Lưu tên"),
+                                              child: Text("Lưu tên", style: GoogleFonts.quicksand(fontWeight: FontWeight.bold),),
                                             ),
                                           ],
                                         ),
@@ -766,7 +767,7 @@ class ScheduleDetailScreenState extends State<ScheduleDetailScreen>{
                             child: Flexible(
                               child: Text(
                                 scheduleName,
-                                style: TextStyle(
+                                style: GoogleFonts.quicksand(
                                   color: Colors.black,
                                   fontSize: 16,
                                   fontWeight: FontWeight.bold,
@@ -813,7 +814,7 @@ class ScheduleDetailScreenState extends State<ScheduleDetailScreen>{
                       child: Center(
                         child: Text(
                           _date,
-                          style: TextStyle(
+                          style: GoogleFonts.quicksand(
                             color: _color,
                             fontSize: 25,
                             fontWeight: FontWeight.bold,

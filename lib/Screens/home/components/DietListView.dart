@@ -312,8 +312,7 @@ class MealsView extends StatelessWidget {
                           child: Text(
                             foodModel.name,
                             textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontFamily: AppTheme.fontName,
+                            style: GoogleFonts.quicksand(
                               fontWeight: FontWeight.bold,
                               fontSize: 16,
                               letterSpacing: 0.2,
@@ -331,8 +330,7 @@ class MealsView extends StatelessWidget {
                               children: <Widget>[
                                 Text(
                                   foodModel.quantity>=1000 ? (foodModel.quantity/10).toString() + "kg" : (foodModel.quantity).toString() + "g",
-                                  style: TextStyle(
-                                    fontFamily: AppTheme.fontName,
+                                  style: GoogleFonts.quicksand(
                                     fontWeight: FontWeight.w500,
                                     fontSize: 15,
                                     letterSpacing: 0.2,
@@ -351,8 +349,7 @@ class MealsView extends StatelessWidget {
                             Text(
                               (foodModel.quantity/100 * foodModel.calo100g).round().toString(),
                               textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontFamily: AppTheme.fontName,
+                              style: GoogleFonts.quicksand(
                                 fontWeight: FontWeight.w500,
                                 fontSize: 24,
                                 letterSpacing: 0.2,
@@ -364,9 +361,7 @@ class MealsView extends StatelessWidget {
                                   left: 4, bottom: 3),
                               child: Text(
                                 'Calo',
-                                style: TextStyle(
-                                  fontFamily:
-                                  AppTheme.fontName,
+                                style: GoogleFonts.quicksand(
                                   fontWeight: FontWeight.w500,
                                   fontSize: 10,
                                   letterSpacing: 0.2,

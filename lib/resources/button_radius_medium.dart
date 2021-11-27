@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 Widget buttonRadiusMedium(String _title, Color _color){
   return Container(
@@ -27,7 +28,7 @@ Widget buttonRadiusMedium(String _title, Color _color){
     child: Center(
       child: Text(
         _title,
-        style: TextStyle(
+        style: GoogleFonts.quicksand(
           color: Colors.black,
           fontSize: 20,
           fontWeight: FontWeight.w500,

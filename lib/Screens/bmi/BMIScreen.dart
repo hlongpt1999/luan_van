@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:luan_van/components/Constants.dart';
 import 'package:luan_van/components/progressLoading.dart';
 import 'package:luan_van/resources/button_next.dart';
@@ -59,7 +60,7 @@ class BMIScreenState extends State<BMIScreen>{
                       ),
                       child: Text(
                         "ĐÁNH GIÁ BMI",
-                        style: TextStyle(
+                        style: GoogleFonts.quicksand(
                           color: Colors.white,
                           fontSize: 30,
                           fontWeight: FontWeight.bold,
@@ -85,7 +86,7 @@ class BMIScreenState extends State<BMIScreen>{
                         children: [
                           Text(
                             "Chiều cao: " + (mHeight/100).toString() + " m",
-                            style: TextStyle(
+                            style: GoogleFonts.quicksand(
                               color: Colors.blueGrey,
                               fontSize: 20,
                             ),
@@ -125,7 +126,7 @@ class BMIScreenState extends State<BMIScreen>{
                         children: [
                           Text(
                             "Cân nặng: " + (mWeight.toStringAsFixed(1)).toString() + " kg",
-                            style: TextStyle(
+                            style: GoogleFonts.quicksand(
                               color: Colors.blueGrey,
                               fontSize: 20,
                             ),
@@ -165,7 +166,7 @@ class BMIScreenState extends State<BMIScreen>{
                         children: [
                           Text(
                             (mAge.round()).toString() + " tuổi",
-                            style: TextStyle(
+                            style: GoogleFonts.quicksand(
                               color: Colors.blueGrey,
                               fontSize: 20,
                             ),
@@ -205,7 +206,7 @@ class BMIScreenState extends State<BMIScreen>{
                         children: [
                           Text(
                             isMale ? "Giới tính: Nam" : "Giới tính: Nữ",
-                            style: TextStyle(
+                            style: GoogleFonts.quicksand(
                               color: Colors.blueGrey,
                               fontSize: 20,
                             ),
@@ -226,7 +227,7 @@ class BMIScreenState extends State<BMIScreen>{
                                   padding: EdgeInsets.symmetric(vertical: 7, horizontal: 15),
                                   alignment: Alignment.center,
                                   child: Text("Nam",
-                                    style: TextStyle(
+                                    style: GoogleFonts.quicksand(
                                       color: isMale ? Colors.white : Colors.brown,
                                       fontWeight: FontWeight.bold,
                                       fontSize: 20,
@@ -253,7 +254,7 @@ class BMIScreenState extends State<BMIScreen>{
                                   padding: EdgeInsets.symmetric(vertical: 7, horizontal: 15),
                                   alignment: Alignment.center,
                                   child: Text("Nữ",
-                                    style: TextStyle(
+                                    style: GoogleFonts.quicksand(
                                       color: !isMale ? Colors.white : Colors.brown,
                                       fontWeight: FontWeight.bold,
                                       fontSize: 20,
@@ -289,7 +290,7 @@ class BMIScreenState extends State<BMIScreen>{
                         ),
                         child: Text(
                           "TIẾP TỤC",
-                          style: TextStyle(
+                          style: GoogleFonts.quicksand(
                             color: Colors.white,
                             fontSize: 30,
                             fontWeight: FontWeight.bold,

@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:luan_van/components/Constants.dart';
 
 Widget buttonQuaterCircleBack(String _text){
@@ -27,7 +28,7 @@ Widget buttonQuaterCircleBack(String _text){
           children: [
             SizedBox(height: 10,),
 
-            Text(_text, style: TextStyle(color: Colors.white, fontSize: 30,),),
+            Text(_text, style: GoogleFonts.quicksand(color: Colors.white, fontSize: 30,),),
 
             SizedBox(height: 10,),
 

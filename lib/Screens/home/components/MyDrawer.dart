@@ -1,13 +1,13 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:luan_van/components/Constants.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:luan_van/components/progressLoading.dart';
 import 'package:luan_van/model/User.dart';
 import 'package:luan_van/screens/bmi/BMIScreen.dart';
 import 'package:luan_van/screens/login/LoginScreen.dart';
-import 'package:luan_van/testvideo.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class MyDrawer extends StatefulWidget{
@@ -78,7 +78,7 @@ class MyDrawerState extends State<MyDrawer>{
                   Text(
                     CurrentUser.currentUser.name ?? "",
                     //TODO: Nhap ten nguoi dung o day.
-                    style: TextStyle(
+                    style: GoogleFonts.quicksand(
                       fontWeight: FontWeight.bold,
                       fontStyle: FontStyle.italic,
                       color: Colors.white,
@@ -95,7 +95,7 @@ class MyDrawerState extends State<MyDrawer>{
                         Flexible(
                           child: Text(
                             "BMI = " + CurrentUser.currentUser.bmi.toStringAsFixed(2).toString() ,
-                            style: TextStyle(
+                            style: GoogleFonts.quicksand(
                               fontWeight: FontWeight.bold,
                               color: Colors.white,
                               fontSize: 15,
@@ -122,7 +122,6 @@ class MyDrawerState extends State<MyDrawer>{
             SizedBox(height: 10,),
             GestureDetector(
                 onTap: (){
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => YoutubePlayerDemoApp()));
                 },
                 child: DrawerItem("FAQs", Icons.question_answer)),
 
@@ -161,7 +160,7 @@ class MyDrawerState extends State<MyDrawer>{
             alignment: Alignment.centerLeft,
             child: Text(
               _title,
-              style: TextStyle(
+              style: GoogleFonts.quicksand(
                 fontWeight: FontWeight.bold,
                 fontSize: 20,
               ),
@@ -190,20 +189,20 @@ class MyDrawerState extends State<MyDrawer>{
       showDialog(
           context: context,
           builder: (_context)=> AlertDialog(
-            title: Text("Đăng xuất"),
-            content: Text("Bạn có muốn đăng xuất khỏi ứng dụng?"),
+            title: Text("Đăng xuất", style: GoogleFonts.quicksand(fontWeight: FontWeight.bold),),
+            content: Text("Bạn có muốn đăng xuất khỏi ứng dụng?", style: GoogleFonts.quicksand(),),
             actions: <Widget>[
               FlatButton(
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
-                child: Text("Không"),
+                child: Text("Không", style: GoogleFonts.quicksand(fontWeight: FontWeight.bold),),
               ),
               FlatButton(
                 onPressed: (){
                   onLogOut(context);
                 },
-                child: Text("Có"),
+                child: Text("Có", style: GoogleFonts.quicksand(fontWeight: FontWeight.bold),),
               ),
             ],
           ),

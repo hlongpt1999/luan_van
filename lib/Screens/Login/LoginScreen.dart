@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:luan_van/components/Constants.dart';
 import 'package:luan_van/components/Method.dart';
 import 'package:luan_van/components/progressLoading.dart';
@@ -66,7 +67,6 @@ class LoginScreenState extends State<LoginScreen>{
         _isUserError = false;
         _isPassError = false;
         await getData(value.user.uid).whenComplete(() async{
-          ProgressLoading().hideLoading(context);
           if(CurrentUser.currentUser.role != "user" )
             Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => DoctorHomeScreen()));
           else if(CurrentUser.currentUser.bmi < 2.0)
@@ -137,8 +137,9 @@ class LoginScreenState extends State<LoginScreen>{
                               decoration: InputDecoration(
                                 hintText: "Tên đăng nhập",
                                 labelText: "Tên đăng nhập",
+                                hintStyle: GoogleFonts.quicksand(),
                                 errorText: _isUserError ? _userErrorMessage : null,
-                                labelStyle: TextStyle(color: Colors.white),
+                                labelStyle: GoogleFonts.quicksand(color: Colors.white),
                                 enabledBorder: OutlineInputBorder(
                                     borderSide: BorderSide(
                                       color: Colors.white,
@@ -155,7 +156,7 @@ class LoginScreenState extends State<LoginScreen>{
                                   Icons.person_outline,
                                   color: Colors.white,),
                               ),
-                              style: TextStyle(fontSize: 20, color: Colors.white,),
+                              style: GoogleFonts.quicksand(fontSize: 20, color: Colors.white,),
                             ),
 
                             //Space between 2 TextForm.
@@ -172,7 +173,8 @@ class LoginScreenState extends State<LoginScreen>{
                                     hintText: "Mật khẩu",
                                     labelText: "Mật khẩu",
                                     errorText: _isPassError ? _passErrorMessage : null,
-                                    labelStyle: TextStyle(color: Colors.white),
+                                    labelStyle: GoogleFonts.quicksand(color: Colors.white),
+                                    hintStyle: GoogleFonts.quicksand(),
                                     enabledBorder: OutlineInputBorder(
                                         borderSide: BorderSide(
                                           color: Colors.white,
@@ -189,7 +191,7 @@ class LoginScreenState extends State<LoginScreen>{
                                       Icons.lock_outline,
                                       color: Colors.white),
                                   ),
-                                  style: TextStyle(fontSize: 20, color: Colors.white,),
+                                  style: GoogleFonts.quicksand(fontSize: 20, color: Colors.white,),
                                 ),
                                 
                                 GestureDetector(
@@ -247,7 +249,7 @@ class LoginScreenState extends State<LoginScreen>{
               ),
 
             SizedBox(height: 20),
-            Text(Const.VERSION),
+            Text(Const.VERSION, style: GoogleFonts.quicksand(fontWeight: FontWeight.bold, fontStyle: FontStyle.italic),),
           ],
         ),
       ),

@@ -317,7 +317,7 @@ class TabDanhGiaStateScreen extends State<TabDanhGiaScreen>{
                             child: Wrap(
                               children: [
                                 Text(
-                                  tongDotChay.toStringAsFixed(2).toString() + "/"+CurrentUser.totalCaloDateLost.toString() + "Calo",
+                                  tongDotChay.round().toString() + "/"+CurrentUser.totalCaloDateLost.toString() + "Calo",
                                   style: GoogleFonts.quicksand(
                                     fontWeight: FontWeight.bold,
                                     color: Colors.black,
@@ -469,11 +469,11 @@ class TabDanhGiaStateScreen extends State<TabDanhGiaScreen>{
                 errorBorder: InputBorder.none,
                 disabledBorder: InputBorder.none,
                 hintText: "gam",
-                hintStyle: TextStyle(
+                hintStyle: GoogleFonts.quicksand(
                   color: Colors.grey,
                 ),
               ),
-              style: TextStyle(
+              style: GoogleFonts.quicksand(
                 color: Colors.black,
               ),
             ),
@@ -517,11 +517,11 @@ class TabDanhGiaStateScreen extends State<TabDanhGiaScreen>{
                 errorBorder: InputBorder.none,
                 disabledBorder: InputBorder.none,
                 hintText: CurrentUser.listDongTac[index].donvi ?? "lần",
-                hintStyle: TextStyle(
+                hintStyle: GoogleFonts.quicksand(
                   color: Colors.grey,
                 ),
               ),
-              style: TextStyle(
+              style: GoogleFonts.quicksand(
                 color: Colors.black,
               ),
             ),
