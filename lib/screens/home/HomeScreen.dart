@@ -11,7 +11,6 @@ import 'package:flutter_slider_drawer/flutter_slider_drawer.dart';
 import 'package:luan_van/screens/home/components/TabMessageScreen.dart';
 import 'package:luan_van/screens/home/components/TabStatisticalScreen.dart';
 
-import '../../testChart.dart';
 import 'components/MyDrawer.dart';
 
 import 'package:charts_flutter/flutter.dart' as charts;
@@ -43,30 +42,6 @@ class HomeScreenState extends State<HomeScreen> {
   GlobalKey<SliderMenuContainerState> _key =
       new GlobalKey<SliderMenuContainerState>();
 
-  static List<charts.Series<TimeSeriesSales, DateTime>> _createSampleData() {
-    final data = [
-      new TimeSeriesSales(new DateTime(2017, 9, 19), 5),
-      new TimeSeriesSales(new DateTime(2017, 9, 26), 10),
-      new TimeSeriesSales(new DateTime(2017, 10, 3), 15),
-      new TimeSeriesSales(new DateTime(2017, 10, 15), 20),
-      new TimeSeriesSales(new DateTime(2017, 10, 16), 20),
-      new TimeSeriesSales(new DateTime(2017, 10, 17), 20),
-      new TimeSeriesSales(new DateTime(2017, 10, 18), 5),
-      new TimeSeriesSales(new DateTime(2017, 10, 19), 20),
-      new TimeSeriesSales(new DateTime(2017, 10, 20), 20),
-    ];
-
-    return [
-      new charts.Series<TimeSeriesSales, DateTime>(
-        id: 'Sales',
-        colorFn: (_, __) => charts.MaterialPalette.blue.shadeDefault,
-        domainFn: (TimeSeriesSales sales, _) => sales.time,
-        measureFn: (TimeSeriesSales sales, _) => sales.sales,
-        data: data,
-      )
-    ];
-  }
-
   @override
   void initState() {
     title = _bottomBarTitle[0];
@@ -77,8 +52,7 @@ class HomeScreenState extends State<HomeScreen> {
     TabHomeScreen(),
     TabDanhGiaScreen(),
     TabMessageScreen(),
-    SimpleTimeSeriesChart(_createSampleData(), animate: true,),
-   // TabStatisticalScreen(),
+    TabStatisticalScreen(),
   ];
 
   @override
