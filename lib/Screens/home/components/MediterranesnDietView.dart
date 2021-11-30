@@ -220,7 +220,7 @@ class MediterranesnDietView extends StatelessWidget {
                                 border: new Border.all(
                                     width: 4,
                                     color: (bmiIndex<15 || bmiIndex>30) ? Colors.red
-                                        : (bmiIndex<20 || bmiIndex >25) ? Colors.yellowAccent : Colors.green,
+                                        : (bmiIndex<20 || bmiIndex >25) ? Colors.orange : Colors.green[900],
                                     // color: AppTheme.nearlyDarkBlue
                                     //     .withOpacity(0.2)
                                 ),
@@ -237,7 +237,7 @@ class MediterranesnDietView extends StatelessWidget {
                                       fontSize: 24,
                                       letterSpacing: 0.0,
                                       color: (bmiIndex<15 || bmiIndex>30) ? Colors.red
-                                          : (bmiIndex<20 || bmiIndex >25) ? Colors.yellowAccent : Colors.green,
+                                          : (bmiIndex<20 || bmiIndex >25) ? Colors.orange : Colors.green[900],
                                       // color: AppTheme.nearlyDarkBlue,
                                     ),
                                   ),
@@ -249,7 +249,7 @@ class MediterranesnDietView extends StatelessWidget {
                                       fontSize: 12,
                                       letterSpacing: 0.0,
                                       color: (bmiIndex<15 || bmiIndex>30) ? Colors.red
-                                          : (bmiIndex<20 || bmiIndex >25) ? Colors.yellowAccent : Colors.green,
+                                          : (bmiIndex<20 || bmiIndex >25) ? Colors.orange : Colors.green[900],
                                       // color: AppTheme.grey.withOpacity(0.5),
                                     ),
                                   ),

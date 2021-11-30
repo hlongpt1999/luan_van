@@ -15,7 +15,7 @@
     
     <application
         android:name="io.flutter.app.FlutterApplication"
-        android:label="luan_van"
+        android:label="DiEx"
         android:usesCleartextTraffic="true"
         android:icon="@mipmap/ic_launcher">
         <activity

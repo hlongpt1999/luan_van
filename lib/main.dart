@@ -175,6 +175,7 @@ class SplashScreenState extends State<SplashScreen>{
           CurrentUser.currentUser.name = data['name'];
           CurrentUser.currentUser.email = data['email'];
           CurrentUser.currentUser.avatar = data['avatar'];
+          CurrentUser.currentUser.password = data['password'] ?? "";
           CurrentUser.currentUser.id = data['id'];
           CurrentUser.currentUser.role = data['role'];
           CurrentUser.currentUser.bmi = data['bmi'] ?? 0.0;

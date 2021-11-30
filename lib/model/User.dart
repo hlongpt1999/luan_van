@@ -52,21 +52,21 @@ class UserModel{
 
   Map<String, dynamic> toMap() {
     return {
-      "id" : id,
-      "name" : name ,
-      "email" : email ,
-      "password" : password ,
-      "sex" : sex ,
-      "birthday" : birthday ,
-      "bornYear" : bornYear ,
-      "height" : height ,
-      "weight" : weight ,
-      "adress" : address ,
+      "id" : id ?? "",
+      "name" : name ?? "" ,
+      "email" : email ?? "" ,
+      "password" : password ?? "" ,
+      "sex" : sex ?? "" ,
+      "birthday" : birthday ?? 0.0 ,
+      "bornYear" : bornYear ?? 0 ,
+      "height" : height ?? 0.0 ,
+      "weight" : weight ?? 0.0 ,
+      "address" : address ?? "" ,
       "role" : role ?? "user",
-      "avatar" : avatar ,
-      "phone" : phone,
-      "bmi" : bmi,
-      "bmiText" : bmiText,
+      "avatar" : avatar  ?? "",
+      "phone" : phone ?? 0,
+      "bmi" : bmi ?? 0.0,
+      "bmiText" : bmiText ?? "",
     };
   }
 

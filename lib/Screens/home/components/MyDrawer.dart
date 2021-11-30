@@ -8,6 +8,7 @@ import 'package:luan_van/components/progressLoading.dart';
 import 'package:luan_van/model/User.dart';
 import 'package:luan_van/screens/bmi/BMIScreen.dart';
 import 'package:luan_van/screens/login/LoginScreen.dart';
+import 'package:luan_van/screens/setting/ChangePasswordScreen.dart';
 import 'package:luan_van/screens/setting/DatGioScreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -119,7 +120,7 @@ class MyDrawerState extends State<MyDrawer>{
             SizedBox(height: 10,),
             GestureDetector(
                 onTap: (){
-                  Navigator.of(context).push(MaterialPageRoute(builder: (context) => BMIScreen()));
+                  Navigator.of(context).push(MaterialPageRoute(builder: (context) => ChangePasswordScreen()));
                 },
                 child: DrawerItem("Thay đổi mật khẩu", Icons.password)),
 
