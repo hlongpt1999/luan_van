@@ -10,6 +10,7 @@ class Const{
   static final String VERSION = "Beta version 1.0.6";
   static final String VERSION_DATE = "26/11/2021";
   static final String LOGIN_PREF = "LoginPref";
+  static final String KEY_DAT_GIO = "Đặt giờ";
 
   static String KEY_FROM = "";
   static int colorMainPaint = 0xffff9900;
@@ -47,6 +48,17 @@ class MySize{
 }
 
 class MyList{
+  List<String> listTips =[
+    "Ngay sau khi bước chân xuống giường, hãy uống 1 ly nước (nước ấm càng tốt) từng ngụm nhỏ để cung cấp nước cho cơ thể, loại bỏ những độc tố và khởi động cho dạ dày, ruột...",
+    "Bạn cần dùng bữa sáng thật đủ chất. Đây là bữa ăn quan trọng nhất trong ngày nên bạn nhớ thay đổi thực đơn thường xuyên để đa dạng các món ăn nhé.",
+    "Người trưởng thành cần uống ít nhất 1,5 lít nước một ngày hoặc hơn nếu trời nắng nóng và có hoạt động thể lực để tốt cho cơ thể.",
+    "Một nghiên cứu cho thấy thời gian tốt nhất để uống nước là 30 phút trước mỗi bữa ăn hỗ trợ 44% cho quá trình giảm cân.",
+    "Không nấu chín kỹ hay chiên - nướng quá lửa (cháy – khét...) các loại thịt vì có thể dẫn đến sự hình thành các hợp chất có hại làm tăng nguy cơ ung thư.",
+    "Ngủ ít có thể thúc đẩy sự đề kháng insulin, làm cho các hoóc môn thèm ăn của bạn giảm đi và giảm hiệu suất thể chất và tinh thần.",
+    "Tránh tiếp xúc ánh sáng trắng hay ánh sáng cường độ cao trước khi ngủ, nó sẽ khiến bạn ngủ không ngon.",
+
+  ];
+
   List<String> listDate = [
     "Ngày 1",
     "Ngày 2",
@@ -93,6 +105,14 @@ class CurrentUser {
   static int totalCaloDateLost = 0;
   static UserModel userConnect = UserModel();
   static bool lichNgayMai = true;
+
+  static bool lichNhacNho = true;
+  static int nhacNhoGIO = 8;
+  static int nhacNhoPHUT = 0;
+
+  static bool lichDaLam = true;
+  static int daLamGIO = 20;
+  static int daLamPHUT = 0;
 }
 
 Future<void> onLogOut(BuildContext context) async {

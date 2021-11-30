@@ -1,3 +1,6 @@
+import 'dart:math';
+
+import 'package:cron/cron.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
@@ -46,6 +49,33 @@ class HomeScreenState extends State<HomeScreen> {
   void initState() {
     title = _bottomBarTitle[0];
     super.initState();
+
+    var cron = new Cron();
+    cron.schedule(new Schedule.parse('0,20,40 * * * *'), () async {
+      if(CurrentUser.currentUser.role == "user") {
+        await showDialog(
+          context: context,
+          builder: (_context) =>
+              AlertDialog(
+                title: Text("Mẹo",
+                  style: GoogleFonts.quicksand(fontWeight: FontWeight.bold),),
+                content: Text(
+                  MyList().listTips[Random().nextInt(MyList().listTips.length)],
+                  style: GoogleFonts.quicksand(),),
+                actions: <Widget>[
+                  FlatButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: Text("Đã hiểu",
+                      style: GoogleFonts.quicksand(
+                          fontWeight: FontWeight.bold),),
+                  ),
+                ],
+              ),
+        );
+      }
+    });
   }
 
   static List<Widget> _widgetOptions = <Widget>[

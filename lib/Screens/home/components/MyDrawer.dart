@@ -8,7 +8,10 @@ import 'package:luan_van/components/progressLoading.dart';
 import 'package:luan_van/model/User.dart';
 import 'package:luan_van/screens/bmi/BMIScreen.dart';
 import 'package:luan_van/screens/login/LoginScreen.dart';
+import 'package:luan_van/screens/setting/DatGioScreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../../../testChat.dart';
 
 class MyDrawer extends StatefulWidget{
   @override
@@ -33,6 +36,8 @@ class MyDrawerState extends State<MyDrawer>{
     super.initState();
     loadAvatar();
   }
+
+  bool _value = true;
 
   @override
   Widget build(BuildContext context) {
@@ -80,9 +85,8 @@ class MyDrawerState extends State<MyDrawer>{
                     //TODO: Nhap ten nguoi dung o day.
                     style: GoogleFonts.quicksand(
                       fontWeight: FontWeight.bold,
-                      fontStyle: FontStyle.italic,
                       color: Colors.white,
-                      fontSize: 20,
+                      fontSize: 22,
                     ),
                   ),
 
@@ -118,6 +122,13 @@ class MyDrawerState extends State<MyDrawer>{
                   Navigator.of(context).push(MaterialPageRoute(builder: (context) => BMIScreen()));
                 },
                 child: DrawerItem("Thay đổi mật khẩu", Icons.password)),
+
+            SizedBox(height: 10,),
+            GestureDetector(
+                onTap: (){
+                  Navigator.of(context).push(MaterialPageRoute(builder: (context) => DatGioScreen()));
+                },
+                child: DrawerItem("Đặt giờ nhắc nhở", Icons.alarm)),
 
             SizedBox(height: 10,),
             GestureDetector(

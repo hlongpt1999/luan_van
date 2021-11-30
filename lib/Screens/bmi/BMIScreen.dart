@@ -41,7 +41,7 @@ class BMIScreenState extends State<BMIScreen>{
     return Scaffold(
       resizeToAvoidBottomInset: false, // Not move screen when show keyboard
       body: Container(
-        decoration: new BoxDecoration(image: bmiBackground,),
+        decoration: new BoxDecoration(image: foodLoadingBackground,),
         child: Stack(
           children: <Widget>[
             Container(

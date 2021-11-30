@@ -5,7 +5,7 @@ import 'dart:math' as math;
 import 'package:luan_van/resources/AppTheme.dart';
 
 class MediterranesnDietView extends StatelessWidget {
-  var _value = 1;
+  double bmiIndex = CurrentUser.currentUser.bmi;
 
   @override
   Widget build(BuildContext context) {
@@ -219,31 +219,38 @@ class MediterranesnDietView extends StatelessWidget {
                                 ),
                                 border: new Border.all(
                                     width: 4,
-                                    color: AppTheme.nearlyDarkBlue
-                                        .withOpacity(0.2)),
+                                    color: (bmiIndex<15 || bmiIndex>30) ? Colors.red
+                                        : (bmiIndex<20 || bmiIndex >25) ? Colors.yellowAccent : Colors.green,
+                                    // color: AppTheme.nearlyDarkBlue
+                                    //     .withOpacity(0.2)
+                                ),
                               ),
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: <Widget>[
                                   Text(
-                                    '${(1503 * _value).toInt()}',
+                                    CurrentUser.currentUser.bmi.toStringAsFixed(2).toString() ?? "0",
                                     textAlign: TextAlign.center,
                                     style: GoogleFonts.quicksand(
                                       fontWeight: FontWeight.normal,
                                       fontSize: 24,
                                       letterSpacing: 0.0,
-                                      color: AppTheme.nearlyDarkBlue,
+                                      color: (bmiIndex<15 || bmiIndex>30) ? Colors.red
+                                          : (bmiIndex<20 || bmiIndex >25) ? Colors.yellowAccent : Colors.green,
+                                      // color: AppTheme.nearlyDarkBlue,
                                     ),
                                   ),
                                   Text(
-                                    'Calo còn lại',
+                                    'Chỉ số BMI',
                                     textAlign: TextAlign.center,
                                     style: GoogleFonts.quicksand(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 12,
                                       letterSpacing: 0.0,
-                                      color: AppTheme.grey.withOpacity(0.5),
+                                      color: (bmiIndex<15 || bmiIndex>30) ? Colors.red
+                                          : (bmiIndex<20 || bmiIndex >25) ? Colors.yellowAccent : Colors.green,
+                                      // color: AppTheme.grey.withOpacity(0.5),
                                     ),
                                   ),
                                 ],

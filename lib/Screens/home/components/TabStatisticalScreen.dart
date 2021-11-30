@@ -13,18 +13,6 @@ class TabStatisticalScreen extends StatefulWidget{
 
 class TabStatisticalScreenState extends State<TabStatisticalScreen>{
   List<charts.Series<TimeSeriesSales, DateTime>> _createSampleData(List<TimeSeriesSales> dataCalo) {
-    // final data = [
-    //   new TimeSeriesSales(new DateTime(2017, 9, 19), 4.5),
-    //   new TimeSeriesSales(new DateTime(2017, 9, 26), 10),
-    //   new TimeSeriesSales(new DateTime(2017, 10, 3), 15),
-    //   new TimeSeriesSales(new DateTime(2017, 10, 15), 20),
-    //   new TimeSeriesSales(new DateTime(2017, 10, 16), 20.1),
-    //   new TimeSeriesSales(new DateTime(2017, 10, 17), 20.5),
-    //   new TimeSeriesSales(new DateTime(2017, 10, 18), 5),
-    //   new TimeSeriesSales(new DateTime(2017, 10, 19), 20),
-    //   new TimeSeriesSales(new DateTime(2017, 10, 20), 20),
-    // ];
-
     final data = dataCalo;
 
     return [
@@ -42,8 +30,10 @@ class TabStatisticalScreenState extends State<TabStatisticalScreen>{
   List<TimeSeriesSales> caloData2 = [];
 
   Future<void> getCaloHistory() async {
+    caloData1.clear();
+    caloData2.clear();
     await FirebaseFirestore.instance.collection(Const.CSDL_USERS).doc(CurrentUser.currentUser.id)
-        .collection("historyDaLam").get().then((value){
+        .collection("historyDaLam").orderBy('time').get().then((value){
       value.docs.forEach((element){
         var data = element.data() as Map<String, dynamic>;
         DaLamModel daLamModel = DaLamModel.fromJson(data);

@@ -11,6 +11,7 @@ import 'package:luan_van/model/DateLuyenTapModel.dart';
 import 'package:luan_van/model/DateMealModel.dart';
 import 'package:luan_van/resources/button_back.dart';
 import 'package:luan_van/resources/button_next.dart';
+import 'package:luan_van/resources/styles.dart';
 import 'package:luan_van/screens/home/HomeScreen.dart';
 import 'package:luan_van/screens/login/Login.dart';
 import 'package:luan_van/screens/schedule/MockData.dart';
@@ -97,7 +98,7 @@ class CreateScheduleScreenState extends State<CreateScheduleScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        color: Colors.blue,
+        decoration: BoxDecoration(image: foodLoadingBackground,),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -137,7 +138,7 @@ class CreateScheduleScreenState extends State<CreateScheduleScreen> {
             ),
 
             Container(
-              color: Colors.grey,
+              color: Colors.transparent,
               height: _sizeHeightSchedule,
               width: double.infinity,
               child: Row(
@@ -170,7 +171,7 @@ class CreateScheduleScreenState extends State<CreateScheduleScreen> {
 
             //TODO: TẠM ẨN ĐỂ CHẠY K BỊ LỖI THÔI
             Container(
-              color: Colors.grey,
+              color: Colors.transparent,
               height: _sizeHeightSchedule,
               width: double.infinity,
               child: Row(
