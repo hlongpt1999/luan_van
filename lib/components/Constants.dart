@@ -12,7 +12,6 @@ class Const{
   static final String LOGIN_PREF = "LoginPref";
   static final String KEY_DAT_GIO = "Đặt giờ";
 
-  static String KEY_FROM = "";
   static int colorMainPaint = 0xffff9900;
   static int colorMiddlePaint = 0x12345678;
   static int colorLowPaint = 0x87654321;
@@ -26,10 +25,12 @@ class Const{
 
   static final String COLLECTION_DALAM = "historyDaLam";
 
+  static String KEY_FROM = "";
   static final String FROM_BMI = "FROM_BMI";
   static final String FROM_CREATE_SCHEDULE = "FROM_CREATE_SCHEDULE";
   static final String FROM_CREATE_SCHEDULE_LUYENTAP = "FROM_CREATE_SCHEDULE_LUYENTAP";
   static final String FROM_SCHEDULE = "FROM_SCHEDULE";
+  static final String FROM_HOME = "FROM_HOME";
 
   static final String PREF_LUYENTAP = "luyenTap";
 }

@@ -1,9 +1,11 @@
 import 'dart:math';
 
+import 'package:android_alarm_manager/android_alarm_manager.dart';
 import 'package:cron/cron.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:luan_van/components/Constants.dart';
@@ -13,7 +15,9 @@ import 'package:luan_van/screens/home/components/TabHomeScreen.dart';
 import 'package:flutter_slider_drawer/flutter_slider_drawer.dart';
 import 'package:luan_van/screens/home/components/TabMessageScreen.dart';
 import 'package:luan_van/screens/home/components/TabStatisticalScreen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../testChat.dart';
 import 'components/MyDrawer.dart';
 
 import 'package:charts_flutter/flutter.dart' as charts;
@@ -50,15 +54,23 @@ class HomeScreenState extends State<HomeScreen> {
     title = _bottomBarTitle[0];
     super.initState();
 
+    setUpArlam();
+
     var cron = new Cron();
-    cron.schedule(new Schedule.parse('0,20,40 * * * *'), () async {
+    cron.schedule(new Schedule.parse('0,30 * * * *'), () async {
       if(CurrentUser.currentUser.role == "user") {
         await showDialog(
           context: context,
           builder: (_context) =>
               AlertDialog(
-                title: Text("Mẹo",
-                  style: GoogleFonts.quicksand(fontWeight: FontWeight.bold),),
+                title: Row(
+                  children: [
+                    Icon(Icons.lightbulb, color: Colors.yellow,),
+                    SizedBox(width: 10,),
+                    Text("Mẹo",
+                      style: GoogleFonts.quicksand(fontWeight: FontWeight.bold),),
+                  ],
+                ),
                 content: Text(
                   MyList().listTips[Random().nextInt(MyList().listTips.length)],
                   style: GoogleFonts.quicksand(),),
@@ -166,6 +178,76 @@ class HomeScreenState extends State<HomeScreen> {
   }
 
 
+
+  Future<void> daLam() async {
+    flutterLocalNotificationsPlugin.show(
+      2,
+      "Hôm nay bạn đã làm được gì.",
+      "Tổng kết xem hôm nay bạn đã ăn uống và luyện tập như thế nào.",
+      NotificationDetails(
+          android: AndroidNotificationDetails(channel.id, channel.name,
+              channelDescription: channel.description,
+              importance: Importance.max,
+              priority: Priority.high,
+              color: Colors.blue,
+              playSound: true,
+              icon: '@mipmap/ic_launcher')
+      ),
+      payload: 'Custom_Sound',
+    );
+  }
+
+
+  Future<void> nhacNho() async {
+    flutterLocalNotificationsPlugin.show(
+      0,
+      "Bắt đầu một ngày mới.",
+      "Xem lịch ăn uống và tâp luyện ngày hôm nay thôi nào.",
+      NotificationDetails(
+          android: AndroidNotificationDetails(channel.id, channel.name,
+              channelDescription: channel.description,
+              importance: Importance.max,
+              priority: Priority.high,
+              color: Colors.blue,
+              playSound: true,
+              icon: '@mipmap/ic_launcher')
+      ),
+      payload: 'Custom_Sound',
+    );
+  }
+
+  Future setUpArlam() async{
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    List<String> list = pref.getStringList(Const.KEY_DAT_GIO) ?? ["null"];
+    if(list[0] != "null"){
+      CurrentUser.lichNhacNho = list[0] == "true" ? true : false;
+      CurrentUser.nhacNhoGIO = int.parse(list[1]);
+      CurrentUser.nhacNhoPHUT= int.parse(list[2]);
+      CurrentUser.lichDaLam = list[3] == "true" ? true : false;
+      CurrentUser.daLamGIO = int.parse(list[4]);
+      CurrentUser.daLamPHUT= int.parse(list[5]);
+    }
+
+    if(CurrentUser.lichNhacNho)
+      await AndroidAlarmManager.periodic(
+        const Duration(hours: 24), //Do the same every 24 hours
+        123, //Different ID for each alarm
+        nhacNho,
+        wakeup: true, //the device will be woken up when the alarm fires
+        startAt: DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, CurrentUser.nhacNhoGIO, CurrentUser.nhacNhoPHUT), //Start whit the specific time 5:00 am
+        rescheduleOnReboot: true, //Work after reboot
+      );
+
+    if(CurrentUser.lichDaLam)
+      await AndroidAlarmManager.periodic(
+        const Duration(hours: 24), //Do the same every 24 hours
+        456, //Different ID for each alarm
+        daLam,
+        wakeup: true, //the device will be woken up when the alarm fires
+        startAt: DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, CurrentUser.daLamGIO, CurrentUser.daLamPHUT), //Start whit the specific time 5:00 am
+        rescheduleOnReboot: true, //Work after reboot
+      );
+  }
 }
 
 

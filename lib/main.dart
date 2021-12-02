@@ -48,14 +48,6 @@ Future<void> main() async{
     badge: true,
     sound: true,
   );
-  SharedPreferences pref = await SharedPreferences.getInstance();
-  List<String> list = pref.getStringList(Const.KEY_DAT_GIO);
-  CurrentUser.lichNhacNho = list[0] == "true" ? true : false;
-  CurrentUser.nhacNhoGIO = int.parse(list[1]);
-  CurrentUser.nhacNhoPHUT= int.parse(list[2]);
-  CurrentUser.lichDaLam = list[3] == "true" ? true : false;
-  CurrentUser.daLamGIO = int.parse(list[4]);
-  CurrentUser.daLamPHUT= int.parse(list[5]);
 
   //Câu lệnh cố định màn hình không cho nó xoay ngang.
   WidgetsFlutterBinding.ensureInitialized();
@@ -70,87 +62,8 @@ Future<void> main() async{
           home: SplashScreen(),
         )
     );
-
-    if(CurrentUser.lichNhacNho)
-    await AndroidAlarmManager.periodic(
-      const Duration(hours: 24), //Do the same every 24 hours
-      123, //Different ID for each alarm
-      nhacNho,
-      wakeup: true, //the device will be woken up when the alarm fires
-      startAt: DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, CurrentUser.nhacNhoGIO, CurrentUser.nhacNhoPHUT), //Start whit the specific time 5:00 am
-      rescheduleOnReboot: true, //Work after reboot
-    );
-
-    if(CurrentUser.lichDaLam)
-    await AndroidAlarmManager.periodic(
-      const Duration(hours: 24), //Do the same every 24 hours
-      456, //Different ID for each alarm
-      daLam,
-      wakeup: true, //the device will be woken up when the alarm fires
-      startAt: DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, CurrentUser.daLamGIO, CurrentUser.daLamPHUT), //Start whit the specific time 5:00 am
-      rescheduleOnReboot: true, //Work after reboot
-    );
   });
 }
-
-Future<void> nhacNho() async {
-  flutterLocalNotificationsPlugin.show(
-      0,
-      "Bắt đầu một ngày mới.",
-      "Xem lịch ăn uống và tâp luyện ngày hôm nay thôi nào.",
-      NotificationDetails(
-          android: AndroidNotificationDetails(channel.id, channel.name,
-              channelDescription: channel.description,
-              importance: Importance.max,
-              priority: Priority.high,
-              color: Colors.blue,
-              playSound: true,
-              icon: '@mipmap/ic_launcher')
-      ),
-      payload: 'Custom_Sound',
-  );
-}
-
-Future<void> daLam() async {
-  flutterLocalNotificationsPlugin.show(
-    2,
-    "Hôm nay bạn đã làm được gì.",
-    "Tổng kết xem hôm nay bạn đã ăn uống và luyện tập như thế nào.",
-    NotificationDetails(
-        android: AndroidNotificationDetails(channel.id, channel.name,
-            channelDescription: channel.description,
-            importance: Importance.max,
-            priority: Priority.high,
-            color: Colors.blue,
-            playSound: true,
-            icon: '@mipmap/ic_launcher')
-    ),
-    payload: 'Custom_Sound',
-  );
-}
-
-// Future testNotification(String detail) async {
-//   var androidPlatformChannelSpecifics = new AndroidNotificationDetails(
-//     'your channel id',
-//     'your channel name',//Cái này hiện tên trong cài đặt
-//     channelDescription: "your channel description",
-//     sound: RawResourceAndroidNotificationSound("noti"),
-//     playSound: true,
-//     importance: Importance.max,
-//     priority: Priority.high,
-//     icon: "eaten",
-//   );
-//
-//   var platformChannelSpecifics = new NotificationDetails(android: androidPlatformChannelSpecifics);
-//
-//   await flutterLocalNotificationsPlugin.show(
-//     5,
-//     'New Post',
-//     'How to Show Notification in Flutter: ' + detail,
-//     platformChannelSpecifics,
-//     payload: 'Custom_Sound',
-//   );
-// }
 
 class SplashScreen extends StatefulWidget{
   @override
