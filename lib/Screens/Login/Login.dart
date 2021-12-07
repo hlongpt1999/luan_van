@@ -91,6 +91,7 @@ class MyAppState extends State<MyApp> {
   }
 
   Future<void> getToSchedule() async {
+    MockData.listMeal2 = [];
     await FirebaseFirestore.instance.collection(Const.CSDL_LICH).get().then(
       (value){
         value.docs.forEach((element) {
@@ -106,7 +107,7 @@ class MyAppState extends State<MyApp> {
               date7: DateMealModel.fromJson(data["date7"]),
             name: data["name"] ?? "Mọi đối tượng",
           );
-          if (data["totalCalo"] == 1500){
+          if (data["totalCalo"] == CurrentUser.goiCalo){
             MockData.listMeal2 = [scheduleModel.date1, scheduleModel.date2, scheduleModel.date3, scheduleModel.date4, scheduleModel.date5, scheduleModel.date6, scheduleModel.date7];
           }
         });
@@ -114,6 +115,7 @@ class MyAppState extends State<MyApp> {
   }
 
   Future<void> getToScheduleLuyenTap() async {
+    MockData.listLuyenTap = [];
     await FirebaseFirestore.instance.collection(Const.CSDL_SCHEDULE_LUYENTAP).get().then(
             (value){
           value.docs.forEach((element) {
@@ -129,9 +131,11 @@ class MyAppState extends State<MyApp> {
               date7: DateLuyenTapModel.fromJson(data["date7"]),
               name: data["name"] ?? "Mọi đối tượng",
             );
-            if (data["totalCalo"] == 1500){
+            if (data["totalCalo"] == CurrentUser.goiCalo){
               MockData.listLuyenTap = [scheduleModel.date1, scheduleModel.date2, scheduleModel.date3, scheduleModel.date4, scheduleModel.date5, scheduleModel.date6, scheduleModel.date7];
             }
+
+            print("HÈ HE");
           });
         }).whenComplete(()
     => Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => CreateScheduleScreen()))

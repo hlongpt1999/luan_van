@@ -11,29 +11,75 @@ class TabStatisticalScreen extends StatefulWidget{
   State<StatefulWidget> createState() => TabStatisticalScreenState();
 }
 
+final double basicBMI = 22.5;
+
 class TabStatisticalScreenState extends State<TabStatisticalScreen>{
-  List<charts.Series<TimeSeriesSales, DateTime>> _createSampleData(List<TimeSeriesSales> dataCalo) {
+  List<charts.Series<TimeSeriesSales, DateTime>> _createSampleData(List<TimeSeriesSales> dataCalo, List<TimeSeriesSales> dataCalo2) {
     final data = dataCalo;
+    final data2 = dataCalo2;
 
     return [
       new charts.Series<TimeSeriesSales, DateTime>(
-        id: 'Sales',
+        id: 'TieuThu',
         colorFn: (_, __) => charts.MaterialPalette.blue.shadeDefault,
         domainFn: (TimeSeriesSales sales, _) => sales.time,
         measureFn: (TimeSeriesSales sales, _) => sales.sales,
         data: data,
-      )
+      ),
+
+      new charts.Series<TimeSeriesSales, DateTime>(
+        id: 'DotChay',
+        colorFn: (_, __) => charts.MaterialPalette.red.shadeDefault,
+        domainFn: (TimeSeriesSales sales, _) => sales.time,
+        measureFn: (TimeSeriesSales sales, _) => sales.sales,
+        data: data2,
+      ),
+    ];
+  }
+
+  List<charts.Series<TimeSeriesSales, DateTime>> _createBMIData(List<TimeSeriesSales> dataBMI, List<TimeSeriesSales> dataBasic) {
+    final data = dataBMI;
+    final data2 = dataBasic;
+
+    return [
+      new charts.Series<TimeSeriesSales, DateTime>(
+        id: 'BMI',
+        colorFn: (_, __) => charts.MaterialPalette.blue.shadeDefault,
+        domainFn: (TimeSeriesSales sales, _) => sales.time,
+        measureFn: (TimeSeriesSales sales, _) => sales.sales,
+        data: data,
+      ),
+
+      new charts.Series<TimeSeriesSales, DateTime>(
+        id: 'Basic',
+        colorFn: (_, __) => charts.MaterialPalette.green.shadeDefault,
+        domainFn: (TimeSeriesSales sales, _) => sales.time,
+        measureFn: (TimeSeriesSales sales, _) => sales.sales,
+        data: data2,
+      ),
+
+      new charts.Series<TimeSeriesSales, DateTime>(
+          id: 'Mobile',
+          colorFn: (_, __) => charts.MaterialPalette.blue.shadeDefault,
+          domainFn: (TimeSeriesSales sales, _) => sales.time,
+          measureFn: (TimeSeriesSales sales, _) => sales.sales,
+          data: data)
+      // Configure our custom point renderer for this series.
+        ..setAttribute(charts.rendererIdKey, 'customPoint'),
     ];
   }
 
   List<TimeSeriesSales> caloData1 = [];
   List<TimeSeriesSales> caloData2 = [];
+  List<TimeSeriesSales> bmiData = [];
+  List<TimeSeriesSales> bmiBasic = [];
 
   Future<void> getCaloHistory() async {
     caloData1.clear();
     caloData2.clear();
+    bmiData.clear();
     await FirebaseFirestore.instance.collection(Const.CSDL_USERS).doc(CurrentUser.currentUser.id)
-        .collection("historyDaLam").orderBy('time').get().then((value){
+        .collection(Const.COLLECTION_DALAM).orderBy('time').get().then((value){
       value.docs.forEach((element){
         var data = element.data() as Map<String, dynamic>;
         DaLamModel daLamModel = DaLamModel.fromJson(data);
@@ -42,6 +88,17 @@ class TabStatisticalScreenState extends State<TabStatisticalScreen>{
         caloData2.add(TimeSeriesSales(DateTime(now.year, now.month, now.day), daLamModel.totalDongTacCalo));
       });
     });
+    await FirebaseFirestore.instance.collection(Const.CSDL_USERS).doc(CurrentUser.currentUser.id)
+        .collection(Const.COLLECTION_HISTORY_BMI).orderBy('time').get().then((value){
+      value.docs.forEach((element){
+        var data = element.data() as Map<String, dynamic>;
+        HistoryBMI historyBMI = HistoryBMI.fromJson(data);
+        var now = historyBMI.time.toDate();
+        bmiData.add(TimeSeriesSales(DateTime(now.year, now.month, now.day), historyBMI.bmi));
+        bmiBasic.add(TimeSeriesSales(DateTime(now.year, now.month, now.day), basicBMI));
+      });
+    });
+
   }
 
   @override
@@ -56,45 +113,6 @@ class TabStatisticalScreenState extends State<TabStatisticalScreen>{
           builder: (context, snapshot) {
             return Column(
               children: [
-                // Container(
-                //   padding: EdgeInsets.all(10),
-                //   decoration: BoxDecoration(
-                //     color: Colors.white,
-                //     borderRadius: BorderRadius.all(Radius.circular(20)),
-                //   ),
-                //   child: Column(
-                //     children: [
-                //       Center(
-                //         child: Text(
-                //           "Sự thay đổi BMI",
-                //           style: GoogleFonts.quicksand(
-                //             fontSize: 20,
-                //             fontWeight: FontWeight.bold,
-                //           ),
-                //         ),
-                //       ),
-                //       SizedBox(height: 20,),
-                //
-                //       Container(
-                //         alignment: Alignment.centerLeft,
-                //         child: Text(
-                //           "BMI",
-                //           style: GoogleFonts.quicksand(
-                //             fontSize: 13,
-                //           ),
-                //         ),
-                //       ),
-                //
-                //       Container(
-                //         height: 300,
-                //         child: SimpleTimeSeriesChart(_createSampleData(), animate: true,),
-                //       ),
-                //     ],
-                //   ),
-                // ),
-                //
-                // SizedBox(height: 30,),
-
                 Container(
                   padding: EdgeInsets.all(10),
                   decoration: BoxDecoration(
@@ -105,19 +123,60 @@ class TabStatisticalScreenState extends State<TabStatisticalScreen>{
                     children: [
                       Center(
                         child: Text(
-                          "Calo tiêu thụ trong tuần",
+                          "Sự thay đổi BMI",
                           style: GoogleFonts.quicksand(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
                       ),
-                      SizedBox(height: 20,),
+                      SizedBox(height: 15,),
+
+                      Container(
+                        child: Row(
+                          children: [
+                            SizedBox(width: 50,),
+                            Container (
+                              height: 2,
+                              width: 30,
+                              color: Colors.green,
+                            ),
+                            SizedBox(width: 20,),
+                            Text(
+                              "Mức BMI hoàn hảo",
+                              style: GoogleFonts.quicksand(
+                                fontSize: 15,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Container(
+                        child: Row(
+                          children: [
+                            SizedBox(width: 50,),
+                            Container (
+                              height: 2,
+                              width: 30,
+                              color: Colors.blue,
+                            ),
+                            SizedBox(width: 20,),
+                            Text(
+                              "BMI của bạn",
+                              style: GoogleFonts.quicksand(
+                                fontSize: 15,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+
+                      SizedBox(height: 5,),
 
                       Container(
                         alignment: Alignment.centerLeft,
                         child: Text(
-                          "Số calo",
+                          "BMI",
                           style: GoogleFonts.quicksand(
                             fontSize: 13,
                           ),
@@ -125,8 +184,8 @@ class TabStatisticalScreenState extends State<TabStatisticalScreen>{
                       ),
 
                       Container(
-                          height: 200,
-                          child: SimpleTimeSeriesChart(_createSampleData(caloData1), animate: true,),
+                        height: 200,
+                        child: SimpleTimeSeriesChart(_createBMIData(bmiData, bmiBasic), animate: true,),
                       ),
                     ],
                   ),
@@ -144,14 +203,55 @@ class TabStatisticalScreenState extends State<TabStatisticalScreen>{
                     children: [
                       Center(
                         child: Text(
-                          "Calo đốt cháy trong tuần",
+                          "Thống kê calo trong tuần",
                           style: GoogleFonts.quicksand(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
                       ),
-                      SizedBox(height: 20,),
+                      SizedBox(height: 15,),
+
+                      Container(
+                        child: Row(
+                          children: [
+                            SizedBox(width: 50,),
+                            Container (
+                              height: 2,
+                              width: 30,
+                              color: Colors.blue,
+                            ),
+                            SizedBox(width: 20,),
+                            Text(
+                              "Calo đã tiêu thụ",
+                              style: GoogleFonts.quicksand(
+                                fontSize: 15,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Container(
+                        child: Row(
+                          children: [
+                            SizedBox(width: 50,),
+                            Container (
+                              height: 2,
+                              width: 30,
+                              color: Colors.red,
+                            ),
+                            SizedBox(width: 20,),
+                            Text(
+                              "Calo đã đốt cháy",
+                              style: GoogleFonts.quicksand(
+                                fontSize: 15,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+
+                      SizedBox(height: 5,),
 
                       Container(
                         alignment: Alignment.centerLeft,
@@ -165,7 +265,7 @@ class TabStatisticalScreenState extends State<TabStatisticalScreen>{
 
                       Container(
                         height: 200,
-                        child: SimpleTimeSeriesChart(_createSampleData(caloData2), animate: true,),
+                        child: SimpleTimeSeriesChart(_createSampleData(caloData1, caloData2), animate: true,),
                       ),
                     ],
                   ),
@@ -187,23 +287,33 @@ class SimpleTimeSeriesChart extends StatelessWidget {
 
   SimpleTimeSeriesChart(this.seriesList, {this.animate});
 
-  /// Creates a [TimeSeriesChart] with sample data and no transition.
-  // factory SimpleTimeSeriesChart.withSampleData() {
-  //   return new SimpleTimeSeriesChart(
-  //     _createSampleData(),
-  //     // Disable animations for image tests.
-  //     animate: false,
-  //   );
-  // }
-
   @override
   Widget build(BuildContext context) {
+    //SINGLE LINE
+    // return new charts.TimeSeriesChart(
+    //   seriesList,
+    //   animate: animate,
+    //   dateTimeFactory: const charts.LocalDateTimeFactory(),
+    //   domainAxis: charts.DateTimeAxisSpec(
+    //     tickFormatterSpec: charts.AutoDateTimeTickFormatterSpec(
+    //       day: charts.TimeFormatterSpec(
+    //         format: 'dd/M',
+    //         transitionFormat: 'dd/M',
+    //       ),
+    //     ),
+    //   ),
+    //   flipVerticalAxis: false,
+    // );
+
+    //DOUBLE LINE
     return new charts.TimeSeriesChart(
       seriesList,
       animate: animate,
-      // Optionally pass in a [DateTimeFactory] used by the chart. The factory
-      // should create the same type of [DateTime] as the data provided. If none
-      // specified, the default creates local date time.
+      defaultRenderer: new charts.LineRendererConfig(),
+      customSeriesRenderers: [
+        new charts.PointRendererConfig(
+            customRendererId: 'customPoint')
+      ],
       dateTimeFactory: const charts.LocalDateTimeFactory(),
       domainAxis: charts.DateTimeAxisSpec(
         tickFormatterSpec: charts.AutoDateTimeTickFormatterSpec(
@@ -215,26 +325,6 @@ class SimpleTimeSeriesChart extends StatelessWidget {
       ),
     );
   }
-
-  /// Create one series with sample hard coded data.
-  // static List<charts.Series<TimeSeriesSales, DateTime>> _createSampleData() {
-  //   final data = [
-  //     new TimeSeriesSales(new DateTime(2017, 9, 19), 5),
-  //     new TimeSeriesSales(new DateTime(2017, 9, 26), 25),
-  //     new TimeSeriesSales(new DateTime(2017, 10, 3), 100),
-  //     new TimeSeriesSales(new DateTime(2017, 10, 10), 75),
-  //   ];
-  //
-  //   return [
-  //     new charts.Series<TimeSeriesSales, DateTime>(
-  //       id: 'Sales',
-  //       colorFn: (_, __) => charts.MaterialPalette.blue.shadeDefault,
-  //       domainFn: (TimeSeriesSales sales, _) => sales.time,
-  //       measureFn: (TimeSeriesSales sales, _) => sales.sales,
-  //       data: data,
-  //     )
-  //   ];
-  // }
 }
 
 class TimeSeriesSales {

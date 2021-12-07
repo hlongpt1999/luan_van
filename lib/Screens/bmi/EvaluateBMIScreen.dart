@@ -84,6 +84,7 @@ class EvaluateBMIScreenState extends State<EvaluateBMIScreen> {
                   GestureDetector(
                     onTap: (){
                       Const.KEY_FROM = Const.FROM_BMI;
+                      CurrentUser.goiCalo=goiCalo[0];
                       Navigator.push(context, MaterialPageRoute(builder: (context) => MyApp()));
                     },
                     child: boxBMISelect(showTitleChoice(1), foodBackground, _listIcon[0])
@@ -93,6 +94,7 @@ class EvaluateBMIScreenState extends State<EvaluateBMIScreen> {
                   GestureDetector(
                     onTap: (){
                       Const.KEY_FROM = Const.FROM_BMI;
+                      CurrentUser.goiCalo=goiCalo[1];
                       Navigator.push(context, MaterialPageRoute(builder: (context) => MyApp()));
                     },
                     child: boxBMISelect(showTitleChoice(2), balanceBackground, _listIcon[1]),
@@ -102,6 +104,7 @@ class EvaluateBMIScreenState extends State<EvaluateBMIScreen> {
                   if(_isShowChoice) GestureDetector(
                       onTap: (){
                         Const.KEY_FROM = Const.FROM_BMI;
+                        CurrentUser.goiCalo=goiCalo[2];
                         Navigator.push(context, MaterialPageRoute(builder: (context) => MyApp()));
                         // Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => CreateScheduleScreen()));
                       },

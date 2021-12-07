@@ -318,7 +318,7 @@ class MealsView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: 130,
+      width: 140,
       child: Stack(
         children: <Widget>[
           Padding(

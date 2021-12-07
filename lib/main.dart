@@ -10,6 +10,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:luan_van/components/Method.dart';
+import 'package:luan_van/model/User.dart';
 import 'package:luan_van/screens/data/ThemFood.dart';
 import 'package:luan_van/screens/bmi/BMIScreen.dart';
 import 'package:luan_van/screens/bmi/EvaluateBMIScreen.dart';
@@ -49,6 +50,17 @@ Future<void> main() async{
     sound: true,
   );
 
+  SharedPreferences pref = await SharedPreferences.getInstance();
+  List<String> list = pref.getStringList(Const.KEY_DAT_GIO) ?? ["null"];
+  if(list[0] != "null"){
+    CurrentUser.lichNhacNho = list[0] == "true" ? true : false;
+    CurrentUser.nhacNhoGIO = int.parse(list[1]);
+    CurrentUser.nhacNhoPHUT= int.parse(list[2]);
+    CurrentUser.lichDaLam = list[3] == "true" ? true : false;
+    CurrentUser.daLamGIO = int.parse(list[4]);
+    CurrentUser.daLamPHUT= int.parse(list[5]);
+  }
+
   //Câu lệnh cố định màn hình không cho nó xoay ngang.
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations([
@@ -62,7 +74,85 @@ Future<void> main() async{
           home: SplashScreen(),
         )
     );
+    await AndroidAlarmManager.periodic(
+      const Duration(seconds: 45), //Do the same every 24 hours
+      123, //Different ID for each alarm
+      nhacNho,
+      wakeup: true, //the device will be woken up when the alarm fires
+      // startAt: DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, CurrentUser.nhacNhoGIO, CurrentUser.nhacNhoPHUT), //Start whit the specific time 5:00 am
+      rescheduleOnReboot: true, //Work after reboot
+    );
+
+    await AndroidAlarmManager.periodic(
+      const Duration(minutes: 45), //Do the same every 24 hours
+      456, //Different ID for each alarm
+      daLam,
+      wakeup: true, //the device will be woken up when the alarm fires
+      // startAt: DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, CurrentUser.daLamGIO, CurrentUser.daLamPHUT), //Start whit the specific time 5:00 am
+      rescheduleOnReboot: true, //Work after reboot
+    );
   });
+}
+
+Future<void> nhacNho() async {
+  SharedPreferences pref = await SharedPreferences.getInstance();
+  List<String> list = await pref.getStringList(Const.KEY_DAT_GIO) ?? ["null"];
+  DateTime now = DateTime.now();
+  print("nhac");
+
+  if(list[0] != "null" && list[0] == "true")
+  {
+    if(now.hour.toString() == list[1] && now.minute.toString() == list[2])
+    {
+      print("nhacNho");
+      flutterLocalNotificationsPlugin.show(
+        0,
+        "Bắt đầu một ngày mới.",
+        "Xem lịch ăn uống và tâp luyện ngày hôm nay.",
+        NotificationDetails(
+            android: AndroidNotificationDetails(channel.id, channel.name,
+                channelDescription: channel.description,
+                importance: Importance.max,
+                priority: Priority.high,
+                color: Colors.blue,
+                playSound: true,
+                styleInformation: BigTextStyleInformation(''),
+                icon: '@mipmap/ic_launcher')
+        ),
+        payload: 'Custom_Sound',
+      );
+    }
+  }
+}
+
+Future<void> daLam() async {
+  SharedPreferences pref = await SharedPreferences.getInstance();
+  List<String> list = await pref.getStringList(Const.KEY_DAT_GIO) ?? ["null"];
+  DateTime now = DateTime.now();
+  print("da");
+
+  if(list[3] != "null" && list[3] == "true")
+  {
+    if(now.hour.toString() == list[4] && now.minute.toString() == list[5])
+    {
+      print("daLam");
+      flutterLocalNotificationsPlugin.show(
+        2,
+        "Hôm nay bạn đã làm được gì?",
+        "Đừng quên tổng kết hôm nay.",
+        NotificationDetails(
+            android: AndroidNotificationDetails(channel.id, channel.name,
+                channelDescription: channel.description,
+                importance: Importance.max,
+                priority: Priority.high,
+                color: Colors.blue,
+                playSound: true,
+                icon: '@mipmap/ic_launcher')
+        ),
+        payload: 'Custom_Sound',
+      );
+    }
+  }
 }
 
 class SplashScreen extends StatefulWidget{
@@ -85,17 +175,18 @@ class SplashScreenState extends State<SplashScreen>{
           .then((value) async{
         await FirebaseFirestore.instance.collection(Const.CSDL_USERS).doc(login.elementAt(0)).get().then((value) async{
           var data = value.data() as Map<String, dynamic>;
-          CurrentUser.currentUser.name = data['name'];
-          CurrentUser.currentUser.email = data['email'];
-          CurrentUser.currentUser.avatar = data['avatar'];
-          CurrentUser.currentUser.password = data['password'] ?? "";
-          CurrentUser.currentUser.id = data['id'];
-          CurrentUser.currentUser.role = data['role'];
-          CurrentUser.currentUser.bmi = data['bmi'] ?? 0.0;
-          CurrentUser.currentUser.height = data["height"] ?? 0;
-          CurrentUser.currentUser.weight = data["weight"] ?? 0;
-          CurrentUser.currentUser.bornYear = data["bornYear"] ?? 0;
-          CurrentUser.currentUser.sex = data["sex"] ?? 0.0;
+          // CurrentUser.currentUser.name = data['name'];
+          // CurrentUser.currentUser.email = data['email'];
+          // CurrentUser.currentUser.avatar = data['avatar'];
+          // CurrentUser.currentUser.password = data['password'] ?? "";
+          // CurrentUser.currentUser.id = data['id'];
+          // CurrentUser.currentUser.role = data['role'];
+          // CurrentUser.currentUser.bmi = data['bmi'] ?? 0.0;
+          // CurrentUser.currentUser.height = data["height"] ?? 0;
+          // CurrentUser.currentUser.weight = data["weight"] ?? 0;
+          // CurrentUser.currentUser.bornYear = data["bornYear"] ?? 0;
+          // CurrentUser.currentUser.sex = data["sex"] ?? 0.0;
+          CurrentUser.currentUser = UserModel.fromJson(data);
         });
         if(CurrentUser.currentUser.role != "user" )
           Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => DoctorHomeScreen()));

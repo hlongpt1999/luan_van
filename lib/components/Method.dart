@@ -6,8 +6,10 @@ import 'package:luan_van/model/ChatModel.dart';
 import 'package:luan_van/model/DateLuyenTapModel.dart';
 import 'package:luan_van/model/DateMealModel.dart';
 import 'package:luan_van/screens/bmi/BMIScreen.dart';
+import 'package:luan_van/screens/bmi/EvaluateBMIScreen.dart';
 import 'package:luan_van/screens/home/HomeScreen.dart';
 import 'package:luan_van/screens/schedule/MockData.dart';
+import 'package:luan_van/screens/setting/DatGioScreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 
@@ -26,6 +28,9 @@ Future<void> getSchedule(String idUser, BuildContext _context) async{
                 dateMealModel.time.toDate().month == now.month &&
                   dateMealModel.time.toDate().year == now.year){
               MockData.listMeal2.add(dateMealModel);
+              if(i==0){
+                CurrentUser.lichHomNay = true;
+              }
             }
           }
         });
@@ -136,7 +141,21 @@ Future<void> getLuyenTapShow(String idUser, BuildContext _context) async{
         CurrentUser.totalCaloDateLost = _listLuyenTap[i].caloDate;
       }
     }
-    Navigator.of(_context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => HomeScreen()),(Route<dynamic> route) => false);
+    List<String> list = await pref.getStringList(Const.KEY_DAT_GIO) ?? ["null"];
+    if(list[0] == "null")
+      luuLich();
+    else{
+      CurrentUser.lichNhacNho = list[0] == "true" ? true : false;
+      CurrentUser.nhacNhoGIO = int.parse(list[1]);
+      CurrentUser.nhacNhoPHUT= int.parse(list[2]);
+      CurrentUser.lichDaLam = list[3] == "true" ? true : false;
+      CurrentUser.daLamGIO = int.parse(list[4]);
+      CurrentUser.daLamPHUT= int.parse(list[5]);
+    }
+    if(CurrentUser.lichHomNay)
+      Navigator.of(_context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => HomeScreen()),(Route<dynamic> route) => false);
+    else
+      Navigator.of(_context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => EvaluateBMIScreen()),(Route<dynamic> route) => false);
   }).onError((error, stackTrace){
     Navigator.of(_context).pushReplacement(MaterialPageRoute(builder: (context) => BMIScreen()));
     print("LỖI: "+ error.toString());

@@ -4,11 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:luan_van/components/Constants.dart';
 import 'package:luan_van/components/progressLoading.dart';
+import 'package:luan_van/model/DaLamModel.dart';
 import 'package:luan_van/resources/button_next.dart';
 import 'package:luan_van/resources/button_quater_circle_back.dart';
 import 'package:luan_van/resources/button_quater_circle_next.dart';
 import 'package:luan_van/resources/styles.dart';
 import 'package:luan_van/screens/bmi/EvaluateBMIScreen.dart';
+import 'package:luan_van/screens/home/HomeScreen.dart';
 import 'package:toast/toast.dart';
 
 import '../../main.dart';
@@ -289,7 +291,7 @@ class BMIScreenState extends State<BMIScreen>{
                           borderRadius: BorderRadius.only(topLeft: Radius.circular(myBorder),bottomLeft: Radius.circular(myBorder), bottomRight:  Radius.circular(myBorder),),
                         ),
                         child: Text(
-                          "TIẾP TỤC",
+                          Const.KEY_FROM == Const.FROM_HOME ? "LƯU" : "TIẾP TỤC",
                           style: GoogleFonts.quicksand(
                             color: Colors.white,
                             fontSize: 30,
@@ -321,6 +323,7 @@ class BMIScreenState extends State<BMIScreen>{
         CurrentUser.currentUser.sex = male;
 
         updateUser(bmi, age, male);
+        updateHistoryBMI(bmi, age, male);
     });
   }
 
@@ -340,12 +343,68 @@ class BMIScreenState extends State<BMIScreen>{
         )
         .then((value){
           ProgressLoading().hideLoading(context);
-          Navigator.of(context).push(MaterialPageRoute(builder: (context) => EvaluateBMIScreen()));
+          if(Const.KEY_FROM == Const.FROM_HOME) {
+            Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => HomeScreen()),(Route<dynamic> route) => false);
+            Const.KEY_FROM = "";
+          }else Navigator.of(context).push(MaterialPageRoute(builder: (context) => EvaluateBMIScreen()));
         })
         .catchError((error){
           ProgressLoading().hideLoading(context);
           Toast.show("Đã xảy ra lỗi. Vui lòng thử lại. ", context);
         });
+  }
+
+  Future<void> updateHistoryBMI(double bmi, int age, String male) async {
+    bool hadData = false;
+    String id = "";
+    await FirebaseFirestore.instance.collection(Const.CSDL_USERS).doc(CurrentUser.currentUser.id).collection(Const.COLLECTION_HISTORY_BMI)
+        .get().then(
+            (value) {
+            value.docs.forEach((element) {
+              var data = element.data() as Map<String, dynamic>;
+              final now = DateTime.now();
+              HistoryBMI daLamModel = HistoryBMI.fromJson(data);
+              if(daLamModel.time.toDate().year == now.year
+                  && daLamModel.time.toDate().month == now.month
+                  && daLamModel.time.toDate().day == now.day){
+                hadData = true;
+                id = element.id;
+              }
+            });
+        }
+    ).whenComplete((){
+      if(hadData){
+        luuCoData(id, bmi, age, male);
+      } else{
+        luuKhongData(bmi, age, male);
+      }
+    });
+  }
+
+  Future<void> luuCoData(String id, double bmi, int age, String male) async {
+    HistoryBMI daLamModel = HistoryBMI(
+      time: Timestamp.now(),
+      height: mHeight,
+      weight: mWeight,
+      tuoi: age,
+      bmi: bmi,
+      sex: male
+    );
+    await FirebaseFirestore.instance.collection(Const.CSDL_USERS).doc(CurrentUser.currentUser.id)
+        .collection(Const.COLLECTION_HISTORY_BMI).doc(id).update(daLamModel.toMap());
+  }
+
+  Future<void> luuKhongData(double bmi, int age, String male) async {
+    HistoryBMI daLamModel = HistoryBMI(
+        time: Timestamp.now(),
+        height: mHeight,
+        weight: mWeight,
+        tuoi: age,
+        bmi: bmi,
+        sex: male
+    );
+    await FirebaseFirestore.instance.collection(Const.CSDL_USERS).doc(CurrentUser.currentUser.id)
+        .collection(Const.COLLECTION_HISTORY_BMI).add(daLamModel.toMap());
   }
 
   void onBackClick() => Navigator.pop(context);

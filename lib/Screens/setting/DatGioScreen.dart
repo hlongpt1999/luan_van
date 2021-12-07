@@ -9,6 +9,18 @@ class DatGioScreen extends StatefulWidget {
   State<StatefulWidget> createState() => DatGioScreenState();
 }
 
+Future<void> luuLich() async{
+  SharedPreferences pref = await SharedPreferences.getInstance();
+  pref.setStringList(Const.KEY_DAT_GIO, [
+    CurrentUser.lichNhacNho.toString(),
+    CurrentUser.nhacNhoGIO.toString(),
+    CurrentUser.nhacNhoPHUT.toString(),
+    CurrentUser.lichDaLam.toString(),
+    CurrentUser.daLamGIO.toString(),
+    CurrentUser.daLamPHUT.toString(),
+  ]);
+}
+
 class DatGioScreenState extends State<DatGioScreen>{
   TimeOfDay _time1 = TimeOfDay(hour: CurrentUser.nhacNhoGIO, minute: CurrentUser.nhacNhoPHUT);
   TimeOfDay _time2 = TimeOfDay(hour: CurrentUser.daLamGIO, minute: CurrentUser.daLamPHUT);
@@ -42,20 +54,6 @@ class DatGioScreenState extends State<DatGioScreen>{
     }
   }
 
-
-
-  Future<void> luuLich() async{
-    SharedPreferences pref = await SharedPreferences.getInstance();
-    pref.setStringList(Const.KEY_DAT_GIO, [
-      CurrentUser.lichNhacNho.toString(),
-      CurrentUser.nhacNhoGIO.toString(),
-      CurrentUser.nhacNhoPHUT.toString(),
-      CurrentUser.lichDaLam.toString(),
-      CurrentUser.daLamGIO.toString(),
-      CurrentUser.daLamPHUT.toString(),
-    ]);
-  }
-
   Future<void> moLich() async {
     SharedPreferences pref = await SharedPreferences.getInstance();
     List<String> list = pref.getStringList(Const.KEY_DAT_GIO);
@@ -72,6 +70,11 @@ class DatGioScreenState extends State<DatGioScreen>{
   @override
   void initState() {
     moLich();
+  }
+
+  @override
+  void dispose() {
+    luuLich();
   }
 
   @override

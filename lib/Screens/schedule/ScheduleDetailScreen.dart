@@ -177,33 +177,82 @@ class ScheduleDetailScreenState extends State<ScheduleDetailScreen>{
     List<FoodModel> date6= [];
     List<FoodModel> date7= [];
     for (int i=0; i< itemLength[0]; i++){
-      date1.add(CurrentUser.listFood[indexFood[0][i]]);
-      // date1[i].quantity=indexQuanlity[0][i];
-      date1[i].quantity=int.parse(soLuongController[0][i].text.toString());
+      FoodModel model = new FoodModel(
+        idFood: CurrentUser.listFood[indexFood[0][i]].idFood,
+        name: CurrentUser.listFood[indexFood[0][i]].name,
+        vitamin: CurrentUser.listFood[indexFood[0][i]].vitamin,
+        calo100g: CurrentUser.listFood[indexFood[0][i]].calo100g,
+        priority: CurrentUser.listFood[indexFood[0][i]].priority,
+        foodImage: CurrentUser.listFood[indexFood[0][i]].foodImage,
+        quantity: int.parse(soLuongController[0][i].text.toString())
+      );
+      date1.add(model);
     }for (int i=0; i< itemLength[1]; i++){
-      date2.add(CurrentUser.listFood[indexFood[1][i]]);
-      // date2[i].quantity=indexQuanlity[1][i];
-      date2[i].quantity=int.parse(soLuongController[1][i].text.toString());
+      FoodModel model = new FoodModel(
+          idFood: CurrentUser.listFood[indexFood[1][i]].idFood,
+          name: CurrentUser.listFood[indexFood[1][i]].name,
+          vitamin: CurrentUser.listFood[indexFood[1][i]].vitamin,
+          calo100g: CurrentUser.listFood[indexFood[1][i]].calo100g,
+          priority: CurrentUser.listFood[indexFood[1][i]].priority,
+          foodImage: CurrentUser.listFood[indexFood[1][i]].foodImage,
+          quantity: int.parse(soLuongController[1][i].text.toString())
+      );
+      date2.add(model);
     }for (int i=0; i< itemLength[2]; i++){
-      date3.add(CurrentUser.listFood[indexFood[2][i]]);
-      // date3[i].quantity=indexQuanlity[2][i];
-      date3[i].quantity=int.parse(soLuongController[2][i].text.toString());
+      FoodModel model = new FoodModel(
+          idFood: CurrentUser.listFood[indexFood[2][i]].idFood,
+          name: CurrentUser.listFood[indexFood[2][i]].name,
+          vitamin: CurrentUser.listFood[indexFood[2][i]].vitamin,
+          calo100g: CurrentUser.listFood[indexFood[2][i]].calo100g,
+          priority: CurrentUser.listFood[indexFood[2][i]].priority,
+          foodImage: CurrentUser.listFood[indexFood[2][i]].foodImage,
+          quantity: int.parse(soLuongController[2][i].text.toString())
+      );
+      date3.add(model);
     }for (int i=0; i< itemLength[3]; i++){
-      date4.add(CurrentUser.listFood[indexFood[3][i]]);
-      // date4[i].quantity=indexQuanlity[3][i];
-      date4[i].quantity=int.parse(soLuongController[3][i].text.toString());
+      FoodModel model = new FoodModel(
+          idFood: CurrentUser.listFood[indexFood[3][i]].idFood,
+          name: CurrentUser.listFood[indexFood[3][i]].name,
+          vitamin: CurrentUser.listFood[indexFood[3][i]].vitamin,
+          calo100g: CurrentUser.listFood[indexFood[3][i]].calo100g,
+          priority: CurrentUser.listFood[indexFood[3][i]].priority,
+          foodImage: CurrentUser.listFood[indexFood[3][i]].foodImage,
+          quantity: int.parse(soLuongController[3][i].text.toString())
+      );
+      date4.add(model);
     }for (int i=0; i< itemLength[4]; i++){
-      date5.add(CurrentUser.listFood[indexFood[4][i]]);
-      // date5[i].quantity=indexQuanlity[4][i];
-      date5[i].quantity=int.parse(soLuongController[4][i].text.toString());
+      FoodModel model = new FoodModel(
+          idFood: CurrentUser.listFood[indexFood[4][i]].idFood,
+          name: CurrentUser.listFood[indexFood[4][i]].name,
+          vitamin: CurrentUser.listFood[indexFood[4][i]].vitamin,
+          calo100g: CurrentUser.listFood[indexFood[4][i]].calo100g,
+          priority: CurrentUser.listFood[indexFood[4][i]].priority,
+          foodImage: CurrentUser.listFood[indexFood[4][i]].foodImage,
+          quantity: int.parse(soLuongController[4][i].text.toString())
+      );
+      date5.add(model);
     }for (int i=0; i< itemLength[5]; i++){
-      date6.add(CurrentUser.listFood[indexFood[5][i]]);
-      // date6[i].quantity=indexQuanlity[5][i];
-      date6[i].quantity=int.parse(soLuongController[5][i].text.toString());
+      FoodModel model = new FoodModel(
+          idFood: CurrentUser.listFood[indexFood[5][i]].idFood,
+          name: CurrentUser.listFood[indexFood[5][i]].name,
+          vitamin: CurrentUser.listFood[indexFood[5][i]].vitamin,
+          calo100g: CurrentUser.listFood[indexFood[5][i]].calo100g,
+          priority: CurrentUser.listFood[indexFood[5][i]].priority,
+          foodImage: CurrentUser.listFood[indexFood[5][i]].foodImage,
+          quantity: int.parse(soLuongController[5][i].text.toString())
+      );
+      date6.add(model);
     }for (int i=0; i< itemLength[6]; i++){
-      date7.add(CurrentUser.listFood[indexFood[6][i]]);
-      // date7[i].quantity=indexQuanlity[6][i];
-      date7[i].quantity=int.parse(soLuongController[6][i].text.toString());
+      FoodModel model = new FoodModel(
+          idFood: CurrentUser.listFood[indexFood[6][i]].idFood,
+          name: CurrentUser.listFood[indexFood[6][i]].name,
+          vitamin: CurrentUser.listFood[indexFood[6][i]].vitamin,
+          calo100g: CurrentUser.listFood[indexFood[6][i]].calo100g,
+          priority: CurrentUser.listFood[indexFood[6][i]].priority,
+          foodImage: CurrentUser.listFood[indexFood[6][i]].foodImage,
+          quantity: int.parse(soLuongController[6][i].text.toString())
+      );
+      date7.add(model);
     }
 
     FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;

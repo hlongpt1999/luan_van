@@ -24,6 +24,7 @@ class Const{
   static final String CSDL_SCHEDULE_LUYENTAP = "scheduleLuyenTap";
 
   static final String COLLECTION_DALAM = "historyDaLam";
+  static final String COLLECTION_HISTORY_BMI= "historyBMI";
 
   static String KEY_FROM = "";
   static final String FROM_BMI = "FROM_BMI";
@@ -106,6 +107,7 @@ class CurrentUser {
   static int totalCaloDateLost = 0;
   static UserModel userConnect = UserModel();
   static bool lichNgayMai = true;
+  static bool lichHomNay = false;
 
   static bool lichNhacNho = true;
   static int nhacNhoGIO = 8;
@@ -114,6 +116,8 @@ class CurrentUser {
   static bool lichDaLam = true;
   static int daLamGIO = 20;
   static int daLamPHUT = 0;
+
+  static int goiCalo = 2000;
 }
 
 Future<void> onLogOut(BuildContext context) async {

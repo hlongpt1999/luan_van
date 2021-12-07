@@ -81,7 +81,7 @@ List<List<int>> indexQuanlity = [
   [0,0,0,0,0,0,0,0,0,0]
 ];
 
-List<int> itemLength = [1,1,1,1,1,1,1,1,1,1];
+List<int> itemLength = [1,1,1,1,1,1,1];
 
 class ScheduleBaiTapScreenState extends State<ScheduleBaiTapScreen>{
   double _marginBottom = 30;
@@ -95,49 +95,6 @@ class ScheduleBaiTapScreenState extends State<ScheduleBaiTapScreen>{
   int totalCalo = 1500;
   List<int> totalCaloDate = [0,0,0,0,0,0,0];
 
-  String suggestionsSchedule(String calo){
-    String text = "";
-    switch (calo){
-      case "1500 calo":
-        setState(() {
-          totalCalo = 1500;
-        });
-        text = "150 calo sữa, trứng.\n450 calo thịt, cá.\n450 calo ngũ cốc, tinh bột.\n250 calo rau củ.\n200 calo trái cây.";
-        break;
-      case "1800 calo":
-        setState(() {
-          totalCalo = 1800;
-        });
-        text = "180 calo sữa, trứng.\n540 calo thịt, cá.\n540 calo ngũ cốc, tinh bột.\n300 calo rau củ.\n240 calo trái cây.";
-        break;
-      case "2000 calo":
-        setState(() {
-          totalCalo = 2000;
-        });
-        text = "200 calo sữa, trứng.\n600 calo thịt, cá.\n600 calo ngũ cốc, tinh bột.\n330 calo rau củ.\n270 calo trái cây.";
-        break;
-      case "2300 calo":
-        setState(() {
-          totalCalo = 2300;
-        });
-        text = "230 calo sữa, trứng.\n690 calo thịt, cá.\n690 calo ngũ cốc, tinh bột.\n370 calo rau củ.\n320 calo trái cây.";
-        break;
-      case "2500 calo":
-        setState(() {
-          totalCalo = 2500;
-        });
-        text = "250 calo sữa, trứng.\n750 calo thịt, cá.\n750 calo ngũ cốc, tinh bột.\n400 calo rau củ.\n350 calo trái cây.";
-        break;
-      case "2800 calo":
-        setState(() {
-          totalCalo = 2800;
-        });
-        text = "280 calo sữa, trứng.\n840 calo thịt, cá.\n840 calo ngũ cốc, tinh bột.\n450 calo rau củ.\n390 calo trái cây.";
-        break;
-    }
-    return text;
-  }
-
   Future<void> uploadSchedule() async{
     ProgressLoading().showLoading(context);
     List<MovementModel> date1= [];
@@ -148,26 +105,90 @@ class ScheduleBaiTapScreenState extends State<ScheduleBaiTapScreen>{
     List<MovementModel> date6= [];
     List<MovementModel> date7= [];
     for (int i=0; i< itemLength[0]; i++){
-      date1.add(CurrentUser.listDongTac[indexFood[0][i]]);
-      date1[i].quantity=int.parse(soLuongController[0][i].text.toString());
-    }for (int i=0; i< itemLength[1]; i++){
-      date2.add(CurrentUser.listDongTac[indexFood[1][i]]);
-      date2[i].quantity=int.parse(soLuongController[1][i].text.toString());
+      MovementModel model = new MovementModel(
+        idMovement: CurrentUser.listDongTac[indexFood[0][i]].idMovement,
+        name: CurrentUser.listDongTac[indexFood[0][i]].name,
+        detail: CurrentUser.listDongTac[indexFood[0][i]].detail,
+        caloLost100g: CurrentUser.listDongTac[indexFood[0][i]].caloLost100g,
+        type: CurrentUser.listDongTac[indexFood[0][i]].type,
+        link: CurrentUser.listDongTac[indexFood[0][i]].link,
+        donvi:  CurrentUser.listDongTac[indexFood[0][i]].donvi,
+        quantity: int.parse(soLuongController[0][i].text.toString())
+    );
+      date1.add(model);
+    }
+    for (int i=0; i< itemLength[1]; i++){
+      MovementModel model = new MovementModel(
+        idMovement: CurrentUser.listDongTac[indexFood[1][i]].idMovement,
+        name: CurrentUser.listDongTac[indexFood[1][i]].name,
+        detail: CurrentUser.listDongTac[indexFood[1][i]].detail,
+        caloLost100g: CurrentUser.listDongTac[indexFood[1][i]].caloLost100g,
+        type: CurrentUser.listDongTac[indexFood[1][i]].type,
+        link: CurrentUser.listDongTac[indexFood[1][i]].link,
+        donvi:  CurrentUser.listDongTac[indexFood[1][i]].donvi,
+        quantity: int.parse(soLuongController[1][i].text.toString())
+      );
+      date2.add(model);
     }for (int i=0; i< itemLength[2]; i++){
-      date3.add(CurrentUser.listDongTac[indexFood[2][i]]);
-      date3[i].quantity=int.parse(soLuongController[2][i].text.toString());
+      MovementModel model = new MovementModel(
+          idMovement: CurrentUser.listDongTac[indexFood[2][i]].idMovement,
+          name: CurrentUser.listDongTac[indexFood[2][i]].name,
+          detail: CurrentUser.listDongTac[indexFood[2][i]].detail,
+          caloLost100g: CurrentUser.listDongTac[indexFood[2][i]].caloLost100g,
+          type: CurrentUser.listDongTac[indexFood[2][i]].type,
+          link: CurrentUser.listDongTac[indexFood[2][i]].link,
+          donvi:  CurrentUser.listDongTac[indexFood[2][i]].donvi,
+          quantity: int.parse(soLuongController[2][i].text.toString())
+      );
+      date3.add(model);
     }for (int i=0; i< itemLength[3]; i++){
-      date4.add(CurrentUser.listDongTac[indexFood[3][i]]);
-      date4[i].quantity=int.parse(soLuongController[3][i].text.toString());
+      MovementModel model = new MovementModel(
+          idMovement: CurrentUser.listDongTac[indexFood[3][i]].idMovement,
+          name: CurrentUser.listDongTac[indexFood[3][i]].name,
+          detail: CurrentUser.listDongTac[indexFood[3][i]].detail,
+          caloLost100g: CurrentUser.listDongTac[indexFood[3][i]].caloLost100g,
+          type: CurrentUser.listDongTac[indexFood[3][i]].type,
+          link: CurrentUser.listDongTac[indexFood[3][i]].link,
+          donvi:  CurrentUser.listDongTac[indexFood[3][i]].donvi,
+          quantity: int.parse(soLuongController[3][i].text.toString())
+      );
+      date4.add(model);
     }for (int i=0; i< itemLength[4]; i++){
-      date5.add(CurrentUser.listDongTac[indexFood[4][i]]);
-      date5[i].quantity=int.parse(soLuongController[4][i].text.toString());
+      MovementModel model = new MovementModel(
+          idMovement: CurrentUser.listDongTac[indexFood[4][i]].idMovement,
+          name: CurrentUser.listDongTac[indexFood[4][i]].name,
+          detail: CurrentUser.listDongTac[indexFood[4][i]].detail,
+          caloLost100g: CurrentUser.listDongTac[indexFood[4][i]].caloLost100g,
+          type: CurrentUser.listDongTac[indexFood[4][i]].type,
+          link: CurrentUser.listDongTac[indexFood[4][i]].link,
+          donvi:  CurrentUser.listDongTac[indexFood[4][i]].donvi,
+          quantity: int.parse(soLuongController[4][i].text.toString())
+      );
+      date5.add(model);
     }for (int i=0; i< itemLength[5]; i++){
-      date6.add(CurrentUser.listDongTac[indexFood[5][i]]);
-      date6[i].quantity=int.parse(soLuongController[5][i].text.toString());
+      MovementModel model = new MovementModel(
+          idMovement: CurrentUser.listDongTac[indexFood[5][i]].idMovement,
+          name: CurrentUser.listDongTac[indexFood[5][i]].name,
+          detail: CurrentUser.listDongTac[indexFood[5][i]].detail,
+          caloLost100g: CurrentUser.listDongTac[indexFood[5][i]].caloLost100g,
+          type: CurrentUser.listDongTac[indexFood[5][i]].type,
+          link: CurrentUser.listDongTac[indexFood[5][i]].link,
+          donvi:  CurrentUser.listDongTac[indexFood[5][i]].donvi,
+          quantity: int.parse(soLuongController[5][i].text.toString())
+      );
+      date6.add(model);
     }for (int i=0; i< itemLength[6]; i++){
-      date7.add(CurrentUser.listDongTac[indexFood[6][i]]);
-      date7[i].quantity=int.parse(soLuongController[6][i].text.toString());
+      MovementModel model = new MovementModel(
+          idMovement: CurrentUser.listDongTac[indexFood[6][i]].idMovement,
+          name: CurrentUser.listDongTac[indexFood[6][i]].name,
+          detail: CurrentUser.listDongTac[indexFood[6][i]].detail,
+          caloLost100g: CurrentUser.listDongTac[indexFood[6][i]].caloLost100g,
+          type: CurrentUser.listDongTac[indexFood[6][i]].type,
+          link: CurrentUser.listDongTac[indexFood[6][i]].link,
+          donvi:  CurrentUser.listDongTac[indexFood[6][i]].donvi,
+          quantity: int.parse(soLuongController[6][i].text.toString())
+      );
+      date7.add(model);
     }
 
     FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
@@ -715,5 +736,49 @@ class ScheduleBaiTapScreenState extends State<ScheduleBaiTapScreen>{
         ],
       ),
     );
+  }
+
+
+  String suggestionsSchedule(String calo){
+    String text = "";
+    switch (calo){
+      case "1500 calo":
+        setState(() {
+          totalCalo = 1500;
+        });
+        text = "150 calo sữa, trứng.\n450 calo thịt, cá.\n450 calo ngũ cốc, tinh bột.\n250 calo rau củ.\n200 calo trái cây.";
+        break;
+      case "1800 calo":
+        setState(() {
+          totalCalo = 1800;
+        });
+        text = "180 calo sữa, trứng.\n540 calo thịt, cá.\n540 calo ngũ cốc, tinh bột.\n300 calo rau củ.\n240 calo trái cây.";
+        break;
+      case "2000 calo":
+        setState(() {
+          totalCalo = 2000;
+        });
+        text = "200 calo sữa, trứng.\n600 calo thịt, cá.\n600 calo ngũ cốc, tinh bột.\n330 calo rau củ.\n270 calo trái cây.";
+        break;
+      case "2300 calo":
+        setState(() {
+          totalCalo = 2300;
+        });
+        text = "230 calo sữa, trứng.\n690 calo thịt, cá.\n690 calo ngũ cốc, tinh bột.\n370 calo rau củ.\n320 calo trái cây.";
+        break;
+      case "2500 calo":
+        setState(() {
+          totalCalo = 2500;
+        });
+        text = "250 calo sữa, trứng.\n750 calo thịt, cá.\n750 calo ngũ cốc, tinh bột.\n400 calo rau củ.\n350 calo trái cây.";
+        break;
+      case "2800 calo":
+        setState(() {
+          totalCalo = 2800;
+        });
+        text = "280 calo sữa, trứng.\n840 calo thịt, cá.\n840 calo ngũ cốc, tinh bột.\n450 calo rau củ.\n390 calo trái cây.";
+        break;
+    }
+    return text;
   }
 }

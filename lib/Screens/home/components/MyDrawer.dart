@@ -7,7 +7,9 @@ import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:luan_van/components/progressLoading.dart';
 import 'package:luan_van/model/User.dart';
 import 'package:luan_van/screens/bmi/BMIScreen.dart';
+import 'package:luan_van/screens/bmi/EvaluateBMIScreen.dart';
 import 'package:luan_van/screens/login/LoginScreen.dart';
+import 'package:luan_van/screens/setting/ChangeInfoScreen.dart';
 import 'package:luan_van/screens/setting/ChangePasswordScreen.dart';
 import 'package:luan_van/screens/setting/DatGioScreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -48,7 +50,7 @@ class MyDrawerState extends State<MyDrawer>{
         child: Column(
           children: [
             Container(
-              height: MediaQuery.of(context).size.height * 2/5,
+              height: MediaQuery.of(context).size.height * 2/7,
               width: MediaQuery.of(context).size.width * 3/4,
               decoration: BoxDecoration(
                 gradient: LinearGradient(
@@ -81,16 +83,20 @@ class MyDrawerState extends State<MyDrawer>{
 
                   SizedBox(height: 5,),
 
-                  Text(
-                    CurrentUser.currentUser.name ?? "",
-                    //TODO: Nhap ten nguoi dung o day.
-                    style: GoogleFonts.quicksand(
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                      fontSize: 22,
+                  Container(
+                    padding: EdgeInsets.only(left: 10, right: 30),
+                    child: Text(
+                      CurrentUser.currentUser.name ?? "",
+                      style: GoogleFonts.quicksand(
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                        fontSize: 22,
+                      ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                     ),
                   ),
-
+/*
                   SizedBox(height: 25,),
 
                   Container(
@@ -112,10 +118,17 @@ class MyDrawerState extends State<MyDrawer>{
                         SizedBox(width: 25,),
                       ],
                     ),
-                  ),
+                  ),*/
                 ],
               ),
             ),
+
+            SizedBox(height: 10,),
+            GestureDetector(
+                onTap: (){
+                  Navigator.of(context).push(MaterialPageRoute(builder: (context) => ChangeInfoScreen()));
+                },
+                child: DrawerItem("Thay đổi thông tin", Icons.info_outline)),
 
             SizedBox(height: 10,),
             GestureDetector(
@@ -127,15 +140,24 @@ class MyDrawerState extends State<MyDrawer>{
             SizedBox(height: 10,),
             GestureDetector(
                 onTap: (){
-                  Navigator.of(context).push(MaterialPageRoute(builder: (context) => DatGioScreen()));
+                  Const.KEY_FROM = Const.FROM_HOME;
+                  Navigator.of(context).push(MaterialPageRoute(builder: (context) => BMIScreen()));
                 },
-                child: DrawerItem("Đặt giờ nhắc nhở", Icons.alarm)),
+                child: DrawerItem("Đánh giá sức khỏe", Icons.health_and_safety_outlined)),
 
             SizedBox(height: 10,),
             GestureDetector(
                 onTap: (){
+                  Navigator.of(context).push(MaterialPageRoute(builder: (context) => EvaluateBMIScreen()));
                 },
-                child: DrawerItem("FAQs", Icons.question_answer)),
+                child: DrawerItem("Tạo lịch cá nhân", Icons.calendar_today_outlined)),
+
+            SizedBox(height: 10,),
+            GestureDetector(
+                onTap: (){
+                  Navigator.of(context).push(MaterialPageRoute(builder: (context) => DatGioScreen()));
+                },
+                child: DrawerItem("Đặt giờ nhắc nhở", Icons.alarm)),
 
             SizedBox(height: 10,),
             GestureDetector(

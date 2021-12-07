@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:luan_van/components/Constants.dart';
 
 class DaLamModel{
   Timestamp time = Timestamp.now();
@@ -25,6 +26,44 @@ class DaLamModel{
       "caloFoodDate" : caloFoodDate ?? 0,
       "caloDongTacDate" :caloDongTacDate ?? 0,
       "time" : time ?? Timestamp.now(),
+    };
+  }
+}
+
+class HistoryBMI{
+  Timestamp time = Timestamp.now();
+  double height = CurrentUser.currentUser.height;
+  double weight = CurrentUser.currentUser.weight;
+  double bmi = 1.0;
+  int tuoi = 20;
+  String sex = CurrentUser.currentUser.sex;
+  double duongHuyet = 0.0;
+  double huyetAp = 0.0;
+
+  HistoryBMI({this.time, this.height, this.weight, this.bmi, this.tuoi, this.sex,
+      this.duongHuyet, this.huyetAp});
+
+  HistoryBMI.fromJson(Map<String, dynamic> json){
+    time = json["time"] ?? Timestamp.now();
+    height = json["height"] ?? 175;
+    weight = json["weight"] ?? 50;
+    bmi = json["bmi"] ?? 1.0;
+    tuoi = json["tuoi"] ?? 0;
+    sex = json["sex"] ?? "Nam";
+    duongHuyet = json["duongHuyet"] ?? 0.0;
+    huyetAp = json["huyetAp"] ?? 0.0;
+  }
+
+  Map<String, dynamic> toMap() {
+    return {
+      "time" : time ?? Timestamp.now(),
+      "height" : height ?? 175,
+      "weight" : weight ?? 50,
+      "bmi" : bmi ?? 1.0,
+      "tuoi" : tuoi ?? 20,
+      "sex" : sex ?? "Nam",
+      "duongHuyet" : duongHuyet ?? 0.0,
+      "huyetAp" : huyetAp ?? 0.0,
     };
   }
 }

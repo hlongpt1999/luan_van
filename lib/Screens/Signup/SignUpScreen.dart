@@ -317,7 +317,7 @@ class SignUpScreenState extends State<SignUpScreen>{
   void onSignUpClick() {
     setState(() {
       String name = _nameController.text;
-      String email = _nameController.text;
+      String email = _emailController.text;
       String pass = _passController.text;
       String passConfirm = _passConfirmController.text;
 
