@@ -182,13 +182,15 @@ class TabMessageScreenState extends State<TabMessageScreen>{
                     );
                   else
                     return ListView.builder(
+                        padding: EdgeInsets.zero,
                         itemCount: listChat.length,
                         itemBuilder: (BuildContext context, int index) {
                           return GestureDetector(
                             onTap: (){
                               getUserInfo(listChat[index].id, listChat[index].avatar);
                             },
-                            child: Padding(
+                            child: Container(
+                              color: Colors.blue,
                               padding: EdgeInsets.only(bottom: 10),
                               child: Container(
                                 padding: EdgeInsets.all(10),
@@ -231,6 +233,7 @@ class TabMessageScreenState extends State<TabMessageScreen>{
                                                   overflow: TextOverflow.ellipsis,
                                                 ),
                                               ),
+                                              SizedBox(width: 7,),
                                               Text(getLastTime(listChat[index].time),
                                                 style: GoogleFonts.quicksand(
                                                   color: Colors.black,

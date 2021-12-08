@@ -12,36 +12,46 @@ class ScheduleModel{
   DateMealModel date6;
   DateMealModel date7;
   String name;
+  String gioiTinh;
+  int minTuoi;
+  int maxTuoi;
 
   ScheduleModel({this.totalCalo, this.date1, this.date2, this.date3, this.date4,
-    this.date5, this.date6, this.date7, this.name});
+    this.date5, this.date6, this.date7, this.name, this.gioiTinh, this.minTuoi, this.maxTuoi});
+
+  DateMealModel giaTriRong = DateMealModel();
 
   ScheduleModel.fromJson(Map<String, dynamic> json){
     totalCalo = json["totalCalo"];
-    date1 = json["date1"];
-    date2 = json["date2"];
-    date3 = json["date3"];
-    date4 = json["date4"];
-    date5 = json["date5"];
-    date6 = json["date6"];
-    date7 = json["date7"];
+    date1 = json["date1"] ?? giaTriRong;
+    date2 = json["date2"] ?? giaTriRong;
+    date3 = json["date3"] ?? giaTriRong;
+    date4 = json["date4"] ?? giaTriRong;
+    date5 = json["date5"] ?? giaTriRong;
+    date6 = json["date6"] ?? giaTriRong;
+    date7 = json["date7"] ?? giaTriRong;
     name = json["name"] ?? "Mọi đối tượng";
+    gioiTinh = json["gioiTinh"] ?? "Nam và nữ";
+    maxTuoi = json["maxTuoi"] ?? 70;
+    minTuoi = json["minTuoi"] ?? 10;
   }
 
   Map<String, dynamic> toMap(){
     return {
       "totalCalo" : totalCalo,
-      "date1" : date1,
-      "date2" : date2,
-      "date3" : date3,
-      "date4" : date4,
-      "date5" : date5,
-      "date6" : date6,
-      "date7" : date7,
-      "name" : name,
+      "date1" : date1 ?? giaTriRong,
+      "date2" : date2 ?? giaTriRong,
+      "date3" : date3 ?? giaTriRong,
+      "date4" : date4 ?? giaTriRong,
+      "date5" : date5 ?? giaTriRong,
+      "date6" : date6 ?? giaTriRong,
+      "date7" : date7 ?? giaTriRong,
+      "name" : name ?? "Mọi đối tượng",
+      "gioiTinh": gioiTinh ?? "Nam và nữ",
+      "maxTuoi" : maxTuoi ?? 70,
+      "minTuoi" : minTuoi ?? 10,
     };
   }
-
 }
 
 class ScheduleLuyenTapModel{
@@ -54,34 +64,44 @@ class ScheduleLuyenTapModel{
   DateLuyenTapModel date6;
   DateLuyenTapModel date7;
   String name;
+  String gioiTinh;
+  int minTuoi;
+  int maxTuoi;
 
   ScheduleLuyenTapModel({this.totalCalo, this.date1, this.date2, this.date3, this.date4,
-    this.date5, this.date6, this.date7, this.name});
+    this.date5, this.date6, this.date7, this.name, this.gioiTinh, this.minTuoi, this.maxTuoi});
+
+  DateLuyenTapModel giaTriRong = DateLuyenTapModel();
 
   ScheduleLuyenTapModel.fromJson(Map<String, dynamic> json){
-    totalCalo = json["totalCalo"];
-    date1 = json["date1"];
-    date2 = json["date2"];
-    date3 = json["date3"];
-    date4 = json["date4"];
-    date5 = json["date5"];
-    date6 = json["date6"];
-    date7 = json["date7"];
+    totalCalo = json["totalCalo"] ?? 2000;
+    date1 = json["date1"] ?? giaTriRong;
+    date2 = json["date2"] ?? giaTriRong;
+    date3 = json["date3"] ?? giaTriRong;
+    date4 = json["date4"] ?? giaTriRong;
+    date5 = json["date5"] ?? giaTriRong;
+    date6 = json["date6"] ?? giaTriRong;
+    date7 = json["date7"] ?? giaTriRong;
     name = json["name"] ?? "Mọi đối tượng";
+    gioiTinh = json["gioiTinh"] ?? "Nam và nữ";
+    maxTuoi = json["maxTuoi"] ?? 70;
+    minTuoi = json["minTuoi"] ?? 10;
   }
 
   Map<String, dynamic> toMap(){
     return {
-      "totalCalo" : totalCalo,
-      "date1" : date1,
-      "date2" : date2,
-      "date3" : date3,
-      "date4" : date4,
-      "date5" : date5,
-      "date6" : date6,
-      "date7" : date7,
-      "name" : name,
+      "totalCalo" : totalCalo ?? 2000,
+      "date1" : date1 ?? giaTriRong,
+      "date2" : date2 ?? giaTriRong,
+      "date3" : date3 ?? giaTriRong,
+      "date4" : date4 ?? giaTriRong,
+      "date5" : date5 ?? giaTriRong,
+      "date6" : date6 ?? giaTriRong,
+      "date7" : date7 ?? giaTriRong,
+      "name" : name ?? "Mọi đối tượng",
+      "gioiTinh": gioiTinh ?? "Nam và nữ",
+      "maxTuoi" : maxTuoi ?? 70,
+      "minTuoi" : minTuoi ?? 10,
     };
   }
-
 }

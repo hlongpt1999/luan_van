@@ -86,7 +86,7 @@ List<int> itemLength = [1,1,1,1,1,1,1];
 class ScheduleBaiTapScreenState extends State<ScheduleBaiTapScreen>{
   double _marginBottom = 30;
   double _marginHor = 10;
-  double marginTop = 100;
+  double marginTop = 200;
 
   String scheduleName = "Mọi đối tượng";
   TextEditingController nameController = TextEditingController();
@@ -94,6 +94,13 @@ class ScheduleBaiTapScreenState extends State<ScheduleBaiTapScreen>{
   String goiYValue = listGoiY[0];
   int totalCalo = 1500;
   List<int> totalCaloDate = [0,0,0,0,0,0,0];
+
+  final List<String> listGioiTinh = ["Nam và nữ", "Nam", "Nữ"];
+  String gioiTinh =  "Nam và nữ";
+
+  final List<String> listTuoi = ["10", "15", "20","25","30","35","40","45","50","55","60","65","70",];
+  String minTuoi = "10";
+  String maxTuoi = "70";
 
   Future<void> uploadSchedule() async{
     ProgressLoading().showLoading(context);
@@ -196,6 +203,9 @@ class ScheduleBaiTapScreenState extends State<ScheduleBaiTapScreen>{
         {
           'name' : scheduleName,
           'totalCalo' : totalCalo,
+          'gioiTinh' : gioiTinh,
+          'minTuoi' : int.parse(minTuoi),
+          'maxTuoi' : int.parse(maxTuoi),
           'date1' : DateLuyenTapModel(
             id: 1,
             caloDate: totalCaloDate[0],
@@ -288,12 +298,108 @@ class ScheduleBaiTapScreenState extends State<ScheduleBaiTapScreen>{
                 borderRadius: BorderRadius.vertical(bottom: Radius.circular(20)),
               ),
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   SizedBox(height: 10,),
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
+                      SizedBox(width: 30,),
+                      Text(
+                        "Dành cho giới tính: ",
+                        style: GoogleFonts.quicksand(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
+                      ),
+
+                      DropdownButtonHideUnderline(
+                        child: DropdownButton(
+                          borderRadius: BorderRadius.all(Radius.circular(20)),
+                          dropdownColor: Colors.transparent,
+                          value: gioiTinh,
+                          onChanged: (String data1) {
+                            setState(() {
+                              gioiTinh = data1;
+                            });
+                          },
+                          items: listGioiTinh.map<DropdownMenuItem<String>>((String value1) {
+                            return DropdownMenuItem<String>(
+                              value: value1,
+                              child: Text(value1, style: GoogleFonts.quicksand(fontSize: 18, color: Colors.white, fontWeight: FontWeight.bold),),
+                            );
+                          }).toList(),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      SizedBox(width: 30,),
+                      Text(
+                        "Độ tuổi: ",
+                        style: GoogleFonts.quicksand(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
+                      ),
+
+                      DropdownButtonHideUnderline(
+                        child: DropdownButton(
+                          borderRadius: BorderRadius.all(Radius.circular(20)),
+                          dropdownColor: Colors.transparent,
+                          value: minTuoi,
+                          onChanged: (String data1) {
+                            setState(() {
+                              minTuoi = data1;
+                            });
+                          },
+                          items: listTuoi.map<DropdownMenuItem<String>>((String value1) {
+                            return DropdownMenuItem<String>(
+                              value: value1,
+                              child: Text(value1, style: GoogleFonts.quicksand(fontSize: 18, color: Colors.white, fontWeight: FontWeight.bold),),
+                            );
+                          }).toList(),
+                        ),
+                      ),
+
+                      Text(
+                        " đến   ",
+                        style: GoogleFonts.quicksand(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
+                      ),
+
+                      DropdownButtonHideUnderline(
+                        child: DropdownButton(
+                          borderRadius: BorderRadius.all(Radius.circular(20)),
+                          dropdownColor: Colors.transparent,
+                          value: maxTuoi,
+                          onChanged: (String data1) {
+                            setState(() {
+                              maxTuoi = data1;
+                            });
+                          },
+                          items: listTuoi.map<DropdownMenuItem<String>>((String value1) {
+                            return DropdownMenuItem<String>(
+                              value: value1,
+                              child: Text(value1, style: GoogleFonts.quicksand(fontSize: 18, color: Colors.white, fontWeight: FontWeight.bold),),
+                            );
+                          }).toList(),
+                        ),
+                      ),
+                    ],
+                  ),
+
+                  Row(
+                    // mainAxisAlignment: MainAxisAlignment.center,
+                    // crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      SizedBox(width: 30,),
                       Text(
                         "Luyện tập tiêu thụ: ",
                         style: GoogleFonts.quicksand(

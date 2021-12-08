@@ -206,6 +206,7 @@ class DoctorMessageScreenState extends State<DoctorMessageScreen>{
                       );
                     else
                       return ListView.builder(
+                          padding: EdgeInsets.zero,
                           itemCount: listChat.length,
                           itemBuilder: (BuildContext context, int index) {
                             return GestureDetector(
