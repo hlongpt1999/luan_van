@@ -40,8 +40,6 @@ List<String> bmiNu = [
 ];
 
 List<String> listGoiY = ["1500 calo","1800 calo","2000 calo","2300 calo","2500 calo","2800 calo"];
-
-List<String> gioiTinh = ["Nam", "Nữ"];
 List<String> soLuong = ["100g", "200g", "300g", "400g", "500g", "600g", "700g", "800g", "900g", "1kg"];
 
 final String food = CurrentUser.listFoodString[0];
@@ -112,17 +110,24 @@ List<int> itemLength = [1,1,1,1,1,1,1,1,1,1];
 class ScheduleDetailScreenState extends State<ScheduleDetailScreen>{
   double _marginBottom = 30;
   double _marginHor = 10;
-  double marginTop = 150;
+  double marginTop = 160;
+  ScrollController scrollController = ScrollController();
 
   String scheduleName = "Mọi đối tượng";
   TextEditingController nameController = TextEditingController();
 
   String namValue = bmiNam[0];
   String nuValue = bmiNu[0];
-  String gioitinhValue = gioiTinh[0];
   String goiYValue = listGoiY[0];
   int totalCalo = 0;
   List<int> totalCaloDate = [0,0,0,0,0,0,0];
+
+  final List<String> listGioiTinh = ["Nam và nữ", "Nam", "Nữ"];
+  String gioiTinh =  "Nam và nữ";
+
+  final List<String> listTuoi = ["10", "15", "20","25","30","35","40","45","50","55","60","65","70",];
+  String minTuoi = "10";
+  String maxTuoi = "70";
 
   String suggestionsSchedule(String calo){
     String text = "";
@@ -260,6 +265,9 @@ class ScheduleDetailScreenState extends State<ScheduleDetailScreen>{
        {
          'name' : scheduleName,
          'totalCalo' : totalCalo,
+         'gioiTinh' : gioiTinh,
+         'minTuoi' : int.parse(minTuoi),
+         'maxTuoi' : int.parse(maxTuoi),
          'date1' : DateMealModel(
            id: 1,
            caloDate: totalCaloDate[0],
@@ -338,7 +346,7 @@ class ScheduleDetailScreenState extends State<ScheduleDetailScreen>{
             Container(
               height: marginTop,
               width: double.infinity,
-              padding: EdgeInsets.only(top: 35, right: 10, left: 10, bottom: 10),
+              padding: EdgeInsets.only(top: 45, right: 10, left: 10, bottom: 10),
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   begin: Alignment.topLeft,
@@ -352,50 +360,168 @@ class ScheduleDetailScreenState extends State<ScheduleDetailScreen>{
                 borderRadius: BorderRadius.vertical(bottom: Radius.circular(20)),
               ),
               child: SingleChildScrollView(
-                child: Column(
+                controller: scrollController,
+                scrollDirection: Axis.horizontal,
+                child: Row(
                   children: [
-                    SizedBox(height: 10,),
-                    Row(
-                      children: [
-                        DropdownButtonHideUnderline(
-                          child: DropdownButton(
-                            borderRadius: BorderRadius.all(Radius.circular(20)),
-                            dropdownColor: Colors.transparent,
-                            value: goiYValue,
-                            onChanged: (String data1) {
-                              setState(() {
-                                goiYValue = data1;
-                              });
-                            },
-                            items: listGoiY.map<DropdownMenuItem<String>>((String value1) {
-                              return DropdownMenuItem<String>(
-                                value: value1,
-                                child: Wrap(
-                                  children: [
-                                    Text(
-                                      value1,
-                                      style: GoogleFonts.quicksand(
-                                          fontSize: 18,
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                  ],
+                    DropdownButtonHideUnderline(
+                      child: DropdownButton(
+                        borderRadius: BorderRadius.all(Radius.circular(20)),
+                        dropdownColor: Colors.transparent,
+                        value: goiYValue,
+                        onChanged: (String data1) {
+                          setState(() {
+                            goiYValue = data1;
+                          });
+                        },
+                        items: listGoiY.map<DropdownMenuItem<String>>((String value1) {
+                          return DropdownMenuItem<String>(
+                            value: value1,
+                            child: Wrap(
+                              children: [
+                                Text(
+                                  value1,
+                                  style: GoogleFonts.quicksand(
+                                      fontSize: 18,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold),
                                 ),
-                              );
-                            }).toList(),
-                          ),
-                        ),
-
-                        Center(
-                          child: Text(
-                            suggestionsSchedule(goiYValue),
-                            style: GoogleFonts.quicksand(
-                              fontSize: 15,
-                              color: Colors.white,
+                              ],
                             ),
-                          ),
+                          );
+                        }).toList(),
+                      ),
+                    ),
+
+                    Center(
+                      child: Text(
+                        suggestionsSchedule(goiYValue),
+                        style: GoogleFonts.quicksand(
+                          fontSize: 15,
+                          color: Colors.white,
                         ),
-                      ],
+                      ),
+                    ),
+
+                    GestureDetector(
+                      onTap: (){
+                        setState(() {
+                          scrollController.animateTo(600,
+                              duration: Duration(milliseconds: 3000), curve: Curves.ease);
+                        });
+                      },
+                      child: Container(
+                        alignment: Alignment.center,
+                        width: 80,
+                        child: Icon(
+                          Icons.navigate_next,
+                          size: 40,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+
+                    Container(
+                      alignment: Alignment.centerLeft,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            children: [
+                              Text(
+                                "Dành cho giới tính: ",
+                                style: GoogleFonts.quicksand(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white,
+                                ),
+                              ),
+
+                              DropdownButtonHideUnderline(
+                                child: DropdownButton(
+                                  borderRadius: BorderRadius.all(Radius.circular(20)),
+                                  dropdownColor: Colors.transparent,
+                                  value: gioiTinh,
+                                  onChanged: (String data1) {
+                                    setState(() {
+                                      gioiTinh = data1;
+                                    });
+                                  },
+                                  items: listGioiTinh.map<DropdownMenuItem<String>>((String value1) {
+                                    return DropdownMenuItem<String>(
+                                      value: value1,
+                                      child: Text(value1, style: GoogleFonts.quicksand(fontSize: 18, color: Colors.white, fontWeight: FontWeight.bold),),
+                                    );
+                                  }).toList(),
+                                ),
+                              ),
+
+                              SizedBox(width: 30,),
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              Text(
+                                "Độ tuổi: ",
+                                style: GoogleFonts.quicksand(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white,
+                                ),
+                              ),
+
+                              DropdownButtonHideUnderline(
+                                child: DropdownButton(
+                                  borderRadius: BorderRadius.all(Radius.circular(20)),
+                                  dropdownColor: Colors.transparent,
+                                  value: minTuoi,
+                                  onChanged: (String data1) {
+                                    setState(() {
+                                      minTuoi = data1;
+                                    });
+                                  },
+                                  items: listTuoi.map<DropdownMenuItem<String>>((String value1) {
+                                    return DropdownMenuItem<String>(
+                                      value: value1,
+                                      child: Text(value1, style: GoogleFonts.quicksand(fontSize: 18, color: Colors.white, fontWeight: FontWeight.bold),),
+                                    );
+                                  }).toList(),
+                                ),
+                              ),
+
+                              Text(
+                                " đến   ",
+                                style: GoogleFonts.quicksand(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white,
+                                ),
+                              ),
+
+                              DropdownButtonHideUnderline(
+                                child: DropdownButton(
+                                  borderRadius: BorderRadius.all(Radius.circular(20)),
+                                  dropdownColor: Colors.transparent,
+                                  value: maxTuoi,
+                                  onChanged: (String data1) {
+                                    setState(() {
+                                      maxTuoi = data1;
+                                    });
+                                  },
+                                  items: listTuoi.map<DropdownMenuItem<String>>((String value1) {
+                                    return DropdownMenuItem<String>(
+                                      value: value1,
+                                      child: Text(value1, style: GoogleFonts.quicksand(fontSize: 18, color: Colors.white, fontWeight: FontWeight.bold),),
+                                    );
+                                  }).toList(),
+                                ),
+                              ),
+                              SizedBox(width: 30,),
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
                   ],
                 ),

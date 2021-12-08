@@ -105,7 +105,10 @@ class MyAppState extends State<MyApp> {
               date5: DateMealModel.fromJson(data["date5"]),
               date6: DateMealModel.fromJson(data["date6"]),
               date7: DateMealModel.fromJson(data["date7"]),
-            name: data["name"] ?? "Mọi đối tượng",
+              name: data["name"] ?? "Mọi đối tượng",
+              gioiTinh: data["gioiTinh"] ?? "Nam và nữ",
+              maxTuoi: data["maxTuoi"] ?? 70,
+              minTuoi: data["minTuoi"] ?? 10,
           );
           if (data["totalCalo"] == CurrentUser.goiCalo){
             MockData.listMeal2 = [scheduleModel.date1, scheduleModel.date2, scheduleModel.date3, scheduleModel.date4, scheduleModel.date5, scheduleModel.date6, scheduleModel.date7];
@@ -130,6 +133,9 @@ class MyAppState extends State<MyApp> {
               date6: DateLuyenTapModel.fromJson(data["date6"]),
               date7: DateLuyenTapModel.fromJson(data["date7"]),
               name: data["name"] ?? "Mọi đối tượng",
+              gioiTinh: data["gioiTinh"] ?? "Nam và nữ",
+              maxTuoi: data["maxTuoi"] ?? 70,
+              minTuoi: data["minTuoi"] ?? 10,
             );
             if (data["totalCalo"] == CurrentUser.goiCalo){
               MockData.listLuyenTap = [scheduleModel.date1, scheduleModel.date2, scheduleModel.date3, scheduleModel.date4, scheduleModel.date5, scheduleModel.date6, scheduleModel.date7];
