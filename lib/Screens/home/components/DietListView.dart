@@ -47,7 +47,7 @@ class DietListViewState extends State<DietListView>{
     if(widget.keyHomNao == 0)
       CurrentUser.listFood = listData;
   }
-//TODO gắn food name(Đẻ lên firestore tìm kiếm) và imageFood(link) vào
+
   Future getFoodDetail(String foodName, String imageFood) async{
     await FirebaseFirestore.instance.collection(Const.CSDL_FOODS).doc(foodName).get().then(
       (value) {
@@ -67,75 +67,43 @@ class DietListViewState extends State<DietListView>{
                 return Padding(
                   padding: MediaQuery.of(context).viewInsets,
                   child: Container(
-                    padding: EdgeInsets.all(20),
-                    height:  modalBottomHeight + (foodDetail.vitamin.length ?? 0 ) * 40,//TODO:300+ Mỗi hàng lưu ý
+                    padding: EdgeInsets.only(left: 20, right: 20, bottom: 5, top: 5),
+                    height:  modalBottomHeight, // Cố định 400
+                    // height:  modalBottomHeight + (foodDetail.vitamin.length ?? 0 ) * 40,// Mỗi hàng lưu ý 300 + 40 mỗi hàng
                     decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.vertical(top: Radius.circular(30)),
                     ),
-                    child: Column(
-                      children: [
-                        Container(
-                            decoration: BoxDecoration(
-                              color: Colors.transparent,
-                              borderRadius: BorderRadius.all(Radius.circular(10)),
-                            ),
-                            child: Image.network(imageFood, width: 100, height: 100,)),
-                        Container (
-                          height: 50,
-                          child: Center(
-                            child: Wrap(
-                              children: [
-                                Text(
-                                  foodDetail.name,
-                                  style: GoogleFonts.quicksand(
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.black,
-                                    fontSize: 25,
-                                  ),
-                                  maxLines: 1,
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-
-                        Container (
-                          height: 50,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Container(
-                                width: 100,
-                                child: Text(
-                                  "Cung cấp:" ,
-                                  style: GoogleFonts.quicksand(
+                    child: SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          SizedBox(height: 15,),
+                          Container(
+                              decoration: BoxDecoration(
+                                color: Colors.transparent,
+                                borderRadius: BorderRadius.all(Radius.circular(10)),
+                              ),
+                              child: Image.network(imageFood, width: 100, height: 100,)),
+                          Container (
+                            height: 50,
+                            child: Center(
+                              child: Wrap(
+                                children: [
+                                  Text(
+                                    foodDetail.name,
+                                    style: GoogleFonts.quicksand(
                                       fontWeight: FontWeight.bold,
                                       color: Colors.black,
-                                      fontSize: 20
+                                      fontSize: 25,
+                                    ),
+                                    maxLines: 1,
                                   ),
-                                ),
+                                ],
                               ),
-                              SizedBox(width: 15,),
-
-                              Text(
-                                foodDetail.calo100g.round().toString()+ "calo/100g" , //TODO: Thêm calo
-                                style: GoogleFonts.quicksand(
-                                    fontWeight: FontWeight.bold,
-                                    color: foodDetail.priority==1 ? Colors.green[800]
-                                        : (foodDetail.priority==2 ? Colors.greenAccent
-                                        : (foodDetail.priority==3 ? Colors.yellow
-                                        : (foodDetail.priority==4 ? Colors.orangeAccent
-                                        : (foodDetail.priority==5 ? Colors.red : Colors.blueGrey)))),
-                                    fontSize: 20
-                                ),
-                              ),
-                            ],
+                            ),
                           ),
-                        ),
 
-                        Container (
+                          Container (
                             height: 50,
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.start,
@@ -144,7 +112,7 @@ class DietListViewState extends State<DietListView>{
                                 Container(
                                   width: 100,
                                   child: Text(
-                                    "Nhóm:" ,//todo: Thêm nhóm
+                                    "Cung cấp:" ,
                                     style: GoogleFonts.quicksand(
                                         fontWeight: FontWeight.bold,
                                         color: Colors.black,
@@ -153,64 +121,96 @@ class DietListViewState extends State<DietListView>{
                                   ),
                                 ),
                                 SizedBox(width: 15,),
-                                Chip(
-                                  backgroundColor: foodDetail.type=="Thịt cá" ? Colors.red
-                                      : (foodDetail.type=="Trứng sữa" ? Colors.yellow
-                                      : (foodDetail.type=="Trái cây" ? Colors.orangeAccent
-                                      : (foodDetail.type=="Rau củ" ? Colors.green
-                                      : (foodDetail.type=="Tinh bột" ? Colors.blueGrey : Colors.purple)))),
-                                  label: Text(
-                                    foodDetail.type,
-                                    style: GoogleFonts.quicksand(
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.white,
-                                        fontSize: 20
-                                    ),
+
+                                Text(
+                                  foodDetail.calo100g.round().toString()+ "calo/100g" ,
+                                  style: GoogleFonts.quicksand(
+                                      fontWeight: FontWeight.bold,
+                                      color: foodDetail.priority==1 ? Colors.green[800]
+                                          : (foodDetail.priority==2 ? Colors.greenAccent
+                                          : (foodDetail.priority==3 ? Colors.yellow
+                                          : (foodDetail.priority==4 ? Colors.orangeAccent
+                                          : (foodDetail.priority==5 ? Colors.red : Colors.blueGrey)))),
+                                      fontSize: 20
                                   ),
                                 ),
                               ],
-                            )
-                        ),
-
-                        Container (
-                          height: 50,
-                          child: Align(
-                            alignment: Alignment.centerLeft,
-                            child: Text(
-                              "Thông tin thêm:" ,
-                              style: GoogleFonts.quicksand(
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.black,
-                                  fontSize: 20
-                              ),
                             ),
                           ),
-                        ),
 
-                        if (foodDetail.vitamin.length != null)
-                          for(int i=0; i<foodDetail.vitamin.length;i++)
-                            Container(
-                              alignment: Alignment.centerLeft,
-                              child: SingleChildScrollView(
-                                scrollDirection: Axis.horizontal,
-                                child: Row(
-                                  children: [
-                                    Container(
-                                      height: 40,
-                                      child: Text(
-                                        "- "+foodDetail.vitamin[i],
-                                        style: GoogleFonts.quicksand(
-                                            color: Colors.black,
-                                            fontSize: 19
-                                        ),
+                          Container (
+                              height: 50,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Container(
+                                    width: 100,
+                                    child: Text(
+                                      "Nhóm:" ,
+                                      style: GoogleFonts.quicksand(
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.black,
+                                          fontSize: 20
                                       ),
-                                    )
-                                  ],
+                                    ),
+                                  ),
+                                  SizedBox(width: 15,),
+                                  Chip(
+                                    backgroundColor: foodDetail.type=="Thịt cá" ? Colors.red
+                                        : (foodDetail.type=="Trứng sữa" ? Colors.yellow
+                                        : (foodDetail.type=="Trái cây" ? Colors.orangeAccent
+                                        : (foodDetail.type=="Rau củ" ? Colors.green
+                                        : (foodDetail.type=="Tinh bột" ? Colors.blueGrey : Colors.purple)))),
+                                    label: Text(
+                                      foodDetail.type,
+                                      style: GoogleFonts.quicksand(
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.white,
+                                          fontSize: 20
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              )
+                          ),
+
+                          Container (
+                            height: 50,
+                            child: Align(
+                              alignment: Alignment.centerLeft,
+                              child: Text(
+                                "Thông tin thêm:" ,
+                                style: GoogleFonts.quicksand(
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.black,
+                                    fontSize: 20
                                 ),
                               ),
                             ),
+                          ),
 
-                      ],
+                          if (foodDetail.vitamin.length != null)
+                            for(int i=0; i<foodDetail.vitamin.length;i++)
+                              Container(
+                                padding: EdgeInsets.only(bottom: 10),
+                                alignment: Alignment.centerLeft,
+                                child: RichText(
+                                  text: TextSpan(
+                                    text: "- "+foodDetail.vitamin[i],
+                                    style: GoogleFonts.quicksand(
+                                        color: Colors.black,
+                                        fontSize: 19
+                                    ),
+                                  ),
+                                  textAlign: TextAlign.justify,
+                                ),
+                              ),
+
+                          SizedBox(height: 15,),
+
+                        ],
+                      ),
                     ),
                   ),
                 );
@@ -220,7 +220,7 @@ class DietListViewState extends State<DietListView>{
     );
   }
 
-  double modalBottomHeight = 360;//todo: 300+ Mỗi hàng lưu ý x 50.
+  double modalBottomHeight = 450;
 
   @override
   Widget build(BuildContext context) {

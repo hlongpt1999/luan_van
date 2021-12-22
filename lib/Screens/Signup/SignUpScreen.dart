@@ -119,9 +119,10 @@ class SignUpScreenState extends State<SignUpScreen>{
           child: SingleChildScrollView(
             child: Column(
               children: <Widget>[
+                SizedBox(height: 35,),
                 clipShape(),
                 form(),
-                acceptTermsTextRow(),
+                // acceptTermsTextRow(),
                 SizedBox(height: _height/35,),
                 button(),
                 // signInTextRow(),
@@ -288,10 +289,10 @@ class SignUpScreenState extends State<SignUpScreen>{
     return RaisedButton(
       elevation: 0,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
-      onPressed:
-        checkBoxValue ?
-        () => onSignUpClick() :
-        null,
+      onPressed:onSignUpClick,
+        // checkBoxValue ?
+        // () => onSignUpClick() :
+        // null,
       textColor: Colors.white,
       padding: EdgeInsets.all(0.0),
       child: Container(
@@ -301,10 +302,10 @@ class SignUpScreenState extends State<SignUpScreen>{
         decoration: BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(20.0)),
           gradient: LinearGradient(
-            colors:
-            checkBoxValue
-                ? <Color>[Colors.orange[200], Colors.pinkAccent]
-                  : <Color>[Colors.orange[100], Colors.pinkAccent[100]],
+            colors: <Color>[Colors.orange[200], Colors.pinkAccent],
+            // checkBoxValue
+            //     ? <Color>[Colors.orange[200], Colors.pinkAccent]
+            //       : <Color>[Colors.orange[100], Colors.pinkAccent[100]],
           ),
         ),
         padding: const EdgeInsets.all(12.0),

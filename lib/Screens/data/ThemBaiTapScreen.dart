@@ -66,7 +66,7 @@ class ThemBaiTapScreenState extends State<ThemBaiTapScreen>{
     var detail = _detailC.text;
     var link = _linkC.text;
     var calo = double.parse(_caloC.text);
-    // var priority = (calo/50 + 1).round();//TODO MOVEMENT CHƯA TÍNH ĐƯỢC NHư nào là nhiều.
+    var priority = (calo/50 + 1).round();
 
     String imageDetail = "";
     if(_image.path != "") {
@@ -82,7 +82,7 @@ class ThemBaiTapScreenState extends State<ThemBaiTapScreen>{
       link: link,
       caloLost100g: calo,
       imageDetail: imageDetail,
-      priority: 0,
+      priority: priority,
       donvi: donVi,
     );
 

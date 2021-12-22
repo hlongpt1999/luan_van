@@ -11,6 +11,7 @@ class Const{
   static final String VERSION_DATE = "30/11/2021";
   static final String LOGIN_PREF = "LoginPref";
   static final String KEY_DAT_GIO = "Đặt giờ";
+  static final String MOI_DOI_TUONG = "Mọi đối tượng";
 
   static int colorMainPaint = 0xffff9900;
   static int colorMiddlePaint = 0x12345678;
@@ -21,6 +22,7 @@ class Const{
   static final String CSDL_LICH = "schedule";
   static final String CSDL_USERS = "users";
   static final String CSDL_DONGTAC = "dongtac";
+  static final String CSDL_SCHEDULE = "schedule";
   static final String CSDL_SCHEDULE_LUYENTAP = "scheduleLuyenTap";
 
   static final String COLLECTION_DALAM = "historyDaLam";
@@ -108,6 +110,7 @@ class CurrentUser {
   static UserModel userConnect = UserModel();
   static bool lichNgayMai = true;
   static bool lichHomNay = false;
+  static bool taoLichChoNgayMai = false;
 
   static bool lichNhacNho = true;
   static int nhacNhoGIO = 8;
@@ -118,6 +121,9 @@ class CurrentUser {
   static int daLamPHUT = 0;
 
   static int goiCalo = 2000;
+  static int goiCaloDC = 2000;
+  static String tenGoi1 = "Mọi đối tượng";
+  static String tenGoi2 = "Mọi đối tượng";
 }
 
 Future<void> onLogOut(BuildContext context) async {
@@ -125,12 +131,16 @@ Future<void> onLogOut(BuildContext context) async {
   CurrentUser.listFood = [];
   CurrentUser.listFoodString = [];
   CurrentUser.totalCaloDate = 0;
+  CurrentUser.lichHomNay = false;
+  CurrentUser.lichNgayMai = false;
+  CurrentUser.taoLichChoNgayMai = false;
+
   SharedPreferences pref = await SharedPreferences.getInstance();
   pref.remove(Const.LOGIN_PREF);
   for(String key in pref.getKeys()) {
     pref.remove(key);
   }
   pref.clear();
-  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => LoginScreen()));
+  Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => LoginScreen()),(Route<dynamic> route) => false);
   await FirebaseAuth.instance.signOut();
 }

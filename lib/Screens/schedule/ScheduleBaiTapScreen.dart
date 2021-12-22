@@ -17,7 +17,6 @@ import 'package:luan_van/screens/schedule/ScheduleDetailScreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:toast/toast.dart';
 
-//TODO: ITem trùng nhau. bài tập với thức ăn luôn.
 class ScheduleBaiTapScreen extends StatefulWidget{
   @override
   State<StatefulWidget> createState() {
@@ -26,7 +25,7 @@ class ScheduleBaiTapScreen extends StatefulWidget{
 }
 
 var _listColorTitle = MyList().listColorTitle;
-List<String> listGoiY = ["1500 calo","1800 calo","2000 calo","2300 calo","2500 calo","2800 calo"];
+List<String> listGoiY = ["800 calo","1000 calo","1300 calo","1500 calo"];
 
 final String food = CurrentUser.listDongTacString[0];
 final double calo = 0;
@@ -92,7 +91,7 @@ class ScheduleBaiTapScreenState extends State<ScheduleBaiTapScreen>{
   TextEditingController nameController = TextEditingController();
 
   String goiYValue = listGoiY[0];
-  int totalCalo = 1500;
+  int totalCalo = 800;
   List<int> totalCaloDate = [0,0,0,0,0,0,0];
 
   final List<String> listGioiTinh = ["Nam và nữ", "Nam", "Nữ"];
@@ -120,7 +119,8 @@ class ScheduleBaiTapScreenState extends State<ScheduleBaiTapScreen>{
         type: CurrentUser.listDongTac[indexFood[0][i]].type,
         link: CurrentUser.listDongTac[indexFood[0][i]].link,
         donvi:  CurrentUser.listDongTac[indexFood[0][i]].donvi,
-        quantity: int.parse(soLuongController[0][i].text.toString())
+        quantity: int.parse(soLuongController[0][i].text.toString()),
+        imageDetail: CurrentUser.listDongTac[indexFood[0][i]].imageDetail,
     );
       date1.add(model);
     }
@@ -133,7 +133,8 @@ class ScheduleBaiTapScreenState extends State<ScheduleBaiTapScreen>{
         type: CurrentUser.listDongTac[indexFood[1][i]].type,
         link: CurrentUser.listDongTac[indexFood[1][i]].link,
         donvi:  CurrentUser.listDongTac[indexFood[1][i]].donvi,
-        quantity: int.parse(soLuongController[1][i].text.toString())
+        quantity: int.parse(soLuongController[1][i].text.toString()),
+        imageDetail: CurrentUser.listDongTac[indexFood[1][i]].imageDetail,
       );
       date2.add(model);
     }for (int i=0; i< itemLength[2]; i++){
@@ -145,7 +146,8 @@ class ScheduleBaiTapScreenState extends State<ScheduleBaiTapScreen>{
           type: CurrentUser.listDongTac[indexFood[2][i]].type,
           link: CurrentUser.listDongTac[indexFood[2][i]].link,
           donvi:  CurrentUser.listDongTac[indexFood[2][i]].donvi,
-          quantity: int.parse(soLuongController[2][i].text.toString())
+          quantity: int.parse(soLuongController[2][i].text.toString()),
+        imageDetail: CurrentUser.listDongTac[indexFood[2][i]].imageDetail,
       );
       date3.add(model);
     }for (int i=0; i< itemLength[3]; i++){
@@ -157,7 +159,8 @@ class ScheduleBaiTapScreenState extends State<ScheduleBaiTapScreen>{
           type: CurrentUser.listDongTac[indexFood[3][i]].type,
           link: CurrentUser.listDongTac[indexFood[3][i]].link,
           donvi:  CurrentUser.listDongTac[indexFood[3][i]].donvi,
-          quantity: int.parse(soLuongController[3][i].text.toString())
+          quantity: int.parse(soLuongController[3][i].text.toString()),
+        imageDetail: CurrentUser.listDongTac[indexFood[3][i]].imageDetail,
       );
       date4.add(model);
     }for (int i=0; i< itemLength[4]; i++){
@@ -169,7 +172,8 @@ class ScheduleBaiTapScreenState extends State<ScheduleBaiTapScreen>{
           type: CurrentUser.listDongTac[indexFood[4][i]].type,
           link: CurrentUser.listDongTac[indexFood[4][i]].link,
           donvi:  CurrentUser.listDongTac[indexFood[4][i]].donvi,
-          quantity: int.parse(soLuongController[4][i].text.toString())
+          quantity: int.parse(soLuongController[4][i].text.toString()),
+        imageDetail: CurrentUser.listDongTac[indexFood[4][i]].imageDetail,
       );
       date5.add(model);
     }for (int i=0; i< itemLength[5]; i++){
@@ -181,7 +185,8 @@ class ScheduleBaiTapScreenState extends State<ScheduleBaiTapScreen>{
           type: CurrentUser.listDongTac[indexFood[5][i]].type,
           link: CurrentUser.listDongTac[indexFood[5][i]].link,
           donvi:  CurrentUser.listDongTac[indexFood[5][i]].donvi,
-          quantity: int.parse(soLuongController[5][i].text.toString())
+          quantity: int.parse(soLuongController[5][i].text.toString()),
+        imageDetail: CurrentUser.listDongTac[indexFood[5][i]].imageDetail,
       );
       date6.add(model);
     }for (int i=0; i< itemLength[6]; i++){
@@ -193,7 +198,8 @@ class ScheduleBaiTapScreenState extends State<ScheduleBaiTapScreen>{
           type: CurrentUser.listDongTac[indexFood[6][i]].type,
           link: CurrentUser.listDongTac[indexFood[6][i]].link,
           donvi:  CurrentUser.listDongTac[indexFood[6][i]].donvi,
-          quantity: int.parse(soLuongController[6][i].text.toString())
+          quantity: int.parse(soLuongController[6][i].text.toString()),
+        imageDetail: CurrentUser.listDongTac[indexFood[6][i]].imageDetail,
       );
       date7.add(model);
     }
@@ -543,8 +549,9 @@ class ScheduleBaiTapScreenState extends State<ScheduleBaiTapScreen>{
                   ),
                 ),
 
-                SizedBox(width: 10,),
-                Expanded(
+                SizedBox(width: 4,),
+                Container(
+                  width: MediaQuery.of(context).size.width*0.8/2,
                   child: DropdownButtonHideUnderline(
                     child: DropdownButton(
                       dropdownColor: Colors.transparent,
@@ -567,13 +574,13 @@ class ScheduleBaiTapScreenState extends State<ScheduleBaiTapScreen>{
                   ),
                 ),
 
-                SizedBox(width: 10,),
+                SizedBox(width: 4,),
                 Expanded(
                   child:Text(
                       foodNumberCalo[i][index].round().toString()=="0" ?
                       foodNumberCalo[i][index].round().toString() + " calo" :
                     "-"+foodNumberCalo[i][index].round().toString() + " calo",
-                    style: GoogleFonts.quicksand(color: Colors.white),
+                    style: GoogleFonts.quicksand(color: Colors.white, fontSize: 13),
                   ),),
               ],
             ),
@@ -854,21 +861,21 @@ class ScheduleBaiTapScreenState extends State<ScheduleBaiTapScreen>{
         });
         text = "150 calo sữa, trứng.\n450 calo thịt, cá.\n450 calo ngũ cốc, tinh bột.\n250 calo rau củ.\n200 calo trái cây.";
         break;
-      case "1800 calo":
+      case "800 calo":
         setState(() {
-          totalCalo = 1800;
+          totalCalo = 800;
         });
         text = "180 calo sữa, trứng.\n540 calo thịt, cá.\n540 calo ngũ cốc, tinh bột.\n300 calo rau củ.\n240 calo trái cây.";
         break;
-      case "2000 calo":
+      case "1000 calo":
         setState(() {
-          totalCalo = 2000;
+          totalCalo = 1000;
         });
         text = "200 calo sữa, trứng.\n600 calo thịt, cá.\n600 calo ngũ cốc, tinh bột.\n330 calo rau củ.\n270 calo trái cây.";
         break;
-      case "2300 calo":
+      case "1300 calo":
         setState(() {
-          totalCalo = 2300;
+          totalCalo = 1300;
         });
         text = "230 calo sữa, trứng.\n690 calo thịt, cá.\n690 calo ngũ cốc, tinh bột.\n370 calo rau củ.\n320 calo trái cây.";
         break;

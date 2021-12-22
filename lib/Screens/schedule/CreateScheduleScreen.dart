@@ -27,16 +27,17 @@ class CreateScheduleScreen extends StatefulWidget {
 
 List<String> _listDate = MyList().listDate;
 var _listColorTitle = MyList().listColorTitle;
-List<DateMealModel> _listMeal = MockData.listMeal2;
-List<DateLuyenTapModel> _listLuyenTap = MockData.listLuyenTap;
 
 class CreateScheduleScreenState extends State<CreateScheduleScreen> {
+
+  List<DateMealModel> _listMeal = MockData.listMeal2;
+  List<DateLuyenTapModel> _listLuyenTap = MockData.listLuyenTap;
   double _sizeHeightSchedule = 250,
       _sizeHeightItemSchedule = 240;
   double _sizeWidthItemSchedule = 300;
   double _sizeHeightTitle = 55;
   double _radiusItem = 70;
-  double _sizeTextDetail = 20;
+  double _sizeTextDetail = 16;
   double _sizeBox = 10;
   double initialPosition = 0.0,
       endPosition = 0.0,
@@ -46,6 +47,8 @@ class CreateScheduleScreenState extends State<CreateScheduleScreen> {
   @override
   void initState() {
     super.initState();
+    _listMeal = MockData.listMeal2;
+    List<DateLuyenTapModel> _listLuyenTap = MockData.listLuyenTap;
     var initializationSettingsAndroid =  new AndroidInitializationSettings('eaten');
     var initializationSettingsIOS = new IOSInitializationSettings();
     var initializationSettings = new InitializationSettings(
@@ -169,7 +172,6 @@ class CreateScheduleScreenState extends State<CreateScheduleScreen> {
               height: _sizeBox,
             ),
 
-            //TODO: TẠM ẨN ĐỂ CHẠY K BỊ LỖI THÔI
             Container(
               color: Colors.transparent,
               height: _sizeHeightSchedule,
@@ -246,6 +248,9 @@ class CreateScheduleScreenState extends State<CreateScheduleScreen> {
   //Biến lưu hôm nay hoặc ngày mai
   Future<void> uploadSchedule(BuildContext _context) async{
     for(int i =0; i<7;i++){
+      if(CurrentUser.taoLichChoNgayMai)
+        i++;
+
       DateMealModel dateMealModel = _listMeal[i];
       DateLuyenTapModel dateLuyenTapModel = _listLuyenTap[i];
 
@@ -275,6 +280,74 @@ class CreateScheduleScreenState extends State<CreateScheduleScreen> {
 
   void onNextClick(BuildContext _context){
     ProgressLoading().showLoading(context);
+    timLichCu(_context);
+  }
+
+  List<String> idLichCu = [];
+  List<String> idLichCu2 = [];
+  Future<void> timLichCu(BuildContext _context) async {
+    idLichCu.clear();
+    DateTime now = DateTime.now();
+    await FirebaseFirestore.instance.collection(Const.CSDL_USERS).doc(CurrentUser.currentUser.id)
+        .collection(Const.CSDL_SCHEDULE).get().then((value){
+      value.docs.forEach((element){
+        var data = element.data() as Map<String, dynamic>;
+        var id = element.id;
+        Timestamp time = data['time'];
+        if(now.year<time.toDate().year){
+          idLichCu.add(id);
+        } else if (now.year == time.toDate().year){
+          if(now.month<time.toDate().month){
+            idLichCu.add(id);
+          } else if (now.month == time.toDate().month){
+            if(now.day<time.toDate().day){
+              idLichCu.add(id);
+            }
+            if(now.day==time.toDate().day && !CurrentUser.taoLichChoNgayMai){
+              idLichCu.add(id);
+            }
+          }
+        }
+      });
+    }).whenComplete(() => xoaLichCu(_context));
+
+    idLichCu2.clear();
+    await FirebaseFirestore.instance.collection(Const.CSDL_USERS).doc(CurrentUser.currentUser.id)
+        .collection(Const.CSDL_SCHEDULE_LUYENTAP).get().then((value){
+      value.docs.forEach((element){
+        var data = element.data() as Map<String, dynamic>;
+        var id = element.id;
+        Timestamp time = data['time'];
+        if(now.year<time.toDate().year){
+          idLichCu2.add(id);
+        } else if (now.year == time.toDate().year){
+          if(now.month<time.toDate().month){
+            idLichCu2.add(id);
+          } else if (now.month == time.toDate().month){
+            if(now.day<time.toDate().day){
+              idLichCu2.add(id);
+            }
+            if(now.day==time.toDate().day && !CurrentUser.taoLichChoNgayMai){
+              idLichCu2.add(id);
+            }
+          }
+        }
+      });
+    }).whenComplete(() => xoaLichCu2(_context));
+  }
+
+  Future xoaLichCu(BuildContext _context) async {
+    for (int i=0 ; i<idLichCu.length; i++){
+      await FirebaseFirestore.instance.collection(Const.CSDL_USERS).doc(CurrentUser.currentUser.id)
+          .collection(Const.CSDL_SCHEDULE).doc(idLichCu[i]).delete();
+    }
+  }
+
+  Future xoaLichCu2(BuildContext _context) async {
+    for (int i=0 ; i<idLichCu2.length; i++){
+      await FirebaseFirestore.instance.collection(Const.CSDL_USERS).doc(CurrentUser.currentUser.id)
+          .collection(Const.CSDL_SCHEDULE_LUYENTAP).doc(idLichCu2[i]).delete();
+    }
     uploadSchedule(_context);
   }
 
@@ -387,7 +460,7 @@ class CreateScheduleScreenState extends State<CreateScheduleScreen> {
             ),
             child: Center(
               child: Text(
-                "+" + listMeal.caloDate.toString(),
+                "+" + listMeal.caloDate.toString() +" Calo",
                 style: GoogleFonts.quicksand(
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
@@ -421,7 +494,7 @@ class CreateScheduleScreenState extends State<CreateScheduleScreen> {
           Column(children: [
             Text(
               rowData.quantity != null
-                  ? rowData.quantity.toString() + "lần"
+                  ? rowData.quantity.toString() + rowData.donvi
                   : "giá trị null",
               style: GoogleFonts.quicksand(
                 fontSize: _sizeTextDetail,
@@ -510,7 +583,7 @@ class CreateScheduleScreenState extends State<CreateScheduleScreen> {
             ),
             child: Center(
               child: Text(
-                "+" + listLuyenTap.caloDate.toString(),
+                "-" + listLuyenTap.caloDate.toString()+" Calo",
                 style: GoogleFonts.quicksand(
                   color: Colors.white,
                   fontWeight: FontWeight.bold,

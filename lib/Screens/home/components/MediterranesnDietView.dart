@@ -260,7 +260,6 @@ class MediterranesnDietView extends StatelessWidget {
                           Padding(
                             padding: const EdgeInsets.all(4.0),
 
-                            //TODO: Chỗ này handle cái vòng xoay xoay
                             // child: CustomPaint(
                             //   painter: CurvePainter(colors: [
                             //     AppTheme.nearlyDarkBlue,

@@ -203,7 +203,7 @@ class TabStatisticalScreenState extends State<TabStatisticalScreen>{
                     children: [
                       Center(
                         child: Text(
-                          "Thống kê calo trong tuần",
+                          "Thống kê calo",
                           style: GoogleFonts.quicksand(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,

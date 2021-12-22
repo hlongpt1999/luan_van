@@ -5,9 +5,11 @@ import 'package:luan_van/components/Constants.dart';
 import 'package:luan_van/resources/background_painter_circle.dart';
 import 'package:luan_van/resources/button_outline.dart';
 import 'package:luan_van/resources/styles.dart';
+import 'package:luan_van/screens/bmi/SearchScheduleScreen.dart';
 import 'package:luan_van/screens/bmi/box_bmi_select.dart';
 import 'package:luan_van/screens/login/Login.dart';
 import 'package:luan_van/screens/schedule/CreateScheduleScreen.dart';
+import 'package:luan_van/screens/schedule/MockData.dart';
 
 class EvaluateBMIScreen extends StatefulWidget{
   @override
@@ -16,12 +18,12 @@ class EvaluateBMIScreen extends StatefulWidget{
 
 class EvaluateBMIScreenState extends State<EvaluateBMIScreen> {
   double _BMI = CurrentUser.currentUser.bmi;
-  //TODO: Truyền vào giá trị giới tính.
   var _gender = CurrentUser.currentUser.sex;
   bool _isShowChoice = true;
   var _listIcon  = new List<IconData>(3);
   Color _textColor;
   List goiCalo = [0,0,0];
+  List goiCaloDC = [0,0,0];
 
   @override
   void initState() {
@@ -29,6 +31,8 @@ class EvaluateBMIScreenState extends State<EvaluateBMIScreen> {
       _isShowChoice = false;
     else _isShowChoice = true;
 
+    MockData.listMeal2.clear();
+    MockData.listLuyenTap.clear();
     evaluateBmiText(_BMI);
   }
 
@@ -45,6 +49,7 @@ class EvaluateBMIScreenState extends State<EvaluateBMIScreen> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
+
                   RichText(
                     text: TextSpan(
                       text: "Chỉ số BMI của bạn là: ",
@@ -80,11 +85,50 @@ class EvaluateBMIScreenState extends State<EvaluateBMIScreen> {
                     ),
                   ),
 
+                  SizedBox(height: 10,),
+
+                  GestureDetector(
+                    onTap: (){
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => SearchScheduleScreen()));
+                    },
+                    child: Container(
+                      height: 50,
+                      width: 200,
+                      decoration: BoxDecoration(
+                        // color: Colors.white,
+                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                      ),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(Icons.search, color: Colors.white,),
+                          SizedBox(width: 5,),
+                          Text(
+                            "Tìm lịch theo tên",
+                            style: GoogleFonts.quicksand(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 17,
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+
+                  SizedBox(height: 10,),
+
                   SizedBox(height: 20,),
                   GestureDetector(
                     onTap: (){
+                      // MockData.listMeal2.clear();
+                      // MockData.listLuyenTap.clear();
                       Const.KEY_FROM = Const.FROM_BMI;
                       CurrentUser.goiCalo=goiCalo[0];
+                      CurrentUser.goiCaloDC=goiCaloDC[0];
+                      CurrentUser.tenGoi1 = Const.MOI_DOI_TUONG;
+                      CurrentUser.tenGoi2 = Const.MOI_DOI_TUONG;
                       Navigator.push(context, MaterialPageRoute(builder: (context) => MyApp()));
                     },
                     child: boxBMISelect(showTitleChoice(1), foodBackground, _listIcon[0])
@@ -93,8 +137,13 @@ class EvaluateBMIScreenState extends State<EvaluateBMIScreen> {
                   SizedBox(height: 30,),
                   GestureDetector(
                     onTap: (){
+                      // MockData.listMeal2.clear();
+                      // MockData.listLuyenTap.clear();
                       Const.KEY_FROM = Const.FROM_BMI;
                       CurrentUser.goiCalo=goiCalo[1];
+                      CurrentUser.goiCaloDC=goiCaloDC[1];
+                      CurrentUser.tenGoi1 = Const.MOI_DOI_TUONG;
+                      CurrentUser.tenGoi2 = Const.MOI_DOI_TUONG;
                       Navigator.push(context, MaterialPageRoute(builder: (context) => MyApp()));
                     },
                     child: boxBMISelect(showTitleChoice(2), balanceBackground, _listIcon[1]),
@@ -103,8 +152,13 @@ class EvaluateBMIScreenState extends State<EvaluateBMIScreen> {
                   if(_isShowChoice) SizedBox(height: 30,),
                   if(_isShowChoice) GestureDetector(
                       onTap: (){
+                        // MockData.listMeal2.clear();
+                        // MockData.listLuyenTap.clear();
                         Const.KEY_FROM = Const.FROM_BMI;
                         CurrentUser.goiCalo=goiCalo[2];
+                        CurrentUser.goiCaloDC=goiCaloDC[2];
+                        CurrentUser.tenGoi1 = Const.MOI_DOI_TUONG;
+                        CurrentUser.tenGoi2 = Const.MOI_DOI_TUONG;
                         Navigator.push(context, MaterialPageRoute(builder: (context) => MyApp()));
                         // Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => CreateScheduleScreen()));
                       },
@@ -120,7 +174,7 @@ class EvaluateBMIScreenState extends State<EvaluateBMIScreen> {
   }
 
   int evaluateBmiLevel(double BMI){
-    if(_gender == "male"){
+    if(_gender == "Nam"){
       if(_BMI < 15) return 1;
       else if(15 <= _BMI && _BMI < 20) return 2;
       else if(20 <= _BMI && _BMI < 25) return 3;
@@ -158,7 +212,7 @@ class EvaluateBMIScreenState extends State<EvaluateBMIScreen> {
       case 3:{
         if (BMI>24)    _evaluateText = "Chỉ số cơ thể của bạn khá ổn.\nNhưng sắp đạt mức cân nặng cao";
         else if (BMI<21.5)   _evaluateText = "Chỉ số cơ thể của bạn khá ổn.\nBạn nên tăng cân nhẹ để cho cơ thể khỏe mạnh hơn.";
-        else       _evaluateText = "♥ Cân đối ♥\nCần giữ vóc dáng để có cơ thể khỏe mạnh";
+        else       _evaluateText = "Vóc dáng cân đối\nCần giữ vóc dáng để có cơ thể khỏe mạnh";
         setState(() {
           _textColor = Colors.green;
         });
@@ -195,7 +249,11 @@ class EvaluateBMIScreenState extends State<EvaluateBMIScreen> {
               _listIcon[0] = Icons.upgrade_sharp;
               if (_gender == "Nam"){
                 goiCalo[0]=2500;
-              }else goiCalo[0]=2300;
+                goiCaloDC[0]=1000;
+              }else {
+                goiCalo[0]=2300;
+                goiCaloDC[0]=800;
+              }
             });
           }break;
 
@@ -205,7 +263,11 @@ class EvaluateBMIScreenState extends State<EvaluateBMIScreen> {
               _listIcon[0] = Icons.all_inclusive_sharp;
               if (_gender == "Nam"){
                 goiCalo[0]=2500;
-              }else goiCalo[0]=2000;
+                goiCaloDC[0]=1300;
+              }else {
+                goiCalo[0]=2000;
+                goiCaloDC[0]=1000;
+              }
             });
           }break;
 
@@ -215,7 +277,11 @@ class EvaluateBMIScreenState extends State<EvaluateBMIScreen> {
               _listIcon[0] = Icons.download_sharp;
               if (_gender == "Nam"){
                 goiCalo[0]=2300;
-              }else goiCalo[0]=1800;
+                goiCaloDC[0]=1300;
+              }else {
+                goiCalo[0]=1800;
+                goiCaloDC[0]=800;
+              }
             });
           }break;
 
@@ -225,7 +291,11 @@ class EvaluateBMIScreenState extends State<EvaluateBMIScreen> {
               _listIcon[0] = Icons.upload_sharp;
               if (_gender == "Nam"){
                 goiCalo[0]=2000;
-              }else goiCalo[0]=1500;
+                goiCaloDC[0]=1300;
+              }else {
+                goiCalo[0]=1500;
+                goiCaloDC[0]=800;
+              }
             });
           }break;
 
@@ -235,7 +305,11 @@ class EvaluateBMIScreenState extends State<EvaluateBMIScreen> {
               _listIcon[0] = Icons.upload_sharp;
               if (_gender == "Nam"){
                 goiCalo[0]=2000;
-              }else goiCalo[0]=1500;
+                goiCaloDC[0]=1300;
+              }else {
+                goiCalo[0]=1500;
+                goiCaloDC[0]=800;
+              }
             });
           }break;
         }
@@ -249,7 +323,11 @@ class EvaluateBMIScreenState extends State<EvaluateBMIScreen> {
               _listIcon[1] = Icons.warning_amber_sharp;
               if (_gender == "Nam"){
                 goiCalo[1]=2800;
-              }else goiCalo[1]=2500;
+                goiCaloDC[1]=800;
+              }else {
+                goiCalo[1]=2500;
+                goiCaloDC[1]=800;
+              }
             });
           }break;
 
@@ -259,7 +337,11 @@ class EvaluateBMIScreenState extends State<EvaluateBMIScreen> {
               _listIcon[1] = Icons.upgrade_sharp;
               if (_gender == "Nam"){
                 goiCalo[1]=2500;
-              }else goiCalo[1]=2300;
+                goiCaloDC[1]=1000;
+              }else {
+                goiCalo[1]=2300;
+                goiCaloDC[1]=800;
+              }
             });
           }break;
 
@@ -269,7 +351,11 @@ class EvaluateBMIScreenState extends State<EvaluateBMIScreen> {
               _listIcon[1] = Icons.all_inclusive_sharp;
               if (_gender == "Nam"){
                 goiCalo[1]=2500;
-              }else goiCalo[1]=2000;
+                goiCaloDC[1]=1300;
+              }else {
+                goiCalo[1]=2000;
+                goiCaloDC[1]=800;
+              }
             });
           }break;
 
@@ -279,7 +365,11 @@ class EvaluateBMIScreenState extends State<EvaluateBMIScreen> {
               _listIcon[1] = Icons.download_sharp;
               if (_gender == "Nam"){
                 goiCalo[1]=2300;
-              }else goiCalo[1]=1800;
+                goiCaloDC[1]=1300;
+              }else {
+                goiCalo[1]=1800;
+                goiCaloDC[1]=800;
+              }
             });
           }break;
 
@@ -289,7 +379,11 @@ class EvaluateBMIScreenState extends State<EvaluateBMIScreen> {
               _listIcon[1] = Icons.download_sharp;
               if (_gender == "Nam"){
                 goiCalo[1]=2000;
-              }else goiCalo[1]=1800;
+                goiCaloDC[1]=1300;
+              }else {
+                goiCalo[1]=1800;
+                goiCaloDC[1]=1000;
+              }
             });
           }break;
         }
@@ -310,7 +404,11 @@ class EvaluateBMIScreenState extends State<EvaluateBMIScreen> {
               _listIcon[2] = Icons.warning_amber_sharp;
               if (_gender == "Nam"){
                 goiCalo[2]=2800;
-              }else goiCalo[2]=2500;
+                goiCaloDC[2]=800;
+              }else {
+                goiCalo[2]=2500;
+                goiCaloDC[2]=800;
+              }
             });
           }break;
 
@@ -320,7 +418,11 @@ class EvaluateBMIScreenState extends State<EvaluateBMIScreen> {
               _listIcon[2] = Icons.upgrade_sharp;
               if (_gender == "Nam"){
                 goiCalo[2]=2500;
-              }else goiCalo[2]=2300;
+                goiCaloDC[2]=1300;
+              }else {
+                goiCalo[2]=2300;
+                goiCaloDC[2]=1000;
+              }
             });
           }break;
 
@@ -330,7 +432,11 @@ class EvaluateBMIScreenState extends State<EvaluateBMIScreen> {
               _listIcon[2] = Icons.warning_amber_sharp;
               if (_gender == "Nam"){
                 goiCalo[2]=2500;
-              }else goiCalo[2]=2000;
+                goiCaloDC[2]=1300;
+              }else {
+                goiCalo[2]=2000;
+                goiCaloDC[2]=800;
+              }
             });
           }break;
 

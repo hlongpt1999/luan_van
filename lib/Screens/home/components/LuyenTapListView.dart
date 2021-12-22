@@ -42,7 +42,8 @@ class LuyenTapListViewState extends State<LuyenTapListView>{
         caloLost100g: double.parse(listPrefData2[0]),
         quantity: int.parse(listPrefData2[1]),
         imageDetail: listPrefData2[2],
-        link: listPrefData2[3]
+        link: listPrefData2[3],
+        donvi: listPrefData2[4]
       );
       listData.add(movementModel);
     }
@@ -88,7 +89,7 @@ class LuyenTapListViewState extends State<LuyenTapListView>{
     }
 
     _controller = YoutubePlayerController(
-      initialVideoId: youtubeID,//TODO lấy link video
+      initialVideoId: youtubeID,
       flags: const YoutubePlayerFlags(
         mute: false,
         autoPlay: true,
@@ -124,80 +125,46 @@ class LuyenTapListViewState extends State<LuyenTapListView>{
                       color: Colors.white,
                       borderRadius: BorderRadius.vertical(top: Radius.circular(30)),
                     ),
-                    child: Column(
-                      children: [
-                        (youtubeID == null || youtubeID =="")
-                        ? SizedBox.shrink()
-                        : Container(
-                          height: 200,
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.all(Radius.circular(20)),
-                            child: YoutubePlayer(
-                              controller: _controller,
-                              showVideoProgressIndicator: true,
-                              onReady: (){
-                                _controller.addListener(listener);
-                              },
-                            )
+                    child: SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          (youtubeID == null || youtubeID =="")
+                          ? SizedBox.shrink()
+                          : Container(
+                            height: 200,
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.all(Radius.circular(20)),
+                              child: YoutubePlayer(
+                                controller: _controller,
+                                showVideoProgressIndicator: true,
+                                onReady: (){
+                                  _controller.addListener(listener);
+                                },
+                              )
 
-                          ),
-                        ),
-
-                        Container (
-                          height: 50,
-                          child: Center(
-                            child: Wrap(
-                              children: [
-                                Text(
-                                  detailDongTac.name,
-                                  style: GoogleFonts.quicksand(
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.black,
-                                    fontSize: 25,
-                                  ),
-                                  maxLines: 1,
-                                ),
-                              ],
                             ),
                           ),
-                        ),
 
-                        Container (
-                          height: 50,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Container(
-                                width: 100,
-                                child: Text(
-                                  "Tiêu hao:" ,
-                                  style: GoogleFonts.quicksand(
+                          Container (
+                            height: 50,
+                            child: Center(
+                              child: Wrap(
+                                children: [
+                                  Text(
+                                    detailDongTac.name,
+                                    style: GoogleFonts.quicksand(
                                       fontWeight: FontWeight.bold,
                                       color: Colors.black,
-                                      fontSize: 20
+                                      fontSize: 25,
+                                    ),
+                                    maxLines: 1,
                                   ),
-                                ),
+                                ],
                               ),
-                              SizedBox(width: 15,),
-
-                              Text(
-                                detailDongTac.caloLost100g.toString()+ "calo/1 "+detailDongTac.donvi,
-                                style: GoogleFonts.quicksand(
-                                    fontWeight: FontWeight.bold,
-                                    // color: listData[index].priority==1 ? Colors.green
-                                    //     : (listData[index].priority==2 ? Colors.greenAccent
-                                    //     : (listData[index].priority==3 ? Colors.yellow
-                                    //     : (listData[index].priority==4 ? Colors.orangeAccent
-                                    //     : (listData[index].priority==5 ? Colors.red : Colors.blueGrey)))),
-                                    fontSize: 20
-                                ),
-                              ),
-                            ],
+                            ),
                           ),
-                        ),
 
-                        Container (
+                          Container (
                             height: 50,
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.start,
@@ -206,7 +173,7 @@ class LuyenTapListViewState extends State<LuyenTapListView>{
                                 Container(
                                   width: 100,
                                   child: Text(
-                                    "Nhóm cơ:" ,
+                                    "Tiêu hao:" ,
                                     style: GoogleFonts.quicksand(
                                         fontWeight: FontWeight.bold,
                                         color: Colors.black,
@@ -215,58 +182,105 @@ class LuyenTapListViewState extends State<LuyenTapListView>{
                                   ),
                                 ),
                                 SizedBox(width: 15,),
-                                Chip(
-                                  backgroundColor: detailDongTac.type=="Đầu, cổ" ? Colors.red
-                                      : (detailDongTac.type=="Thân trên" ? Colors.yellow
-                                      : (detailDongTac.type=="Tay" ? Colors.orangeAccent
-                                      : (detailDongTac.type=="Chân" ? Colors.green
-                                      : (detailDongTac.type=="Toàn thân" ? Colors.blueGrey : Colors.purple)))),
-                                  label: Text(
-                                    detailDongTac.type,
-                                    style: GoogleFonts.quicksand(
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.white,
-                                        fontSize: 20
-                                    ),
+
+                                Text(
+                                  detailDongTac.caloLost100g.toString()+ "calo/1 "+detailDongTac.donvi,
+                                  style: GoogleFonts.quicksand(
+                                      fontWeight: FontWeight.bold,
+                                      // color: listData[index].priority==1 ? Colors.green
+                                      //     : (listData[index].priority==2 ? Colors.greenAccent
+                                      //     : (listData[index].priority==3 ? Colors.yellow
+                                      //     : (listData[index].priority==4 ? Colors.orangeAccent
+                                      //     : (listData[index].priority==5 ? Colors.red : Colors.blueGrey)))),
+                                      fontSize: 20
                                   ),
                                 ),
                               ],
-                            )
-                        ),
+                            ),
+                          ),
 
-                        Container (
-                          height: 50,
-                          child: Align(
-                            alignment: Alignment.centerLeft,
-                            child: Text(
-                              "Cách thực hiện:" ,
-                              style: GoogleFonts.quicksand(
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.black,
-                                  fontSize: 20
+                          Container (
+                              height: 50,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Container(
+                                    width: 100,
+                                    child: Text(
+                                      "Nhóm cơ:" ,
+                                      style: GoogleFonts.quicksand(
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.black,
+                                          fontSize: 20
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(width: 15,),
+                                  Chip(
+                                    backgroundColor: detailDongTac.type=="Đầu, cổ" ? Colors.red
+                                        : (detailDongTac.type=="Thân trên" ? Colors.yellow
+                                        : (detailDongTac.type=="Tay" ? Colors.orangeAccent
+                                        : (detailDongTac.type=="Chân" ? Colors.green
+                                        : (detailDongTac.type=="Toàn thân" ? Colors.blueGrey : Colors.purple)))),
+                                    label: Text(
+                                      detailDongTac.type,
+                                      style: GoogleFonts.quicksand(
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.white,
+                                          fontSize: 20
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              )
+                          ),
+
+                          Container (
+                            height: 50,
+                            child: Align(
+                              alignment: Alignment.centerLeft,
+                              child: Text(
+                                "Cách thực hiện:" ,
+                                style: GoogleFonts.quicksand(
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.black,
+                                    fontSize: 20
+                                ),
                               ),
                             ),
                           ),
-                        ),
 
-                        Container(
-                          alignment: Alignment.topLeft,
-                          height: 50,
-                          child: Marquee(
-                            text: detailDongTac.detail,
-                            style: GoogleFonts.quicksand(
-                                color: Colors.black,
-                                fontSize: 19
+                          // Container(
+                          //   alignment: Alignment.topLeft,
+                          //   height: 50,
+                          //   child: Marquee(
+                          //     text: detailDongTac.detail,
+                          //     style: GoogleFonts.quicksand(
+                          //         color: Colors.black,
+                          //         fontSize: 19
+                          //     ),
+                          //     startPadding: 30,
+                          //     blankSpace: 100,
+                          //     startAfter: Duration(seconds: 3),
+                          //     decelerationDuration: Duration(seconds: 1),
+                          //     decelerationCurve: Curves.decelerate,
+                          //   ),
+                          // ),
+
+                          RichText(
+                            text: TextSpan(
+                              text: "   "+detailDongTac.detail,
+                              style: GoogleFonts.quicksand(
+                                  color: Colors.black,
+                                  fontSize: 19
+                              ),
                             ),
-                            startPadding: 30,
-                            blankSpace: 100,
-                            startAfter: Duration(seconds: 3),
-                            decelerationDuration: Duration(seconds: 1),
-                            decelerationCurve: Curves.decelerate,
+                            textAlign: TextAlign.justify,
                           ),
-                        ),
 
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                 );
@@ -376,7 +390,7 @@ class MealsView extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
                             Text(
-                              movementModel.quantity.toString() + " lần",
+                              movementModel.quantity.toString() + " "+movementModel.donvi,
                               style: GoogleFonts.quicksand(
                                 fontWeight: FontWeight.w500,
                                 fontSize: 15,

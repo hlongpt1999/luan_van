@@ -6,7 +6,7 @@ class FoodModel{
   String type = ""; //Loại : Thịt cá/ Trứng sữa / Trái cây/ Rau củ/ Tinh bột
   List<String> vitamin = ["A", "B", "C"];
   double calo100g = 0;
-  int priority = 0; //1 = calo ít, 2 =... , 5=calo cực cao
+  int  priority = 0; //1 = calo ít, 2 =... , 5=calo cực cao
   String foodImage = "";
   int quantity = 1;
 

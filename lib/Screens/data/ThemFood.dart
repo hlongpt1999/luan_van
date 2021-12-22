@@ -326,10 +326,10 @@ class ThemFoodState extends State<ThemFood>{
   bool isNull(){
     if (_nameC.text.trim() == "" || _caloC.text.trim() =="" || _image.path =="" )
       return true;
-    for (int i=0;i<ghiChuLength;i++){
-      if(ghiChuController[i].text.toString() == "")
-        return true;
-    }
+    // for (int i=0;i<ghiChuLength;i++){
+    //   if(ghiChuController[i].text.toString() == "")
+    //     return true;
+    // }
     return false;
   }
 

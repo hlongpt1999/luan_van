@@ -77,7 +77,9 @@ class MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-    Future.delayed(const Duration(milliseconds: 2000), () {
+    // MockData.listMeal2.clear();
+    // MockData.listLuyenTap.clear();
+    Future.delayed(const Duration(milliseconds: 10), () {
       if(Const.KEY_FROM == Const.FROM_BMI){
         getToSchedule();
       } else if (Const.KEY_FROM == Const.FROM_CREATE_SCHEDULE){
@@ -91,7 +93,9 @@ class MyAppState extends State<MyApp> {
   }
 
   Future<void> getToSchedule() async {
-    MockData.listMeal2 = [];
+    MockData.listMeal2=[];
+    List<DateMealModel> listDuPhong = [];
+    int tuoi = DateTime.now().year - CurrentUser.currentUser.bornYear;
     await FirebaseFirestore.instance.collection(Const.CSDL_LICH).get().then(
       (value){
         value.docs.forEach((element) {
@@ -110,15 +114,30 @@ class MyAppState extends State<MyApp> {
               maxTuoi: data["maxTuoi"] ?? 70,
               minTuoi: data["minTuoi"] ?? 10,
           );
-          if (data["totalCalo"] == CurrentUser.goiCalo){
-            MockData.listMeal2 = [scheduleModel.date1, scheduleModel.date2, scheduleModel.date3, scheduleModel.date4, scheduleModel.date5, scheduleModel.date6, scheduleModel.date7];
+//TODO: Không chọn mọi đối tượng ở đây.
+          if (CurrentUser.tenGoi1!= Const.MOI_DOI_TUONG){
+            if(data["name"] == CurrentUser.tenGoi1){
+              MockData.listMeal2 = [scheduleModel.date1, scheduleModel.date2, scheduleModel.date3, scheduleModel.date4, scheduleModel.date5, scheduleModel.date6, scheduleModel.date7];
+            }
+          } else if (data["totalCalo"] == CurrentUser.goiCalo){
+            listDuPhong = [scheduleModel.date1, scheduleModel.date2, scheduleModel.date3, scheduleModel.date4, scheduleModel.date5, scheduleModel.date6, scheduleModel.date7];
+            if(tuoi<scheduleModel.maxTuoi && tuoi>scheduleModel.minTuoi && (scheduleModel.gioiTinh == CurrentUser.currentUser.sex || scheduleModel.gioiTinh == "Nam và nữ")){
+              MockData.listMeal2 = [scheduleModel.date1, scheduleModel.date2, scheduleModel.date3, scheduleModel.date4, scheduleModel.date5, scheduleModel.date6, scheduleModel.date7];
+            }
           }
         });
-      }).whenComplete(() => getToScheduleLuyenTap());
+      }).whenComplete((){
+        if(MockData.listMeal2.isEmpty){
+          MockData.listMeal2 = listDuPhong;
+        }
+        getToScheduleLuyenTap();
+    });
   }
 
   Future<void> getToScheduleLuyenTap() async {
-    MockData.listLuyenTap = [];
+    MockData.listLuyenTap=[];
+    List<DateLuyenTapModel> listDuPhong = [];
+    int tuoi = DateTime.now().year - CurrentUser.currentUser.bornYear;
     await FirebaseFirestore.instance.collection(Const.CSDL_SCHEDULE_LUYENTAP).get().then(
             (value){
           value.docs.forEach((element) {
@@ -137,14 +156,27 @@ class MyAppState extends State<MyApp> {
               maxTuoi: data["maxTuoi"] ?? 70,
               minTuoi: data["minTuoi"] ?? 10,
             );
-            if (data["totalCalo"] == CurrentUser.goiCalo){
+            if (data["totalCalo"] == CurrentUser.goiCaloDC){
               MockData.listLuyenTap = [scheduleModel.date1, scheduleModel.date2, scheduleModel.date3, scheduleModel.date4, scheduleModel.date5, scheduleModel.date6, scheduleModel.date7];
             }
-
-            print("HÈ HE");
+//TODO: Không chọn mọi đối tượng ở đây.
+            if (CurrentUser.tenGoi2!= Const.MOI_DOI_TUONG){
+              if(data["name"] == CurrentUser.tenGoi2){
+                MockData.listLuyenTap = [scheduleModel.date1, scheduleModel.date2, scheduleModel.date3, scheduleModel.date4, scheduleModel.date5, scheduleModel.date6, scheduleModel.date7];
+              }
+            } else if (data["totalCalo"] == CurrentUser.goiCaloDC){
+              listDuPhong = [scheduleModel.date1, scheduleModel.date2, scheduleModel.date3, scheduleModel.date4, scheduleModel.date5, scheduleModel.date6, scheduleModel.date7];
+              if(tuoi<scheduleModel.maxTuoi && tuoi>scheduleModel.minTuoi && (scheduleModel.gioiTinh == CurrentUser.currentUser.sex || scheduleModel.gioiTinh == "Nam và nữ")){
+                MockData.listLuyenTap = [scheduleModel.date1, scheduleModel.date2, scheduleModel.date3, scheduleModel.date4, scheduleModel.date5, scheduleModel.date6, scheduleModel.date7];
+              }
+            }
           });
-        }).whenComplete(()
-    => Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => CreateScheduleScreen()))
+        }).whenComplete((){
+          if(MockData.listLuyenTap.isEmpty){
+            MockData.listLuyenTap = listDuPhong;
+          }
+          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => CreateScheduleScreen()));
+      }
     );
   }
 

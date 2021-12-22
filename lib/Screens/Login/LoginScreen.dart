@@ -31,7 +31,7 @@ class LoginScreen extends StatefulWidget{
 class LoginScreenState extends State<LoginScreen>{
   TextEditingController _userController = new TextEditingController();
   TextEditingController _passController = new TextEditingController();
-  //TODO: Message login
+
   var _userErrorMessage = "Tài khoản không tồn tại";
   var _passErrorMessage = "Mật khẩu không hợp lệ";
   var _isUserError = false;
@@ -45,18 +45,20 @@ class LoginScreenState extends State<LoginScreen>{
   Future getData(String uid) async {
     await FirebaseFirestore.instance.collection(Const.CSDL_USERS).doc(uid).get().then((value){
       var data = value.data() as Map<String, dynamic>;
-      // CurrentUser.currentUser.name = data['name'];
-      // CurrentUser.currentUser.email = data['email'];
-      // CurrentUser.currentUser.avatar = data['avatar'] ?? "";
-      // CurrentUser.currentUser.password = data['password'] ?? "";
-      // CurrentUser.currentUser.id = data['id'];
-      // CurrentUser.currentUser.role = data['role'] ?? "user";
-      // CurrentUser.currentUser.bmi = data['bmi'] ?? 0.0;
-      // CurrentUser.currentUser.height = data["height"] ?? 0;
-      // CurrentUser.currentUser.weight = data["weight"] ?? 0;
-      // CurrentUser.currentUser.bornYear = data["bornYear"] ?? 0;
-      // CurrentUser.currentUser.sex = data["sex"] ?? 0.0;
-      CurrentUser.currentUser = UserModel.fromJson(data);
+      CurrentUser.currentUser.name = data['name'];
+      CurrentUser.currentUser.email = data['email'];
+      CurrentUser.currentUser.avatar = data['avatar'] ?? "";
+      CurrentUser.currentUser.password = data['password'] ?? "";
+      CurrentUser.currentUser.id = data['id'];
+      CurrentUser.currentUser.role = data['role'] ?? "user";
+      CurrentUser.currentUser.bmi = data['bmi'] ?? 0.0000000000000001;
+      CurrentUser.currentUser.height = data["height"] ?? 165;
+      CurrentUser.currentUser.weight = data["weight"] ?? 50;
+      CurrentUser.currentUser.bornYear = data["bornYear"] ?? 0;
+      CurrentUser.currentUser.sex = data["sex"] ?? 0.0;
+      CurrentUser.currentUser.phone = data["phone"] ?? 0;
+      CurrentUser.currentUser.address = data["address"] ?? "";
+      // CurrentUser.currentUser = UserModel.fromJson(data);
     });
   }
 
@@ -69,8 +71,10 @@ class LoginScreenState extends State<LoginScreen>{
         _isUserError = false;
         _isPassError = false;
         await getData(value.user.uid).whenComplete(() async{
-          if(CurrentUser.currentUser.role != "user" )
+          if(CurrentUser.currentUser.role != "user" ){
+            // print("Role="+CurrentUser.currentUser.role);
             Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => DoctorHomeScreen()));
+          }
           else if(CurrentUser.currentUser.bmi < 2.0)
             Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => BMIScreen()));
           else

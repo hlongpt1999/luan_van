@@ -81,7 +81,7 @@ Future<void> getSchedule(String idUser, BuildContext _context) async{
     getLuyenTapShow(idUser, _context);
   }).onError((error, stackTrace){
     Navigator.of(_context).pushReplacement(MaterialPageRoute(builder: (context) => BMIScreen()));
-    print("LỖI: "+ error.toString());
+    print("LỖI1: "+ error.toString());
   });
 
 
@@ -123,6 +123,7 @@ Future<void> getLuyenTapShow(String idUser, BuildContext _context) async{
         var ref = firebase_storage.FirebaseStorage.instance
             .ref(_listLuyenTap[i].dongTac[j].imageDetail);
         String avatar = await ref.getDownloadURL();
+        print("avatar" + avatar);
         String link =  _listLuyenTap[i].dongTac[j].link ?? "";
         //Lưu dữ liệu món ăn (Theo thứ tự lần lượt là: 0- Calo, 1- quanlity , 2-LinkdownfoodImage, 3 - link youtube
         pref.setStringList(_listLuyenTap[i].dongTac[j].name,
@@ -131,6 +132,7 @@ Future<void> getLuyenTapShow(String idUser, BuildContext _context) async{
               _listLuyenTap[i].dongTac[j].quantity.toString(),
               avatar,
               link,
+              _listLuyenTap[i].dongTac[j].donvi
             ]);
       }
       DateTime now = DateTime.now();
@@ -158,6 +160,6 @@ Future<void> getLuyenTapShow(String idUser, BuildContext _context) async{
       Navigator.of(_context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => EvaluateBMIScreen()),(Route<dynamic> route) => false);
   }).onError((error, stackTrace){
     Navigator.of(_context).pushReplacement(MaterialPageRoute(builder: (context) => BMIScreen()));
-    print("LỖI: "+ error.toString());
+    print("LỖI2: "+ error.toString());
   });
 }

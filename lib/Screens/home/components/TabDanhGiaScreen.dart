@@ -8,6 +8,7 @@ import 'package:luan_van/model/DaLamModel.dart';
 import 'package:luan_van/resources/button_circle_max.dart';
 import 'package:luan_van/screens/home/components/DietListView.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:toast/toast.dart';
 
 class TabDanhGiaScreen extends StatefulWidget{
   @override
@@ -119,6 +120,7 @@ class TabDanhGiaStateScreen extends State<TabDanhGiaScreen>{
           FlatButton(
             onPressed: () {
               Navigator.of(context).pop();
+              danhGia();
             },
             child: Text("Đã hiểu",
               style: GoogleFonts.quicksand(fontWeight: FontWeight.bold),),
@@ -339,8 +341,12 @@ class TabDanhGiaStateScreen extends State<TabDanhGiaScreen>{
               SizedBox(height: 20,),
               GestureDetector(
                 onTap: (){
-                  luuDaLamVaoPref();
-                  luuDaLamLenCSDL();
+                  if(tongHapThu==0 || tongDotChay==0){
+                    Toast.show("Vui lòng nhập thông tin trước khi lưu", context);
+                  } else {
+                    luuDaLamVaoPref();
+                    luuDaLamLenCSDL();
+                  }
                 },
                 child: Container(
                   alignment: Alignment.center,
@@ -436,11 +442,11 @@ class TabDanhGiaStateScreen extends State<TabDanhGiaScreen>{
 
       for (int i =0;i<CurrentUser.listFood.length;i++){
         if (soLuongController[i].text != null && soLuongController[i].text != "")
-          hapThu += ((int.parse(soLuongController[i].text.toString()))/100 * CurrentUser.listFood[i].quantity);
+          hapThu += ((int.parse(soLuongController[i].text.toString()))/100 * CurrentUser.listFood[i].calo100g);
       }
       for (int i =0;i<CurrentUser.listDongTac.length;i++){
         if (soLuongLuyenTapController[i].text != null && soLuongLuyenTapController[i].text != "")
-          dotChay += ((int.parse(soLuongLuyenTapController[i].text.toString()))/100 * CurrentUser.listDongTac[i].quantity);
+          dotChay += ((int.parse(soLuongLuyenTapController[i].text.toString())) * CurrentUser.listDongTac[i].caloLost100g);
       }
 
       tongDotChay=dotChay;
@@ -540,5 +546,57 @@ class TabDanhGiaStateScreen extends State<TabDanhGiaScreen>{
         ],
       ),
     );
+  }
+
+  void danhGia(){
+    showDialog(
+      context: context,
+      builder: (_context) =>
+          AlertDialog(
+            title: Row(
+              children: [
+                Icon(Icons.event_available, color: Colors.yellow,),
+                SizedBox(width: 10,),
+                Text("Đánh giá hôm nay",
+                  style: GoogleFonts.quicksand(fontWeight: FontWeight.bold),),
+              ],
+            ),
+            content: Text(
+              getContent(),
+              style: GoogleFonts.quicksand(),),
+            actions: <Widget>[
+              FlatButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: Text("Đã hiểu",
+                  style: GoogleFonts.quicksand(
+                      fontWeight: FontWeight.bold),),
+              ),
+            ],
+          ),
+    );
+  }
+
+  String getContent(){
+    String content = "";
+    if (tongHapThu == CurrentUser.totalCaloDate && tongDotChay == CurrentUser.totalCaloDateLost){
+      content = "Rất tốt. Bạn đã thực hiện đúng lịch để cải thiện sức khỏe. ";
+      return content;
+    }
+    if (tongHapThu<CurrentUser.totalCaloDate*0.9)
+      content += "Bạn đã hấp thu chưa đủ calo cần thiết trong ngày. ";
+    if (tongDotChay<CurrentUser.totalCaloDateLost*0.9)
+      content += "Bạn đã đốt cháy chưa đủ calo cần thiết trong ngày. ";
+    if (tongHapThu>CurrentUser.totalCaloDate*1.1)
+      content += "Bạn đã hấp thu quá nhiều calo trong ngày. ";
+    if (tongDotChay>CurrentUser.totalCaloDateLost*1.1)
+      content += "Bạn đã đốt cháy quá nhiều calo trong ngày. ";
+
+    double chenhLech = CurrentUser.totalCaloDate.roundToDouble() - CurrentUser.totalCaloDateLost;
+    double chenhLech2 = tongHapThu - tongDotChay;
+    if(chenhLech*0.9 < chenhLech2 && chenhLech*1.1> chenhLech2)
+      content += "Nhưng sức khỏe vẫn đảm bảo do cân đối giữa hấp thu và tiêu thụ calo. ";
+    return content;
   }
 }

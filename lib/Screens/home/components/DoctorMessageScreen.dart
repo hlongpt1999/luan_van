@@ -22,7 +22,6 @@ class DoctorMessageScreenState extends State<DoctorMessageScreen>{
   final fireStore = FirebaseFirestore.instance;
   Future<List<UserModel>> _dataFuture;
   Future<List<UserModel>> getUser() async {
-    //TODO: Lọc đối tượng chat là bác sĩ.
     await FirebaseFirestore.instance.collection(Const.CSDL_USERS).get().then(
             (value){
           value.docs.forEach((element) async {
@@ -101,61 +100,61 @@ class DoctorMessageScreenState extends State<DoctorMessageScreen>{
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
-            Container(
-              padding: EdgeInsets.only(left: 15),
-              child: Text("Liên hệ admin: ",
-                style: GoogleFonts.quicksand(
-                  // textStyle: Theme.of(context).textTheme.headline4,
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                  fontSize: MediaQuery.of(context).size.height/30,
-                ),
-              ),
-            ),
-
-            SizedBox(height: 10,),
-
-            FutureBuilder(
-              future: _dataFuture,
-              builder: (BuildContext context, AsyncSnapshot snapshot){
-                return Container(
-                  // padding: EdgeInsets.only(left: 20),
-                  height: MediaQuery.of(context).size.height/15,
-                  width: double.infinity,
-                  child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: listUser.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return GestureDetector(
-                        onTap: (){
-                          setState(() {
-                            CurrentUser.userConnect = listUser[index];
-                          });
-                          Navigator.of(context).push(MaterialPageRoute(builder: (context) => ChatScreen()));
-                        },
-                        child: Row(
-                          children: [
-                            SizedBox(width: 20,),
-                            Container(
-                                width: MediaQuery.of(context).size.height/15,
-                                height: MediaQuery.of(context).size.height/15,
-                                decoration: BoxDecoration(
-                                    color: Colors.red,
-                                    borderRadius: BorderRadius.all(Radius.circular(180))
-                                ),
-                                // child: Text("AAA"),
-                                child:  CircleAvatar(
-                                  backgroundImage: NetworkImage(listUser[index].avatar),
-                                )
-                            ),
-                          ],
-                        ),
-                      );
-                    },
-                  ),
-                );
-              },
-            ),
+            // Container(
+            //   padding: EdgeInsets.only(left: 15),
+            //   child: Text("Liên hệ admin: ",
+            //     style: GoogleFonts.quicksand(
+            //       // textStyle: Theme.of(context).textTheme.headline4,
+            //       color: Colors.white,
+            //       fontWeight: FontWeight.bold,
+            //       fontSize: MediaQuery.of(context).size.height/30,
+            //     ),
+            //   ),
+            // ),
+            //
+            // SizedBox(height: 10,),
+            //
+            // FutureBuilder(
+            //   future: _dataFuture,
+            //   builder: (BuildContext context, AsyncSnapshot snapshot){
+            //     return Container(
+            //       // padding: EdgeInsets.only(left: 20),
+            //       height: MediaQuery.of(context).size.height/15,
+            //       width: double.infinity,
+            //       child: ListView.builder(
+            //         scrollDirection: Axis.horizontal,
+            //         itemCount: listUser.length,
+            //         itemBuilder: (BuildContext context, int index) {
+            //           return GestureDetector(
+            //             onTap: (){
+            //               setState(() {
+            //                 CurrentUser.userConnect = listUser[index];
+            //               });
+            //               Navigator.of(context).push(MaterialPageRoute(builder: (context) => ChatScreen()));
+            //             },
+            //             child: Row(
+            //               children: [
+            //                 SizedBox(width: 20,),
+            //                 Container(
+            //                     width: MediaQuery.of(context).size.height/15,
+            //                     height: MediaQuery.of(context).size.height/15,
+            //                     decoration: BoxDecoration(
+            //                         color: Colors.red,
+            //                         borderRadius: BorderRadius.all(Radius.circular(180))
+            //                     ),
+            //                     // child: Text("AAA"),
+            //                     child:  CircleAvatar(
+            //                       backgroundImage: NetworkImage(listUser[index].avatar),
+            //                     )
+            //                 ),
+            //               ],
+            //             ),
+            //           );
+            //         },
+            //       ),
+            //     );
+            //   },
+            // ),
 
             SizedBox(height: 20,),
 
@@ -175,7 +174,7 @@ class DoctorMessageScreenState extends State<DoctorMessageScreen>{
 
             Container(
               padding: EdgeInsets.only(top:15, right: 15, left: 15),
-              height: MediaQuery.of(context).size.height * 3/5,
+              height: MediaQuery.of(context).size.height * 3.8/5,
               decoration: BoxDecoration(
                   color: MyColor.colorBackgroundTab,
                   borderRadius: BorderRadius.vertical(top: Radius.circular(30))
@@ -189,7 +188,7 @@ class DoctorMessageScreenState extends State<DoctorMessageScreen>{
                     chat.forEach((element) {
                       var data = element.data();
                       LastMessage lastMessage = new LastMessage.fromJson(data);
-                      lastMessage.id = element.id.toString();//TODO
+                      lastMessage.id = element.id.toString();
                       listChat.add(lastMessage);
                     });
 

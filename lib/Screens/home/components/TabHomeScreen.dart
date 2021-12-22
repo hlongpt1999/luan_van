@@ -125,6 +125,7 @@ class TabHomeScreenState extends State<TabHomeScreen>{
 
           GestureDetector(
             onTap: (){
+              CurrentUser.taoLichChoNgayMai = true;
               Navigator.of(context).push(MaterialPageRoute(builder: (context) => BMIScreen()));
             },
             child: Container(

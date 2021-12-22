@@ -24,7 +24,7 @@ class TabMessageScreenState extends State<TabMessageScreen>{
   List<LastMessage> listChat = [];
   Future<List<UserModel>> _dataFuture;
   Future<List<UserModel>> getUser() async {
-    //TODO: Lọc đối tượng chat là bác sĩ.
+
     await FirebaseFirestore.instance.collection("users").get().then(
             (value){
           value.docs.forEach((element) async {
@@ -165,7 +165,7 @@ class TabMessageScreenState extends State<TabMessageScreen>{
                   chat.forEach((element) {
                     var data = element.data();
                     LastMessage lastMessage = new LastMessage.fromJson(data);
-                    lastMessage.id = element.id.toString();//TODO
+                    lastMessage.id = element.id.toString();
                     listChat.add(lastMessage);
                   });
 
@@ -190,7 +190,6 @@ class TabMessageScreenState extends State<TabMessageScreen>{
                               getUserInfo(listChat[index].id, listChat[index].avatar);
                             },
                             child: Container(
-                              color: Colors.blue,
                               padding: EdgeInsets.only(bottom: 10),
                               child: Container(
                                 padding: EdgeInsets.all(10),
@@ -234,11 +233,16 @@ class TabMessageScreenState extends State<TabMessageScreen>{
                                                 ),
                                               ),
                                               SizedBox(width: 7,),
-                                              Text(getLastTime(listChat[index].time),
-                                                style: GoogleFonts.quicksand(
-                                                  color: Colors.black,
-                                                  fontStyle: FontStyle.italic,
-                                                  fontSize: 12,
+                                              Container(
+                                                alignment: Alignment.centerRight,
+                                                width: 82,
+                                                child: Text(
+                                                  getLastTime(listChat[index].time),
+                                                  style: GoogleFonts.quicksand(
+                                                    color: Colors.black,
+                                                    fontStyle: FontStyle.italic,
+                                                    fontSize: 12,
+                                                  ),
                                                 ),
                                               ),
                                             ],

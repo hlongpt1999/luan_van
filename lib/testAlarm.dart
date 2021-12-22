@@ -22,7 +22,6 @@ final ReceivePort port = ReceivePort();
 SharedPreferences prefs;
 
 Future<void> main() async {
-  // TODO(bkonyi): uncomment
   WidgetsFlutterBinding.ensureInitialized();
 
   // Register the UI isolate's SendPort to allow for communication from the

@@ -4,8 +4,8 @@ class UserModel{
   String sex = "";
   double birthday = 0;
   int bornYear = 0;
-  double height = 0;
-  double weight = 0;
+  double height = 165;
+  double weight = 50;
   String address = "";
   String role = "";//user, docter, admin
   String avatar = "";
@@ -38,8 +38,8 @@ class UserModel{
     sex = json["sex"] ?? "";
     birthday = json["birthday"] ?? 0.0;
     bornYear = json["bornYear"] ?? 0;
-    height = json["height"] ?? 0.0;
-    weight = json["weight"] ?? 0.0;
+    height = json["height"] ?? 165;
+    weight = json["weight"] ?? 50;
     address = json["address"] ?? "";
     role = json["role"] ?? "";
     avatar = json["avatar"] ?? "";
@@ -59,12 +59,12 @@ class UserModel{
       "sex" : sex ?? "" ,
       "birthday" : birthday ?? 0.0 ,
       "bornYear" : bornYear ?? 0 ,
-      "height" : height ?? 0.0 ,
-      "weight" : weight ?? 0.0 ,
+      "height" : height ?? 165 ,
+      "weight" : weight ?? 50 ,
       "address" : address ?? "" ,
       "role" : role ?? "user",
       "avatar" : avatar  ?? "",
-      "phone" : phone ?? 0,
+      "phone" : phone ?? "",
       "bmi" : bmi ?? 0.0,
       "bmiText" : bmiText ?? "",
     };

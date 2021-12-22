@@ -343,15 +343,99 @@ class BMIScreenState extends State<BMIScreen>{
         )
         .then((value){
           ProgressLoading().hideLoading(context);
-          if(Const.KEY_FROM == Const.FROM_HOME) {
-            Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => HomeScreen()),(Route<dynamic> route) => false);
-            Const.KEY_FROM = "";
-          }else Navigator.of(context).push(MaterialPageRoute(builder: (context) => EvaluateBMIScreen()));
+          showDanhGia();
+
         })
         .catchError((error){
           ProgressLoading().hideLoading(context);
           Toast.show("Đã xảy ra lỗi. Vui lòng thử lại. ", context);
         });
+  }
+
+  void showDanhGia(){
+    showDialog(
+      context: context,
+      builder: (_context) =>
+          AlertDialog(
+            title: Row(
+              children: [
+                Text("Đánh giá sức khỏe",
+                  style: GoogleFonts.quicksand(fontWeight: FontWeight.bold),),
+              ],
+            ),
+            content: Text(
+              getContent(),
+              style: GoogleFonts.quicksand(),),
+            actions: <Widget>[
+              FlatButton(
+                onPressed: () {
+                  if(Const.KEY_FROM == Const.FROM_HOME) {
+                    Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => HomeScreen()),(Route<dynamic> route) => false);
+                    Const.KEY_FROM = "";
+                  } else Navigator.of(context).push(MaterialPageRoute(builder: (context) => EvaluateBMIScreen()));
+                },
+                child: Text(Const.KEY_FROM == Const.FROM_HOME ? "Về trang chủ" : "Chọn lịch",
+                  style: GoogleFonts.quicksand(
+                      fontWeight: FontWeight.bold),),
+              ),
+            ],
+          ),
+    );
+  }
+
+  String getContent(){
+    String content = "";
+    if(mHeight>200)
+      content += "Bạn khá cao";
+    if (mHeight<120 && mAge>=18)
+      content += "Bạn khá thấp";
+    return evaluateBmiText(CurrentUser.currentUser.bmi) + "\n" + content;
+  }
+
+  int evaluateBmiLevel(double BMI){
+    String _gender = CurrentUser.currentUser.sex;
+    double _BMI = CurrentUser.currentUser.bmi;
+    if(_gender == "Nam"){
+      if(_BMI < 15) return 1;
+      else if(15 <= _BMI && _BMI < 20) return 2;
+      else if(20 <= _BMI && _BMI < 25) return 3;
+      else if(25 <= _BMI && _BMI < 30) return 4;
+      else if(30 <= _BMI) return 5;
+    }else{
+      if(_BMI < 14) return 1;
+      else if(14 <= _BMI && _BMI < 18.5) return 2;
+      else if(18.5 <= _BMI && _BMI < 25) return 3;
+      else if(25 <= _BMI && _BMI < 30) return 4;
+      else if(30 <= _BMI) return 5;
+    }
+  }
+
+  String evaluateBmiText(double BMI){
+    String _evaluateText = "";
+    switch(evaluateBmiLevel(BMI)){
+      case 1:{
+        _evaluateText = "Thiếu cân nghiêm trọng!\nBạn khá là thiếu cân nặng để có cơ thể khỏe mạnh";
+      }break;
+
+      case 2:{
+        _evaluateText = "Bạn đang thiếu cân!\nBạn cần cải thiện thêm cân nặng để có cơ thể khỏe mạnh";
+      }break;
+    //Trong chỉ số cơ thể ổn chia nhiều loại.
+      case 3:{
+        if (BMI>24)    _evaluateText = "Chỉ số cơ thể của bạn khá ổn.\nNhưng sắp đạt mức cân nặng cao";
+        else if (BMI<21.5)   _evaluateText = "Chỉ số cơ thể của bạn khá ổn.\nBạn nên tăng cân nhẹ để cho cơ thể khỏe mạnh hơn.";
+        else       _evaluateText = "Vóc dáng cân đối\nCần giữ vóc dáng để có cơ thể khỏe mạnh";
+      }break;
+
+      case 4:{
+        _evaluateText = "Bạn đang thừa cân.\nBạn cần giảm bớt cân nặng để có cơ thể khỏe mạnh hơn.";
+      }break;
+
+      case 5:{
+        _evaluateText = "Bạn đang bị béo phì!\nBạn khá là thừa cân nặng để có cơ thể khỏe mạnh";
+      }break;
+    }
+    return _evaluateText;
   }
 
   Future<void> updateHistoryBMI(double bmi, int age, String male) async {

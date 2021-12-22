@@ -148,7 +148,29 @@ class MyDrawerState extends State<MyDrawer>{
             SizedBox(height: 10,),
             GestureDetector(
                 onTap: (){
-                  Navigator.of(context).push(MaterialPageRoute(builder: (context) => EvaluateBMIScreen()));
+                  if(CurrentUser.lichHomNay)
+                  showDialog(
+                    context: context,
+                    builder: (_context)=> AlertDialog(
+                      title: Text("Tạo lịch cá nhân", style: GoogleFonts.quicksand(fontWeight: FontWeight.bold),),
+                      content: Text("Hôm nay đang có lịch, bạn có muốn ghi đè lên lịch hôm nay?", style: GoogleFonts.quicksand(),),
+                      actions: <Widget>[
+                        FlatButton(
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                          child: Text("Không", style: GoogleFonts.quicksand(fontWeight: FontWeight.bold),),
+                        ),
+                        FlatButton(
+                          onPressed: (){
+                            CurrentUser.taoLichChoNgayMai = false;
+                            Navigator.of(context).push(MaterialPageRoute(builder: (context) => EvaluateBMIScreen()));
+                          },
+                          child: Text("Tiếp tục", style: GoogleFonts.quicksand(fontWeight: FontWeight.bold),),
+                        ),
+                      ],
+                    ),
+                  );
                 },
                 child: DrawerItem("Tạo lịch cá nhân", Icons.calendar_today_outlined)),
 
